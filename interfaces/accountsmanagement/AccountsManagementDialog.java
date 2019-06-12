@@ -55,11 +55,10 @@ public class AccountsManagementDialog extends Dialog {
 
         // Set Up Frame --------------------------------------------------------
         this.setLayout(new BorderLayout());
-        this.setSize(380, 500);
+        this.setSize(415, 520);
         this.setMinimumSize(new Dimension(380, 260));
         this.setLocationRelativeTo(null);
         this.setTitle("Administrador de Cuentas");
-//        this.setResizable(false);
 
         // Set Up Components ---------------------------------------------------
         this.centerPanel = new JPanel(new GridBagLayout());

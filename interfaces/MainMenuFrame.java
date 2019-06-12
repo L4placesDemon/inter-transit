@@ -19,6 +19,7 @@ import interfaces.signin.SigninDialog;
 import interfaces.workshops.WorkshopsFrame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Random;
 
 import worldclasses.Account;
 import worldclasses.AdminAccount;
@@ -229,16 +230,20 @@ public class MainMenuFrame extends JFrame {
     /* ______________________________________________________________________ */
     private static void initAccounts() {
         BinaryFileManager manager = new BinaryFileManager("accounts.dat");
+        Random random = new Random();
+
         if (manager.read().isEmpty()) {
             manager.add(new AdminAccount(
                     "Alejandro", "Admin1", "Passwd",
                     "/images/profile/image-31.png"
             ));
-            for (int i = 10; i < 26; i++) {
-                manager.add(new UserAccount(
+            for (int i = 10; i < 20; i++) {
+                UserAccount userAccount = new UserAccount(
                         "test user", "nickname" + i, "passwd",
-                        "/images/profile/image-" + i + ".png"
-                ));
+                        "/images/profile/image-" + i + ".png");
+                userAccount.setLevel(random.nextInt(10) + 1);
+                userAccount.setPoints(random.nextInt(50) + 1);
+                manager.add(userAccount);
             }
         }
     }
