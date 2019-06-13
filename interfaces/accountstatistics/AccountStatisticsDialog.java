@@ -6,15 +6,13 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 import utilities.Dialog;
 import utilities.binaryfilemanager.BinaryFileManager;
 import worldclasses.Account;
@@ -25,7 +23,6 @@ public class AccountStatisticsDialog extends Dialog {
     /* ATTRIBUTTES __________________________________________________________ */
     private final ArrayList<Account> accounts;
 
-    private JTable table;
     private StatisticsGraph levelStatisticsGraph;
     private StatisticsGraph pointsStatisticsGraph;
     private JButton backButton;
@@ -45,44 +42,39 @@ public class AccountStatisticsDialog extends Dialog {
         ArrayList<Integer> levels = new ArrayList<>();
         ArrayList<Integer> points = new ArrayList<>();
 
-        JScrollPane scrollPane;
         JPanel centerPanel;
         JPanel southPanel;
+        
+        JPanel usersPanel;
         JPanel levelsPanel;
         JPanel pointsPanel;
 
+        JScrollPane scrollPane;
+
         // Set up Dialog -------------------------------------------------------
         this.setLayout(new BorderLayout());
-        this.setSize(1000, 500);
-        this.setMinimumSize(new Dimension(900, 400));
+        this.setSize(900, 500);
+        this.setMinimumSize(new Dimension(800, 400));
         this.setLocationRelativeTo(null);
         this.setTitle("Estadisticas");
 
         // Set up Components ---------------------------------------------------
-        this.table = new JTable();
-
         this.levelStatisticsGraph = new StatisticsGraph();
         this.pointsStatisticsGraph = new StatisticsGraph();
 
         this.backButton = new JButton("Volver");
 
-        scrollPane = new JScrollPane(table);
         centerPanel = new JPanel(new GridLayout(1, 3));
         southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        
+        usersPanel = new JPanel();
         levelsPanel = new JPanel(new BorderLayout());
         pointsPanel = new JPanel(new BorderLayout());
 
+        scrollPane = new JScrollPane(usersPanel);
+
         // ---------------------------------------------------------------------
-        table.setModel(new DefaultTableModel(headers, 0) {
-            @Override
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return false;
-            }
-        });
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.getTableHeader().setReorderingAllowed(false);
-        table.getTableHeader().setResizingAllowed(false);
-        table.getTableHeader().setBackground(Color.white);
+        usersPanel.setLayout(new BoxLayout(usersPanel, BoxLayout.Y_AXIS));
 
         for (Account account : accounts) {
             if (account instanceof UserAccount) {
@@ -90,7 +82,11 @@ public class AccountStatisticsDialog extends Dialog {
 
                 levels.add((userAccount).getLevel());
                 points.add((userAccount).getPoints());
-                this.addAccountToTable(userAccount);
+
+                AccountPanel accountPanel = new AccountPanel(userAccount);
+                accountPanel.setBorder(new EmptyBorder(3, 0, 3, 0));
+
+                usersPanel.add(accountPanel);
             }
         }
         this.levelStatisticsGraph.setValues(levels);
@@ -115,18 +111,6 @@ public class AccountStatisticsDialog extends Dialog {
 
         this.add(centerPanel, BorderLayout.CENTER);
         this.add(southPanel, BorderLayout.SOUTH);
-    }
-
-    /* ______________________________________________________________________ */
-    public void addAccountToTable(UserAccount account) {
-        String[] rowObject = {
-            table.getRowCount() + 1 + "",
-            account.getNickname(),
-            account.getLevel() + "",
-            account.getPoints() + ""
-        };
-
-        ((DefaultTableModel) table.getModel()).addRow(rowObject);
     }
 
     /* ______________________________________________________________________ */

@@ -19,6 +19,7 @@ import interfaces.signin.SigninDialog;
 import interfaces.workshops.WorkshopsFrame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.Random;
 
 import worldclasses.Account;
@@ -180,11 +181,10 @@ public class MainMenuFrame extends JFrame {
 
     /* ______________________________________________________________________ */
     private void showWorkshopsFrame() {
-        ArrayList<Theme> themes = new ArrayList<>();
         WorkshopsFrame workshopsFrame;
 
         this.setVisible(false);
-        workshopsFrame = new WorkshopsFrame(this.account, themes);
+        workshopsFrame = new WorkshopsFrame(this.account);
 
         workshopsFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -286,12 +286,27 @@ public class MainMenuFrame extends JFrame {
         });
     }
 
+    /* ______________________________________________________________________ */
+    private static void initThemes() {
+
+        String pathFile = MainMenuFrame.class.getResource("/utilities/python/createThemes.py").toString().substring(5);
+        String pathFolder = MainMenuFrame.class.getResource("/files").toString().substring(5);
+        pathFolder = pathFolder.substring(0, pathFolder.indexOf("build")) + "src/files/";
+        try {
+            Runtime.getRuntime().exec("python " + pathFile + " " + pathFolder);
+        } catch (IOException ioe) {
+            System.out.println(ioe);
+        }
+
+    }
+
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
         initUI();
         initAccounts();
         sortAccounts();
         showAccounts();
+        initThemes();
         new MainMenuFrame().setVisible(true);
     }
 }
