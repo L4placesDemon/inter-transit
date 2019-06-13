@@ -71,31 +71,30 @@ public class WorkshopsFrame extends Dialog {
     /* ______________________________________________________________________ */
     private JPanel addThemes() {
         JPanel themesPanel = new JPanel();
-        themesPanel.setLayout(new BoxLayout(themesPanel, BoxLayout.Y_AXIS));
-
-        String path = WorkshopsFrame.class.getResource("/files").toString().substring(5);
-        path = path.substring(0, path.indexOf("build")) + "src/files";
         ThemeButton themeButton;
 
-        File files = new File(path);
+        String description;
+        String path = WorkshopsFrame.class.getResource("/files").toString().substring(5);
 
-        if (files.exists()) {
-            for (File theme : files.listFiles()) {
-                System.out.println(theme.getName());
+        File themeFolders = new File(path);
+        File descriptionFile;
 
-                File description = new File(path + "/" + theme.getName() + "/descripcion.txt");
+        path = path.substring(0, path.indexOf("build")) + "src/files";
+        themesPanel.setLayout(new BoxLayout(themesPanel, BoxLayout.Y_AXIS));
 
-                if (description.exists()) {
-                    System.out.println(description.getName());
-                    themeButton = new ThemeButton(theme.getName(), description.getName());
+        if (themeFolders.exists()) {
+            for (File theme : themeFolders.listFiles()) {
+                
+                descriptionFile = new File(path + "/" + theme.getName() + "/descripcion.txt");
 
-//                    for (File file : directory.listFiles()) {
-//                        System.out.println(file.getName());
-//                    }
-                    themesPanel.add(themeButton);
+                if (descriptionFile.exists()) {
+                    description = this.getFileText(descriptionFile);
                 } else {
-                    System.out.println("desc not exists");
+                    System.out.println("description file do not exists");
                 }
+                
+                themeButton = new ThemeButton(theme.getName(), descriptionFile.getName());
+                themesPanel.add(themeButton);
             }
         }
 
