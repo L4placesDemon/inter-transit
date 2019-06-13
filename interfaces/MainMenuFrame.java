@@ -38,8 +38,6 @@ public class MainMenuFrame extends JFrame {
 
     private Account account;
 
-    private Dialog userDialog;
-
     private JLabel logoLabel;
     private JButton aboutButton;
     private JButton userButton;
@@ -138,7 +136,7 @@ public class MainMenuFrame extends JFrame {
         });
 
         this.worksopsButton.addActionListener(ae -> {
-            this.workshopsAction();
+            this.workshopsSigninAction();
         });
 
         this.testButton.addActionListener(ae -> {
@@ -148,16 +146,18 @@ public class MainMenuFrame extends JFrame {
     /* ______________________________________________________________________ */
     private String userAction() {
         String result;
-        this.userDialog = this.account == null
+        Dialog userDialog;
+
+        userDialog = this.account == null
                 ? new SigninDialog()
                 : new ShowAccountDialog(this.account);
 
-        int option = this.userDialog.showDialog();
+        int option = userDialog.showDialog();
         String imagePath = "/images/profile/image-00.png";
 
         if (this.account == null) {
             if (option == SigninDialog.OK_OPTION) {
-                this.account = ((SigninDialog) this.userDialog).getAccount();
+                this.account = ((SigninDialog) userDialog).getAccount();
                 imagePath = this.account.getImage();
                 result = "ok sign in";
             } else {
@@ -168,7 +168,7 @@ public class MainMenuFrame extends JFrame {
                 this.account = null;
                 result = "ok show";
             } else {
-                this.account = ((ShowAccountDialog) this.userDialog).getAccount();
+                this.account = ((ShowAccountDialog) userDialog).getAccount();
                 imagePath = this.account.getImage();
                 result = "cancel show";
             }
@@ -176,22 +176,6 @@ public class MainMenuFrame extends JFrame {
         this.userButton.setIcon(Utilities.getImageIcon(imagePath, 80, 80));
 
         return result;
-    }
-
-    /* ______________________________________________________________________ */
-    private static void initUI() {
-        UIManager.put("OptionPane.background", Color.white);
-        UIManager.put("OptionPane.messageFont", MainMenuFrame.DEFAULT_FONT);
-        UIManager.put("OptionPane.buttonFont", MainMenuFrame.DEFAULT_FONT);
-        UIManager.put("Panel.background", Color.white);
-        UIManager.put("Button.background", Color.white);
-        UIManager.put("ToggleButton.background", Color.white);
-        UIManager.put("Label.font", MainMenuFrame.DEFAULT_FONT);
-        UIManager.put("Button.font", MainMenuFrame.DEFAULT_FONT);
-        UIManager.put("RadioButton.font", MainMenuFrame.DEFAULT_FONT);
-        UIManager.put("RadioButton.background", Color.white);
-        UIManager.put("ScrollPane.background", Color.white);
-        UIManager.put("ScrollBar.background", Color.white);
     }
 
     /* ______________________________________________________________________ */
@@ -213,18 +197,43 @@ public class MainMenuFrame extends JFrame {
     }
 
     /* ______________________________________________________________________ */
-    private void workshopsAction() {
+    private void workshopsSigninAction() {
         String result;
-        int option = DialogPane.yesNoCancelOption("title", "message");
 
-        if (option == DialogPane.YES_OPTION) {
-            result = this.userAction();
-            if (result.equals("ok sign in")) {
+        if (account == null) {
+            int option = DialogPane.yesNoCancelOption(
+                    "Iniciar Sesion",
+                    "Iniciar sesion para guardar el progreso?"
+            );
+
+            if (option == DialogPane.YES_OPTION) {
+                result = this.userAction();
+                if (result.equals("ok sign in")) {
+                    this.showWorkshopsFrame();
+                }
+            } else if (option == DialogPane.NO_OPTION) {
                 this.showWorkshopsFrame();
             }
-        } else if (option == DialogPane.NO_OPTION) {
+            System.out.println("From MainMenuFrame " + account);
+        } else {
             this.showWorkshopsFrame();
         }
+    }
+
+    /* ______________________________________________________________________ */
+    private static void initUI() {
+        UIManager.put("OptionPane.background", Color.white);
+        UIManager.put("OptionPane.messageFont", MainMenuFrame.DEFAULT_FONT);
+        UIManager.put("OptionPane.buttonFont", MainMenuFrame.DEFAULT_FONT);
+        UIManager.put("Panel.background", Color.white);
+        UIManager.put("Button.background", Color.white);
+        UIManager.put("ToggleButton.background", Color.white);
+        UIManager.put("Label.font", MainMenuFrame.DEFAULT_FONT);
+        UIManager.put("Button.font", MainMenuFrame.DEFAULT_FONT);
+        UIManager.put("RadioButton.font", MainMenuFrame.DEFAULT_FONT);
+        UIManager.put("RadioButton.background", Color.white);
+        UIManager.put("ScrollPane.background", Color.white);
+        UIManager.put("ScrollBar.background", Color.white);
     }
 
     /* ______________________________________________________________________ */

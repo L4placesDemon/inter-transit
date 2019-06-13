@@ -13,19 +13,24 @@ import worldclasses.UserAccount;
 
 public class WorkshopsFrame extends JFrame {
 
+    /* ATTRIBUTES ___________________________________________________________ */
     private Account account;
     private ArrayList<Theme> themes;
 
     private JButton backButton;
 
+    /* CONSTRUCTORS _________________________________________________________ */
     public WorkshopsFrame(Account account, ArrayList<Theme> themes) {
         this.account = account;
         this.themes = themes;
 
+        System.out.println("From MainMenuFrame " + this.account);
+        
         this.initComponents();
         this.initEvents();
     }
 
+    /* METHODS ______________________________________________________________ */
     private void initComponents() {
         UserPanel northPanel;
         JPanel centerPanel;
@@ -63,14 +68,17 @@ public class WorkshopsFrame extends JFrame {
         });
     }
 
+    /* GETTERS ______________________________________________________________ */
     public Account getAccount() {
         return this.account;
     }
 
+    /* ______________________________________________________________________ */
     public ArrayList<Theme> getThemes() {
         return this.themes;
     }
 
+    /*  MAIN ________________________________________________________________ */
     public static void main(String[] args) {
         new WorkshopsFrame(new UserAccount(
                 "Alejandro",
