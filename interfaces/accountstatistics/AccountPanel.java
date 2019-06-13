@@ -1,5 +1,6 @@
 package interfaces.accountstatistics;
 
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -11,10 +12,13 @@ public class AccountPanel extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
     private UserAccount userAccount;
+    private Integer index;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public AccountPanel(UserAccount account) {
+    public AccountPanel(UserAccount account, Integer index) {
         this.userAccount = account;
+        this.index = index;
+        
         this.initComponents();
     }
 
@@ -32,7 +36,7 @@ public class AccountPanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
         // Set up Components --------------------------------------------------- 
-        panel = new JPanel(new GridLayout(1, 2));
+        panel = new JPanel(new FlowLayout());
         _panel = new JPanel(new GridLayout(2, 1));
 
         imageLabel = new JLabel(Utilities.getImageIcon(this.userAccount.getImage(), 70, 70));
@@ -42,6 +46,7 @@ public class AccountPanel extends JPanel {
 
         // ---------------------------------------------------------------------
         // ---------------------------------------------------------------------
+        panel.add(new JLabel(this.index + ""));
         panel.add(imageLabel);
         panel.add(nicknameLabel);
 

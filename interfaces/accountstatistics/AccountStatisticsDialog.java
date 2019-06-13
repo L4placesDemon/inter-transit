@@ -76,6 +76,7 @@ public class AccountStatisticsDialog extends Dialog {
         // ---------------------------------------------------------------------
         usersPanel.setLayout(new BoxLayout(usersPanel, BoxLayout.Y_AXIS));
 
+        int i = 1;
         for (Account account : accounts) {
             if (account instanceof UserAccount) {
                 UserAccount userAccount = (UserAccount) account;
@@ -83,12 +84,14 @@ public class AccountStatisticsDialog extends Dialog {
                 levels.add((userAccount).getLevel());
                 points.add((userAccount).getPoints());
 
-                AccountPanel accountPanel = new AccountPanel(userAccount);
+                AccountPanel accountPanel = new AccountPanel(userAccount, i);
                 accountPanel.setBorder(new EmptyBorder(3, 0, 3, 0));
 
                 usersPanel.add(accountPanel);
+                i++;
             }
         }
+        
         this.levelStatisticsGraph.setValues(levels);
         this.pointsStatisticsGraph.setValues(points);
 

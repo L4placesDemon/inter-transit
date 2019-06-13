@@ -129,10 +129,11 @@ public class RegisterAccountDialog extends Dialog {
                 if (verifyAdmin()) {
                     _account = (AdminAccount) _account;
                 } else {
-                    _account = (UserAccount) _account;
                     userPanel.setMessage("No tiene permiso para ser Administrador");
                     bool = false;
                 }
+            } else {
+                _account = (UserAccount) _account;
             }
 
             if (bool) {

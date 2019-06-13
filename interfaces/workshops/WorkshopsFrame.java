@@ -9,20 +9,21 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import utilities.Dialog;
 import worldclasses.Account;
 import worldclasses.UserAccount;
 
-public class WorkshopsFrame extends JFrame {
+public class WorkshopsFrame extends Dialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
     private Account account;
 //    private ArrayList<Theme> themes;
 
-    private JPanel themesPanel;
     private JButton backButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public WorkshopsFrame(Account account) {
+        super(new JFrame(), true);
         this.account = account;
 //        this.themes = themes;
 
@@ -43,26 +44,35 @@ public class WorkshopsFrame extends JFrame {
         this.setTitle("Temas");
 
         // Set up Components ---------------------------------------------------
-        this.themesPanel = new JPanel();
         this.backButton = new JButton("Volver");
 
         northPanel = new UserPanel(this.account);
-        centerPanel = new JPanel();
         southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         // ---------------------------------------------------------------------
-        this.themesPanel.setLayout(new BoxLayout(this.themesPanel, BoxLayout.Y_AXIS));
-        this.addThemes();
+        centerPanel = this.addThemes();
 
         // ---------------------------------------------------------------------
         southPanel.add(this.backButton);
 
         this.add(northPanel, BorderLayout.NORTH);
-        this.add(this.themesPanel, BorderLayout.CENTER);
+        this.add(centerPanel, BorderLayout.CENTER);
         this.add(southPanel, BorderLayout.SOUTH);
     }
 
-    private void addThemes() {
+    /* ______________________________________________________________________ */
+    private void initEvents() {
+        // Components Events ---------------------------------------------------
+        this.backButton.addActionListener(ae -> {
+            this.dispose();
+        });
+    }
+
+    /* ______________________________________________________________________ */
+    private JPanel addThemes() {
+        JPanel themesPanel = new JPanel();
+        themesPanel.setLayout(new BoxLayout(themesPanel, BoxLayout.Y_AXIS));
+
         String path = WorkshopsFrame.class.getResource("/files").toString().substring(5);
         path = path.substring(0, path.indexOf("build")) + "src/files";
         ThemeButton themeButton;
@@ -82,43 +92,33 @@ public class WorkshopsFrame extends JFrame {
 //                    for (File file : directory.listFiles()) {
 //                        System.out.println(file.getName());
 //                    }
-                    this.themesPanel.add(themeButton);
+                    themesPanel.add(themeButton);
                 } else {
                     System.out.println("desc not exists");
                 }
             }
         }
-        System.out.println("...");
+
+        return themesPanel;
     }
 
+    /* ______________________________________________________________________ */
     private String getFileText(File file) {
-        System.out.println("enter");
         String text = "";
-        BufferedReader reader;
+        BufferedReader bufferedReader;
 
         try {
-            System.out.println("try");
-            reader = new BufferedReader(new FileReader(file));
-            
-            String line = reader.readLine();
-            System.out.println(line);
-            while (!line.isBlank()) {
+            bufferedReader = new BufferedReader(new FileReader(file));
+
+            String line = bufferedReader.readLine();
+            System.out.println('.' + line + '.');
+            while (line != null) {
                 text += line + "\n";
-            }   
-            reader.close();
+            }
+            bufferedReader.close();
         } catch (Exception e) {
         }
         return text;
-    }
-
-    private void initEvents() {
-        // Frame Events --------------------------------------------------------
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-        // Components Events ---------------------------------------------------
-        this.backButton.addActionListener(ae -> {
-            this.dispose();
-        });
     }
 
     /* GETTERS ______________________________________________________________ */
@@ -126,6 +126,10 @@ public class WorkshopsFrame extends JFrame {
         return this.account;
     }
 
+    /*  MAIN ________________________________________________________________ */
+//    public ArrayList<Themes> getThemes() {
+//        return this.themes;
+//    }
     /*  MAIN ________________________________________________________________ */
     public static void main(String[] args) {
         new WorkshopsFrame(new UserAccount(

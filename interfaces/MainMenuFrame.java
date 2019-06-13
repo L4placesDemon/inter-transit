@@ -30,7 +30,6 @@ import utilities.binaryfilemanager.BinaryFileManager;
 import utilities.Dialog;
 import utilities.DialogPane;
 import utilities.Utilities;
-import worldclasses.Theme;
 
 public class MainMenuFrame extends JFrame {
 
@@ -288,16 +287,15 @@ public class MainMenuFrame extends JFrame {
 
     /* ______________________________________________________________________ */
     private static void initThemes() {
-
         String pathFile = MainMenuFrame.class.getResource("/utilities/python/createThemes.py").toString().substring(5);
         String pathFolder = MainMenuFrame.class.getResource("/files").toString().substring(5);
         pathFolder = pathFolder.substring(0, pathFolder.indexOf("build")) + "src/files/";
+        
         try {
             Runtime.getRuntime().exec("python " + pathFile + " " + pathFolder);
         } catch (IOException ioe) {
             System.out.println(ioe);
         }
-
     }
 
     /* MAIN _________________________________________________________________ */
