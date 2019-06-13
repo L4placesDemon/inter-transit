@@ -6,7 +6,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import utilities.Utilities;
-import worldclasses.UserAccount;
+import worldclasses.accounts.UserAccount;
 
 public class AccountPanel extends JPanel {
 

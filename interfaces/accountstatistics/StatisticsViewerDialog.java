@@ -12,7 +12,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import utilities.Dialog;
-import worldclasses.UserAccount;
+import worldclasses.accounts.UserAccount;
 
 public class StatisticsViewerDialog extends Dialog {
 

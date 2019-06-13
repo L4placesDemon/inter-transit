@@ -1,4 +1,4 @@
-package worldclasses;
+package worldclasses.themes;
 
 public class Tip {
 

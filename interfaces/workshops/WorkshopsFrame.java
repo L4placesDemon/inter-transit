@@ -5,13 +5,14 @@ import java.awt.FlowLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import utilities.Dialog;
-import worldclasses.Account;
-import worldclasses.UserAccount;
+import worldclasses.accounts.Account;
+import worldclasses.accounts.UserAccount;
 
 public class WorkshopsFrame extends Dialog {
 
@@ -84,38 +85,47 @@ public class WorkshopsFrame extends Dialog {
 
         if (themeFolders.exists()) {
             for (File theme : themeFolders.listFiles()) {
-                
+
                 descriptionFile = new File(path + "/" + theme.getName() + "/descripcion.txt");
 
                 if (descriptionFile.exists()) {
                     description = this.getFileText(descriptionFile);
                 } else {
+                    description = descriptionFile.getName();
                     System.out.println("description file do not exists");
                 }
-                
-                themeButton = new ThemeButton(theme.getName(), descriptionFile.getName());
+
+                themeButton = new ThemeButton(theme.getName(), description);
                 themesPanel.add(themeButton);
             }
         }
 
         return themesPanel;
     }
-
+/*git commit -m "- Cambio en la ubicacion de las clases del mundo
+> - Correccion en la funcion que permite extraer el contenido de un archivo"
+*/
     /* ______________________________________________________________________ */
     private String getFileText(File file) {
         String text = "";
+        String line;
         BufferedReader bufferedReader;
 
         try {
             bufferedReader = new BufferedReader(new FileReader(file));
+            line = bufferedReader.readLine();
 
-            String line = bufferedReader.readLine();
-            System.out.println('.' + line + '.');
             while (line != null) {
-                text += line + "\n";
+                text += line;
+                line = bufferedReader.readLine();
+                
+                if (line != null) {
+                    text += "\n";
+                }
             }
             bufferedReader.close();
-        } catch (Exception e) {
+
+        } catch (IOException e) {
         }
         return text;
     }

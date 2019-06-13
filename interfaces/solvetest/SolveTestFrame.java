@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import utilities.Border;
-import worldclasses.Question;
+import worldclasses.tests.Question;
 
 public class SolveTestFrame extends JFrame {
 

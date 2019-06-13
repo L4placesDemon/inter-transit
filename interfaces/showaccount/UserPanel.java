@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import utilities.Border;
 import utilities.TextField;
-import worldclasses.Account;
-import worldclasses.UserAccount;
+import worldclasses.accounts.Account;
+import worldclasses.accounts.UserAccount;
 
 public class UserPanel extends JPanel {
 

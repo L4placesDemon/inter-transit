@@ -19,8 +19,8 @@ import utilities.Dialog;
 import utilities.DialogPane;
 import utilities.Utilities;
 import utilities.binaryfilemanager.BinaryFileManager;
-import worldclasses.Account;
-import worldclasses.AdminAccount;
+import worldclasses.accounts.Account;
+import worldclasses.accounts.AdminAccount;
 
 public class AccountsManagementDialog extends Dialog {
 

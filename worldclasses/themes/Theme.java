@@ -1,4 +1,4 @@
-package worldclasses;
+package worldclasses.themes;
 
 import java.util.ArrayList;
 import javax.swing.ImageIcon;

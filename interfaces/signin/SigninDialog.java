@@ -20,7 +20,7 @@ import utilities.Border;
 import utilities.Dialog;
 import utilities.Utilities;
 import utilities.binaryfilemanager.BinaryFileManager;
-import worldclasses.Account;
+import worldclasses.accounts.Account;
 
 public class SigninDialog extends Dialog {
 

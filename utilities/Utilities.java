@@ -1,6 +1,10 @@
 package utilities;
 
 import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Calendar;
 import javax.swing.ImageIcon;
 
@@ -79,4 +83,33 @@ public interface Utilities {
 //        }
 //        return result;
 //    }
+    /* ______________________________________________________________________ */
+    public static String getFileText(File file) {
+        String text = "";
+        String line;
+        BufferedReader bufferedReader;
+
+        try {
+            bufferedReader = new BufferedReader(new FileReader(file));
+            line = bufferedReader.readLine();
+
+            while (line != null) {
+                text += line;
+                line = bufferedReader.readLine();
+
+                if (line != null) {
+                    text += "\n";
+                }
+            }
+            bufferedReader.close();
+
+        } catch (IOException e) {
+        }
+        return text;
+    }
+
+    /* ______________________________________________________________________ */
+    public static void command(String command) {
+        
+    }
 }

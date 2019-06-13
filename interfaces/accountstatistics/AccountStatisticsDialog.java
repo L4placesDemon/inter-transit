@@ -15,8 +15,8 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import utilities.Dialog;
 import utilities.binaryfilemanager.BinaryFileManager;
-import worldclasses.Account;
-import worldclasses.UserAccount;
+import worldclasses.accounts.Account;
+import worldclasses.accounts.UserAccount;
 
 public class AccountStatisticsDialog extends Dialog {
 

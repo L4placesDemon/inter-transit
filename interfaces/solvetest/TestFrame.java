@@ -11,8 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import utilities.Border;
-import worldclasses.Account;
-import worldclasses.AdminAccount;
+import worldclasses.accounts.Account;
+import worldclasses.accounts.AdminAccount;
 
 public class TestFrame extends JFrame {
 

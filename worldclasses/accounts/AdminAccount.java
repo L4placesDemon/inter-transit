@@ -1,4 +1,4 @@
-package worldclasses;
+package worldclasses.accounts;
 
 public class AdminAccount extends Account {
 

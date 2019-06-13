@@ -22,9 +22,9 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Random;
 
-import worldclasses.Account;
-import worldclasses.AdminAccount;
-import worldclasses.UserAccount;
+import worldclasses.accounts.Account;
+import worldclasses.accounts.AdminAccount;
+import worldclasses.accounts.UserAccount;
 
 import utilities.binaryfilemanager.BinaryFileManager;
 import utilities.Dialog;
@@ -293,8 +293,7 @@ public class MainMenuFrame extends JFrame {
         
         try {
             Runtime.getRuntime().exec("python " + pathFile + " " + pathFolder);
-        } catch (IOException ioe) {
-            System.out.println(ioe);
+        } catch (IOException e) {
         }
     }
 

@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import utilities.Dialog;
 import utilities.Utilities;
-import worldclasses.Account;
+import worldclasses.accounts.Account;
 
 public class UserPanel extends JPanel {
 

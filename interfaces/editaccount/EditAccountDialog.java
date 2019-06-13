@@ -15,9 +15,9 @@ import javax.swing.JPanel;
 import utilities.DialogPane;
 
 import utilities.binaryfilemanager.BinaryFileManager;
-import worldclasses.Account;
-import worldclasses.AdminAccount;
-import worldclasses.UserAccount;
+import worldclasses.accounts.Account;
+import worldclasses.accounts.AdminAccount;
+import worldclasses.accounts.UserAccount;
 
 public class EditAccountDialog extends RegisterAccountDialog {
 

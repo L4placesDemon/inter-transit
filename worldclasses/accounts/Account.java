@@ -1,4 +1,4 @@
-package worldclasses;
+package worldclasses.accounts;
 
 import java.io.Serializable;
 import java.util.Objects;
