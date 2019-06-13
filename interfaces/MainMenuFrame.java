@@ -214,7 +214,6 @@ public class MainMenuFrame extends JFrame {
             } else if (option == DialogPane.NO_OPTION) {
                 this.showWorkshopsFrame();
             }
-            System.out.println("From MainMenuFrame " + account);
         } else {
             this.showWorkshopsFrame();
         }

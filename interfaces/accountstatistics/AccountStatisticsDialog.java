@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import utilities.Dialog;
 import utilities.binaryfilemanager.BinaryFileManager;
@@ -85,16 +86,19 @@ public class AccountStatisticsDialog extends Dialog {
 
         for (Account account : accounts) {
             if (account instanceof UserAccount) {
-                levels.add(((UserAccount) account).getLevel());
-                points.add(((UserAccount) account).getPoints());
-                this.addAccountToTable((UserAccount) account);
+                UserAccount userAccount = (UserAccount) account;
+
+                levels.add((userAccount).getLevel());
+                points.add((userAccount).getPoints());
+                this.addAccountToTable(userAccount);
             }
         }
         this.levelStatisticsGraph.setValues(levels);
         this.pointsStatisticsGraph.setValues(points);
 
-        scrollPane.getViewport().setBackground(Color.white);
         scrollPane.getVerticalScrollBar().setUnitIncrement(7);
+        scrollPane.getViewport().setBackground(Color.white);
+        scrollPane.setBorder(new EmptyBorder(0, 15, 0, 0));
 
         // ---------------------------------------------------------------------
         levelsPanel.add(new JLabel("Niveles", JLabel.CENTER), BorderLayout.NORTH);
@@ -115,10 +119,8 @@ public class AccountStatisticsDialog extends Dialog {
 
     /* ______________________________________________________________________ */
     public void addAccountToTable(UserAccount account) {
-        String cityIndex = table.getRowCount() + 1 + "";
-
         String[] rowObject = {
-            cityIndex,
+            table.getRowCount() + 1 + "",
             account.getNickname(),
             account.getLevel() + "",
             account.getPoints() + ""

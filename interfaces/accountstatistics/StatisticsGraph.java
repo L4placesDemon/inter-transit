@@ -73,6 +73,11 @@ public class StatisticsGraph extends JComponent {
         }
     }
 
+    /* ______________________________________________________________________ */
+    public void addValue(Integer value) {
+        this.values.add(value);
+    }
+
     /* SETTERS ______________________________________________________________ */
     public void setValues(ArrayList<Integer> values) {
         this.values = values;

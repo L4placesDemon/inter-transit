@@ -118,8 +118,11 @@ public class ShowAccountDialog extends Dialog {
         });
 
         this.signoutButton.addActionListener(ae -> {
-            this.dispose();
-            this.ok();
+            int option = DialogPane.yesNoOption("Cerrar Sesion?");
+            if (option == DialogPane.YES_OPTION) {
+                this.dispose();
+                this.ok();
+            }
         });
 
         this.editButton.addActionListener(ae -> {
