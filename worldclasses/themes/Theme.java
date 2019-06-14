@@ -10,17 +10,19 @@ public class Theme {
     private String title;
     private String description;
     private ArrayList<Tip> tips;
+    private Integer progress;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public Theme(ImageIcon image, String title, ArrayList<Tip> tips) {
+    public Theme(ImageIcon image, String title, ArrayList<Tip> tips, Integer progress) {
         this.image = image;
         this.title = title;
         this.tips = tips;
+        this.progress = progress;
     }
 
     /* ______________________________________________________________________ */
-    public Theme(ImageIcon image, String title) {
-        this(image, title, new ArrayList<>());
+    public Theme(ImageIcon image, String title, Integer progress) {
+        this(image, title, new ArrayList<>(), progress);
     }
 
     /* GETTERS ______________________________________________________________ */
@@ -43,6 +45,11 @@ public class Theme {
         return this.tips;
     }
 
+    /* ______________________________________________________________________ */
+    public Integer getProgress() {
+        return this.progress;
+    }
+
     /* SETTERS ______________________________________________________________ */
     public void setImage(ImageIcon image) {
         this.image = image;
@@ -61,5 +68,10 @@ public class Theme {
     /* ______________________________________________________________________ */
     public void setTips(ArrayList<Tip> tips) {
         this.tips = tips;
+    }
+
+    /* ______________________________________________________________________ */
+    public void setProgress(Integer progress) {
+        this.progress = progress;
     }
 }
