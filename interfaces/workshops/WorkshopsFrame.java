@@ -6,6 +6,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -73,8 +75,9 @@ public class WorkshopsFrame extends Dialog {
     private JPanel addThemes() {
         JPanel themesPanel = new JPanel();
         ThemeButton themeButton;
+        ArrayList<File> files;
 
-        String description;
+        String description = "";
         String path = WorkshopsFrame.class.getResource("/files").toString().substring(5);
 
         File themeFolders = new File(path);
@@ -84,6 +87,9 @@ public class WorkshopsFrame extends Dialog {
         themesPanel.setLayout(new BoxLayout(themesPanel, BoxLayout.Y_AXIS));
 
         if (themeFolders.exists()) {
+            files = new ArrayList<>(Arrays.asList(themeFolders.listFiles()));
+            System.out.println(files);
+            
             for (File theme : themeFolders.listFiles()) {
 
                 descriptionFile = new File(path + "/" + theme.getName() + "/descripcion.txt");
@@ -102,7 +108,7 @@ public class WorkshopsFrame extends Dialog {
         return themesPanel;
     }
 
- /* ______________________________________________________________________ */
+    /* ______________________________________________________________________ */
     private String getFileText(File file) {
         String text = "";
         String line;

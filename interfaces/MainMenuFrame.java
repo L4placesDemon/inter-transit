@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import interfaces.showaccount.ShowAccountDialog;
 import interfaces.signin.SigninDialog;
 import interfaces.workshops.WorkshopsFrame;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.EventQueue;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -231,7 +230,7 @@ public class MainMenuFrame extends JFrame {
     }
 
     /* ______________________________________________________________________ */
-    private static void initAccounts() {
+    private static void initTestAccounts() {
         BinaryFileManager manager = new BinaryFileManager("accounts.dat");
         Random random = new Random();
 
@@ -252,7 +251,7 @@ public class MainMenuFrame extends JFrame {
     }
 
     /* ______________________________________________________________________ */
-    private static void sortAccounts() {
+    private static void sortTestAccounts() {
         BinaryFileManager manager = new BinaryFileManager("accounts.dat");
         ArrayList<Account> accounts = new ArrayList<>();
 
@@ -273,7 +272,7 @@ public class MainMenuFrame extends JFrame {
     }
 
     /* ______________________________________________________________________ */
-    private static void showAccounts() {
+    private static void showTestAccounts() {
         ArrayList<Object> objects = new BinaryFileManager("accounts.dat").read();
         System.out.println(objects.size());
         objects.forEach(i -> {
@@ -282,8 +281,8 @@ public class MainMenuFrame extends JFrame {
     }
 
     /* ______________________________________________________________________ */
-    private static void initThemes() {
-        String pathFolder = MainMenuFrame.class.getResource("/files").toString().substring(6);
+    private static void initTestThemes() {
+        String pathFolder = MainMenuFrame.class.getResource("/files").toString().substring(5);
         pathFolder = pathFolder.substring(0, pathFolder.indexOf("build")) + "src/files/";
         File folder;
         File file;
@@ -309,7 +308,7 @@ public class MainMenuFrame extends JFrame {
                     file.createNewFile();
                     fileWriter = new FileWriter(file);
                     fileWriter.write("Contenido del Tip " + j);
-                fileWriter.close();
+                    fileWriter.close();
                 } catch (IOException e) {
                     System.out.println(e);
                 }
@@ -320,10 +319,12 @@ public class MainMenuFrame extends JFrame {
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
         initUI();
-        initAccounts();
-        sortAccounts();
-        showAccounts();
-        initThemes();
-        new MainMenuFrame().setVisible(true);
+        initTestAccounts();
+        sortTestAccounts();
+        showTestAccounts();
+        initTestThemes();
+        EventQueue.invokeLater(() -> {
+            new MainMenuFrame().setVisible(true);
+        });
     }
 }
