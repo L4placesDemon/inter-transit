@@ -39,7 +39,7 @@ public class AccountPanel extends JPanel {
         panel = new JPanel(new FlowLayout());
         _panel = new JPanel(new GridLayout(2, 1));
 
-        imageLabel = new JLabel(Utilities.getImageIcon(this.userAccount.getImage(), 70, 70));
+        imageLabel = new JLabel(Utilities.getImageIcon(this.userAccount.getImage(), 60, 60));
         nicknameLabel = new JLabel(this.userAccount.getNickname());
         levelLabel = new JLabel("Level: " + this.userAccount.getLevel());
         pointsLabel = new JLabel("Points: " + this.userAccount.getPoints());

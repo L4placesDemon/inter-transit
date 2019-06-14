@@ -19,6 +19,8 @@ import interfaces.signin.SigninDialog;
 import interfaces.workshops.WorkshopsFrame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 
@@ -33,6 +35,8 @@ import utilities.Utilities;
 
 /* NOTES ____________________________________________________________________ */
 // - Statistics for Workshops
+// - Statistics for Users in each Workshop
+// - Add getters and setter for each attribute in each class
 public class MainMenuFrame extends JFrame {
 
     /* ATTRIBUTES ___________________________________________________________ */
@@ -181,20 +185,10 @@ public class MainMenuFrame extends JFrame {
     }
 
     /* ______________________________________________________________________ */
-    private void showWorkshopsFrame() {
-        WorkshopsFrame workshopsFrame;
-
+    private void showWorkshopsDialog() {
         this.setVisible(false);
-        workshopsFrame = new WorkshopsFrame(this.account);
-
-        workshopsFrame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent we) {
-                setVisible(true);
-            }
-        });
-
-        workshopsFrame.setVisible(true);
+        new WorkshopsFrame(this.account).showDialog();
+        this.setVisible(true);
     }
 
     /* ______________________________________________________________________ */
@@ -210,13 +204,13 @@ public class MainMenuFrame extends JFrame {
             if (option == DialogPane.YES_OPTION) {
                 result = this.userAction();
                 if (result.equals("ok sign in")) {
-                    this.showWorkshopsFrame();
+                    this.showWorkshopsDialog();
                 }
             } else if (option == DialogPane.NO_OPTION) {
-                this.showWorkshopsFrame();
+                this.showWorkshopsDialog();
             }
         } else {
-            this.showWorkshopsFrame();
+            this.showWorkshopsDialog();
         }
     }
 
@@ -289,13 +283,37 @@ public class MainMenuFrame extends JFrame {
 
     /* ______________________________________________________________________ */
     private static void initThemes() {
-        String pathFile = MainMenuFrame.class.getResource("/utilities/python/createThemes.py").toString().substring(5);
-        String pathFolder = MainMenuFrame.class.getResource("/files").toString().substring(5);
+        String pathFolder = MainMenuFrame.class.getResource("/files").toString().substring(6);
         pathFolder = pathFolder.substring(0, pathFolder.indexOf("build")) + "src/files/";
+        File folder;
+        File file;
+        FileWriter fileWriter;
 
-        try {
-            Runtime.getRuntime().exec("python " + pathFile + " " + pathFolder);
-        } catch (IOException e) {
+        for (int i = 1; i < 10; i++) {
+            try {
+                folder = new File(pathFolder + "Tema " + i);
+                folder.mkdir();
+
+                file = new File(pathFolder + "Tema " + i + "/descripcion.txt");
+                file.createNewFile();
+                fileWriter = new FileWriter(file);
+                fileWriter.write("Descripcion del Tema " + i);
+                fileWriter.close();
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+
+            for (int j = 1; j < 10; j++) {
+                try {
+                    file = new File(pathFolder + "Tema " + i + "/Tip " + j + ".txt");
+                    file.createNewFile();
+                    fileWriter = new FileWriter(file);
+                    fileWriter.write("Contenido del Tip " + j);
+                fileWriter.close();
+                } catch (IOException e) {
+                    System.out.println(e);
+                }
+            }
         }
     }
 

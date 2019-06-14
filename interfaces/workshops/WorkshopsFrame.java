@@ -90,22 +90,19 @@ public class WorkshopsFrame extends Dialog {
 
                 if (descriptionFile.exists()) {
                     description = this.getFileText(descriptionFile);
+
+                    themeButton = new ThemeButton(theme.getName(), description);
+                    themesPanel.add(themeButton);
                 } else {
-                    description = descriptionFile.getName();
                     System.out.println("description file do not exists");
                 }
-
-                themeButton = new ThemeButton(theme.getName(), description);
-                themesPanel.add(themeButton);
             }
         }
 
         return themesPanel;
     }
-/*git commit -m "- Cambio en la ubicacion de las clases del mundo
-> - Correccion en la funcion que permite extraer el contenido de un archivo"
-*/
-    /* ______________________________________________________________________ */
+
+ /* ______________________________________________________________________ */
     private String getFileText(File file) {
         String text = "";
         String line;
@@ -118,7 +115,7 @@ public class WorkshopsFrame extends Dialog {
             while (line != null) {
                 text += line;
                 line = bufferedReader.readLine();
-                
+
                 if (line != null) {
                     text += "\n";
                 }
@@ -135,7 +132,7 @@ public class WorkshopsFrame extends Dialog {
         return this.account;
     }
 
-    /*  MAIN ________________________________________________________________ */
+    /* ______________________________________________________________________ */
 //    public ArrayList<Themes> getThemes() {
 //        return this.themes;
 //    }
