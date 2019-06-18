@@ -19,7 +19,6 @@ public class PasswordField extends JPasswordField {
 
     /* ______________________________________________________________________ */
     public PasswordField(boolean visible) {
-        this.setEchoChar((char) 0);
         initEvents();
     }
 
@@ -45,7 +44,7 @@ public class PasswordField extends JPasswordField {
         });
     }
 
-    /* ______________________________________________________________________ */
+    /* GETTERS ______________________________________________________________ */
     @Override
     public String getText() {
         String password = "";
@@ -53,5 +52,10 @@ public class PasswordField extends JPasswordField {
             password += c;
         }
         return password;
+    }
+
+    /* SETTERS ______________________________________________________________ */
+    public void setPasswordVisible(boolean visible) {
+        this.setEchoChar((char) 0);
     }
 }
