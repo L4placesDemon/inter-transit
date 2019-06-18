@@ -25,6 +25,7 @@ public class AccountStatisticsDialog extends Dialog {
 
     private StatisticsGraph levelStatisticsGraph;
     private StatisticsGraph pointsStatisticsGraph;
+    private JButton themesStatisticsButton;
     private JButton backButton;
 
     /* CONSTRUCTORS__________________________________________________________ */
@@ -38,7 +39,6 @@ public class AccountStatisticsDialog extends Dialog {
 
     /* ______________________________________________________________________ */
     private void initComponents() {
-        String[] headers = {"Indice", "Apodo", "Nivel", "Puntos"};
         ArrayList<Integer> levels = new ArrayList<>();
         ArrayList<Integer> points = new ArrayList<>();
 
@@ -62,6 +62,7 @@ public class AccountStatisticsDialog extends Dialog {
         this.levelStatisticsGraph = new StatisticsGraph();
         this.pointsStatisticsGraph = new StatisticsGraph();
 
+        this.themesStatisticsButton = new JButton("Temas");
         this.backButton = new JButton("Volver");
 
         centerPanel = new JPanel(new GridLayout(1, 3));
@@ -110,6 +111,7 @@ public class AccountStatisticsDialog extends Dialog {
         centerPanel.add(levelsPanel);
         centerPanel.add(pointsPanel);
 
+        southPanel.add(this.themesStatisticsButton);
         southPanel.add(this.backButton);
 
         this.add(centerPanel, BorderLayout.CENTER);
