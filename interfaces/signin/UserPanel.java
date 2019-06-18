@@ -16,6 +16,8 @@ import utilities.Border;
 import utilities.PasswordField;
 import utilities.TextField;
 import utilities.Utilities;
+import utilities.binaryfilemanager.BinaryFileManager;
+import worldclasses.accounts.AdminAccount;
 
 public class UserPanel extends JPanel {
 
@@ -116,6 +118,15 @@ public class UserPanel extends JPanel {
         this.nicknameField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent ke) {
+                BinaryFileManager manager = new BinaryFileManager("accounts.dat");
+                boolean isAdmin = nicknameField.getText().toLowerCase().contains("admin");
+
+                showPasswordButton.setVisible(true);
+                if (isAdmin) {
+                    passwordField.setPasswordVisible(false);
+                    showPasswordButton.setVisible(false);
+                }
+
                 if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
                     passwordField.requestFocus();
                 }
