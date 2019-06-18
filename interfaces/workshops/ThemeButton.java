@@ -1,10 +1,9 @@
 package interfaces.workshops;
 
 import java.awt.GridLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import utilities.Utilities;
+import worldclasses.themes.Theme;
 
 public class ThemeButton extends JButton {
 
@@ -12,20 +11,14 @@ public class ThemeButton extends JButton {
     private JLabel imageLabel;
     private JLabel titleLabel;
     private JLabel descriptionLabel;
+    private JLabel progressLabel;
+    private JLabel valueLabel;
 
-    private String title;
-    private String description;
-    private ImageIcon image;
+    private Theme theme;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public ThemeButton(String title, String description, String imagePath) {
-        this.image = Utilities.getImageIcon(imagePath, 50, 50);
-    }
-
-    /* ______________________________________________________________________ */
-    public ThemeButton(String title, String description) {
-        this.title = title;
-        this.description = description;
+    public ThemeButton(Theme theme) {
+        this.theme = theme;
 
         this.initComponents();
         this.initEvents();
@@ -33,19 +26,23 @@ public class ThemeButton extends JButton {
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
-        this.setLayout(new GridLayout(1, 3));
+        this.setLayout(new GridLayout());
 
         this.imageLabel = new JLabel();
-        this.titleLabel = new JLabel(this.title);
-        this.descriptionLabel = new JLabel(this.description);
-
-        if (this.image != null) {
-            this.imageLabel.setIcon(this.image);
+        if (this.theme.getImage() != null) {
+            this.imageLabel.setIcon(this.theme.getImage());
         }
+
+        this.titleLabel = new JLabel(this.theme.getTitle(), JLabel.CENTER);
+        this.descriptionLabel = new JLabel(this.theme.getDescription(), JLabel.CENTER);
+        this.progressLabel = new JLabel(this.theme.getProgress() + "%", JLabel.CENTER);
+        this.valueLabel = new JLabel("$" + this.theme.getValue(), JLabel.CENTER);
 
         this.add(imageLabel);
         this.add(titleLabel);
         this.add(descriptionLabel);
+        this.add(progressLabel);
+        this.add(valueLabel);
     }
 
     /* ______________________________________________________________________ */

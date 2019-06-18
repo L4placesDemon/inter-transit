@@ -11,20 +11,39 @@ public class Theme {
     private String description;
     private ArrayList<Tip> tips;
     private Integer progress;
-
     private Double value;
+    private Integer views;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public Theme(ImageIcon image, String title, ArrayList<Tip> tips, Integer progress, Double value) {
+    public Theme(
+            ImageIcon image,
+            String title,
+            String description,
+            ArrayList<Tip> tips,
+            Integer progress,
+            Double value,
+            Integer views) {
         this.image = image;
         this.title = title;
+        this.description = description;
         this.tips = tips;
         this.progress = progress;
+        this.value = value;
+        this.views = views;
     }
 
     /* ______________________________________________________________________ */
-    public Theme(ImageIcon image, String title, Integer progress, Double value) {
-        this(image, title, new ArrayList<>(), progress, value);
+    public Theme(ImageIcon image,
+            String title,
+            String description,
+            Integer progress,
+            Double value,
+            Integer views) {
+        this(image, title, description, new ArrayList<>(), progress, value, views);
+    }
+
+    /* ______________________________________________________________________ */
+    public Theme() {
     }
 
     /* GETTERS ______________________________________________________________ */

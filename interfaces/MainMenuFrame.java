@@ -61,7 +61,7 @@ public class MainMenuFrame extends JFrame {
         JPanel southPanel;
 
         // Set up Frame --------------------------------------------------------
-        this.getContentPane().setBackground(Color.white);
+//        this.getContentPane().setBackground(Color.white);
         this.setLayout(new BorderLayout());
         this.setSize(350, 537);
         this.setIconImage(Utilities.getImage("/images/logos/logo.png"));
@@ -296,7 +296,10 @@ public class MainMenuFrame extends JFrame {
                 file = new File(pathFolder + "Tema " + i + "/descripcion.txt");
                 file.createNewFile();
                 fileWriter = new FileWriter(file);
-                fileWriter.write("Descripcion del Tema " + i);
+                fileWriter.write("description=Descripcion del Tema " + i + '\n');
+                fileWriter.write("progress=0" + '\n');
+                fileWriter.write("value=0" + '\n');
+                fileWriter.write("views=0" + '\n');
                 fileWriter.close();
             } catch (IOException e) {
                 System.out.println(e);
