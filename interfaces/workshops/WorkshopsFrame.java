@@ -15,12 +15,13 @@ import javax.swing.JPanel;
 import utilities.Dialog;
 import worldclasses.accounts.Account;
 import worldclasses.accounts.UserAccount;
+import worldclasses.themes.Theme;
 
 public class WorkshopsFrame extends Dialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
     private Account account;
-//    private ArrayList<Theme> themes;
+    private ArrayList<Theme> themes;
 
     private JButton backButton;
 
@@ -28,7 +29,7 @@ public class WorkshopsFrame extends Dialog {
     public WorkshopsFrame(Account account) {
         super(new JFrame(), true);
         this.account = account;
-//        this.themes = themes;
+        this.themes = themes;
 
         this.initComponents();
         this.initEvents();
@@ -74,29 +75,32 @@ public class WorkshopsFrame extends Dialog {
     /* ______________________________________________________________________ */
     private JPanel addThemes() {
         JPanel themesPanel = new JPanel();
-        ThemeButton themeButton;
-        ArrayList<File> files;
+        themesPanel.setLayout(new BoxLayout(themesPanel, BoxLayout.Y_AXIS));
 
+        ThemeButton themeButton;
         String description = "";
         String path = WorkshopsFrame.class.getResource("/files").toString().substring(5);
 
         File themeFolders = new File(path);
         File descriptionFile;
+        ArrayList<File> files;
 
         path = path.substring(0, path.indexOf("build")) + "src/files";
-        themesPanel.setLayout(new BoxLayout(themesPanel, BoxLayout.Y_AXIS));
 
         if (themeFolders.exists()) {
             files = new ArrayList<>(Arrays.asList(themeFolders.listFiles()));
             System.out.println(files);
-            
+
             for (File theme : themeFolders.listFiles()) {
 
                 descriptionFile = new File(path + "/" + theme.getName() + "/descripcion.txt");
 
                 if (descriptionFile.exists()) {
-                    description = this.getFileText(descriptionFile);
+                    description = getFileText(descriptionFile);
 
+//                    Theme _theme = new Theme();
+//                    this.themes.add(_theme);
+                    
                     themeButton = new ThemeButton(theme.getName(), description);
                     themesPanel.add(themeButton);
                 } else {
@@ -139,9 +143,10 @@ public class WorkshopsFrame extends Dialog {
     }
 
     /* ______________________________________________________________________ */
-//    public ArrayList<Themes> getThemes() {
-//        return this.themes;
-//    }
+    public ArrayList<Theme> getThemes() {
+        return this.themes;
+    }
+
     /*  MAIN ________________________________________________________________ */
     public static void main(String[] args) {
         new WorkshopsFrame(new UserAccount(
