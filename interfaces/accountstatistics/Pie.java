@@ -39,21 +39,21 @@ public class Pie extends JComponent {
     @Override
     public void paint(Graphics g) {
         int sum = 0, arc;
-        int valuei, valuej;
+        int value, pos;
 
         for (int i = 0; i < this.values.size(); i++) {
             sum += this.values.get(i);
         }
 
-        valuej = 90;
+        pos = 90;
         for (int i = 0; i < this.values.size(); i++) {
-            valuei = this.values.get(i);
+            value = this.values.get(i);
 
             g.setColor(this.colors.get(i));
 
-            arc = (valuei * 360) / sum;
-            g.fillArc(0, 0, getWidth(), getHeight(), valuej, -arc);
-            valuej -= arc + 1;
+            arc = (value * 360) / sum;
+            g.fillArc(0, 0, getWidth(), getHeight(), pos, -arc);
+            pos -= arc + 1;
         }
     }
 
