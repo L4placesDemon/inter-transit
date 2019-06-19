@@ -12,6 +12,12 @@ public class Tip {
         this.content = content;
     }
 
+    /* METHODS ______________________________________________________________ */
+    @Override
+    public String toString() {
+        return "Tip{" + getTitle() + ": " + getContent() + '}';
+    }
+
     /* GETTERS ______________________________________________________________ */
     public String getTitle() {
         return this.title;

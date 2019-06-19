@@ -46,6 +46,18 @@ public class Theme {
     public Theme() {
     }
 
+    /* METHODS ______________________________________________________________ */
+    @Override
+    public String toString() {
+        return "Theme{" + "image=" + getImage()
+                + ", "+ getTitle()
+                + ": " + getDescription()
+                + " -> " + getTips()
+                + ", " + getProgress() + '%'
+                + ", $" + getValue()
+                + ", " + getViews() + " views}";
+    }
+
     /* GETTERS ______________________________________________________________ */
     public ImageIcon getImage() {
         return this.image;
@@ -76,6 +88,11 @@ public class Theme {
         return this.value;
     }
 
+    /* ______________________________________________________________________ */
+    public Integer getViews() {
+        return this.views;
+    }
+
     /* SETTERS ______________________________________________________________ */
     public void setImage(ImageIcon image) {
         this.image = image;
@@ -104,5 +121,10 @@ public class Theme {
     /* ______________________________________________________________________ */
     public void setValue(Double value) {
         this.value = value;
+    }
+
+    /* ______________________________________________________________________ */
+    public void setViews(Integer views) {
+        this.views = views;
     }
 }
