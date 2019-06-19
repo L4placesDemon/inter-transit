@@ -282,7 +282,13 @@ public class MainMenuFrame extends JFrame {
 
     /* ______________________________________________________________________ */
     private static void initTestThemes() {
-        String pathFolder = MainMenuFrame.class.getResource("/files").toString().substring(5);
+        int chars = 5;
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) {
+            chars = 6;
+        }
+
+        String pathFolder = MainMenuFrame.class.getResource("/files").toString().substring(chars);
         pathFolder = pathFolder.substring(0, pathFolder.indexOf("build")) + "src/files/";
         File folder;
         File file;
