@@ -11,9 +11,11 @@ public class PasswordField extends JPasswordField {
 
     /* ATTRIBUTES ___________________________________________________________ */
     private UndoManager undoManager;
+    private char echoChar;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public PasswordField() {
+        echoChar = getEchoChar();
         initEvents();
     }
 
@@ -56,6 +58,6 @@ public class PasswordField extends JPasswordField {
 
     /* SETTERS ______________________________________________________________ */
     public void setPasswordVisible(boolean visible) {
-        this.setEchoChar((char) 0);
+        this.setEchoChar(visible ? (char) 0 : this.echoChar);
     }
 }
