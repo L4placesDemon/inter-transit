@@ -44,7 +44,7 @@ public class AccountStatisticsDialog extends Dialog {
 
         JPanel centerPanel;
         JPanel southPanel;
-        
+
         JPanel usersPanel;
         JPanel levelsPanel;
         JPanel pointsPanel;
@@ -67,7 +67,7 @@ public class AccountStatisticsDialog extends Dialog {
 
         centerPanel = new JPanel(new GridLayout(1, 3));
         southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        
+
         usersPanel = new JPanel();
         levelsPanel = new JPanel(new BorderLayout());
         pointsPanel = new JPanel(new BorderLayout());
@@ -92,7 +92,7 @@ public class AccountStatisticsDialog extends Dialog {
                 i++;
             }
         }
-        
+
         this.levelStatisticsGraph.setValues(levels);
         this.pointsStatisticsGraph.setValues(points);
 
@@ -120,6 +120,10 @@ public class AccountStatisticsDialog extends Dialog {
 
     /* ______________________________________________________________________ */
     private void initEvents() {
+        this.themesStatisticsButton.addActionListener(ae -> {
+            new ThemesStatisticsDialog().showDialog();
+        });
+
         this.backButton.addActionListener(ae -> {
             this.dispose();
         });
