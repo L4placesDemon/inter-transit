@@ -289,18 +289,29 @@ public class MainMenuFrame extends JFrame {
             chars = 6;
         }
 
-        String pathFolder = MainMenuFrame.class.getResource("/files").toString().substring(chars);
+        String pathFolder = MainMenuFrame.class.getResource("/utilities").toString().substring(chars);
         pathFolder = pathFolder.substring(0, pathFolder.indexOf("build")) + "src/files/";
+
+        File foldersFolder = new File(pathFolder);
+        if (!foldersFolder.exists()) {
+            try {
+                foldersFolder.mkdir();
+            } catch (Exception ex) {
+            }
+        }
+
         File folder;
         File file;
         FileWriter fileWriter;
 
         for (int i = 1; i < 10; i++) {
+            String name = "Tema";
+            
             try {
-                folder = new File(pathFolder + "Tema " + i);
+                folder = new File(pathFolder + name + " " + i);
                 folder.mkdir();
 
-                file = new File(pathFolder + "Tema " + i + "/descripcion.txt");
+                file = new File(pathFolder + name + " " + i + "/descripcion.txt");
                 file.createNewFile();
                 fileWriter = new FileWriter(file);
                 fileWriter.write("description=Descripcion del Tema " + i + '\n');
@@ -314,7 +325,7 @@ public class MainMenuFrame extends JFrame {
 
             for (int j = 1; j < 10; j++) {
                 try {
-                    file = new File(pathFolder + "Tema " + i + "/Tip " + j + ".txt");
+                    file = new File(pathFolder + name + " " + i + "/Tip " + j + ".txt");
                     file.createNewFile();
                     fileWriter = new FileWriter(file);
                     fileWriter.write("Contenido del Tip " + j);

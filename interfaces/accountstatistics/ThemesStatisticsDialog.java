@@ -28,26 +28,29 @@ public class ThemesStatisticsDialog extends Dialog {
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
+        
+        // Set up Dialog -------------------------------------------------------
         this.setLayout(new BorderLayout());
         this.setSize(600, 600);
         this.setLocationRelativeTo(null);
         this.setMinimumSize(new Dimension(300, 200));
         this.setTitle("Inter Transit");
-
+        
+        // Set up Components ---------------------------------------------------
         this.initThemes();
     }
-
 
     /* ______________________________________________________________________ */
     private void initThemes() {
         String themesDirectoryPath = WorkshopsFrame.class.getResource("/files").toString().substring(5);
-        File themesDirectory = new File(themesDirectoryPath);
+        File themesDirectory;
 
         Object[] description = null;
         ArrayList<Tip> tips;
         String fileName;
-
+        
         themesDirectoryPath = themesDirectoryPath.substring(0, themesDirectoryPath.indexOf("build")) + "src/files";
+        themesDirectory = new File(themesDirectoryPath);
 
         if (themesDirectory.exists()) {
             for (File themeDirectory : themesDirectory.listFiles()) {

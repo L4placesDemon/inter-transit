@@ -36,6 +36,7 @@ public class WorkshopsFrame extends Dialog {
 
         this.initComponents();
         this.initEvents();
+        this.initThemes();
     }
 
     /* METHODS ______________________________________________________________ */
@@ -77,7 +78,6 @@ public class WorkshopsFrame extends Dialog {
         valueLabel = new JLabel("Valor", JLabel.CENTER);
 
         // ---------------------------------------------------------------------
-        this.initThemes();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
         this.themes.forEach(i -> {
@@ -112,13 +112,14 @@ public class WorkshopsFrame extends Dialog {
     /* ______________________________________________________________________ */
     private void initThemes() {
         String themesDirectoryPath = WorkshopsFrame.class.getResource("/files").toString().substring(5);
-        File themesDirectory = new File(themesDirectoryPath);
+        File themesDirectory;
 
         Object[] description = null;
         ArrayList<Tip> tips;
         String fileName;
-
+        
         themesDirectoryPath = themesDirectoryPath.substring(0, themesDirectoryPath.indexOf("build")) + "src/files";
+        themesDirectory = new File(themesDirectoryPath);
 
         if (themesDirectory.exists()) {
             for (File themeDirectory : themesDirectory.listFiles()) {
