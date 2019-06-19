@@ -1,20 +1,22 @@
 package interfaces.accountstatistics;
 
+import interfaces.workshops.WorkshopsFrame;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.JFrame;
 import utilities.Dialog;
-import utilities.Utilities;
-import static utilities.Utilities.getFileText;
 import worldclasses.themes.Theme;
+import worldclasses.themes.Tip;
 
 public class ThemesStatisticsDialog extends Dialog {
 
     /* ATRRIBUTES ___________________________________________________________ */
-    private ArrayList<Theme> themes;
+    private final ArrayList<Theme> themes;
 
     /* CONSRUCTORS __________________________________________________________ */
     public ThemesStatisticsDialog() {
@@ -22,7 +24,6 @@ public class ThemesStatisticsDialog extends Dialog {
         this.themes = new ArrayList<>();
 
         this.initComponents();
-        this.initEvents();
     }
 
     /* METHODS ______________________________________________________________ */
@@ -32,65 +33,116 @@ public class ThemesStatisticsDialog extends Dialog {
         this.setLocationRelativeTo(null);
         this.setMinimumSize(new Dimension(300, 200));
         this.setTitle("Inter Transit");
+
+        this.initThemes();
     }
 
-    /* ______________________________________________________________________ */
-    private void initEvents() {
-
-    }
 
     /* ______________________________________________________________________ */
     private void initThemes() {
-        String path = ThemesStatisticsDialog.class.getResource("/files").toString().substring(5);
+        String themesDirectoryPath = WorkshopsFrame.class.getResource("/files").toString().substring(5);
+        File themesDirectory = new File(themesDirectoryPath);
 
-        File themeFolders = new File(path);
-        File descriptionFile;
-        ArrayList<File> files;
+        Object[] description = null;
+        ArrayList<Tip> tips;
+        String fileName;
 
-        path = path.substring(0, path.indexOf("build")) + "src/files";
+        themesDirectoryPath = themesDirectoryPath.substring(0, themesDirectoryPath.indexOf("build")) + "src/files";
 
-        if (themeFolders.exists()) {
-            files = new ArrayList<>(Arrays.asList(themeFolders.listFiles()));
+        if (themesDirectory.exists()) {
+            for (File themeDirectory : themesDirectory.listFiles()) {
 
-            for (File theme : themeFolders.listFiles()) {
+                tips = new ArrayList<>();
+                for (File themeFile : themeDirectory.listFiles()) {
 
-                descriptionFile = new File(path + "/" + theme.getName() + "/descripcion.txt");
+                    fileName = themeFile.getName();
+                    if (fileName.contains("descripcion")) {
 
-                if (descriptionFile.exists()) {
-
-                    String text = getFileText(descriptionFile);
-
-                    int index1 = text.indexOf('=') + 1;
-                    int index2 = text.indexOf('\n');
-                    String description = text.substring(index1, index2);
-
-                    index1 = text.indexOf('=', index1) + 1;
-                    index2 = text.indexOf('\n', index2 + 1);
-                    String progress = text.substring(index1, index2);
-
-                    index1 = text.indexOf('=', index1) + 1;
-                    index2 = text.indexOf('\n', index2 + 1);
-                    String value = text.substring(index1, index2);
-
-                    index1 = text.indexOf('=', index1) + 1;
-                    index2 = text.indexOf('\n', index2 + 1);
-                    String views = text.substring(index1, index2);
-
-                    Theme _theme = new Theme(
+                        description = this.getDescription(
+                                themesDirectoryPath + "/"
+                                + themeDirectory.getName() + "/descripcion.txt");
+                    } else {
+                        tips.add(new Tip(
+                                fileName.substring(0, fileName.indexOf(".txt")),
+                                this.getFileText(themeFile)
+                        ));
+                    }
+                }
+                if (description != null) {
+                    this.themes.add(new Theme(
                             null,
-                            theme.getName(),
-                            description,
-                            Integer.parseInt(progress),
-                            Double.parseDouble(value),
-                            Integer.parseInt(views)
-                    );
-
-                    this.themes.add(_theme);
-                } else {
-                    System.out.println("description file do not exists");
+                            themeDirectory.getName(),
+                            description[0] + "",
+                            tips,
+                            (int) description[1],
+                            (double) description[2],
+                            (int) description[3]
+                    ));
                 }
             }
         }
+        for (Theme theme : this.themes) {
+            System.out.println(theme);
+        }
+    }
+
+    /* ______________________________________________________________________ */
+    private Object[] getDescription(String themeDirectoryPath) {
+        File descriptionFile = new File(themeDirectoryPath);
+
+        if (descriptionFile.exists()) {
+            String text = this.getFileText(descriptionFile);
+
+            int start = text.indexOf('=') + 1;
+            int end = text.indexOf('\n');
+            String description = text.substring(start, end);
+
+            start = text.indexOf('=', start) + 1;
+            end = text.indexOf('\n', end + 1);
+            String progress = text.substring(start, end);
+
+            start = text.indexOf('=', start) + 1;
+            end = text.indexOf('\n', end + 1);
+            String value = text.substring(start, end);
+
+            start = text.indexOf('=', start) + 1;
+            end = text.indexOf('\n', end + 1);
+            String views = text.substring(start, end);
+
+            return new Object[]{
+                description,
+                Integer.parseInt(progress),
+                Double.parseDouble(value),
+                Integer.parseInt(views)
+            };
+        } else {
+            System.out.println("description file do not exists");
+        }
+        return null;
+    }
+
+    /* ______________________________________________________________________ */
+    private String getFileText(File file) {
+        String text = "";
+        String line;
+        BufferedReader bufferedReader;
+
+        try {
+            bufferedReader = new BufferedReader(new FileReader(file));
+            line = bufferedReader.readLine();
+
+            while (line != null) {
+                text += line;
+                line = bufferedReader.readLine();
+                if (line != null) {
+                    text += '\n';
+                }
+            }
+            bufferedReader.close();
+
+        } catch (IOException e) {
+        }
+        return text;
     }
 
     /* MAIN _________________________________________________________________ */

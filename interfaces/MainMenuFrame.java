@@ -283,6 +283,7 @@ public class MainMenuFrame extends JFrame {
     /* ______________________________________________________________________ */
     private static void initTestThemes() {
         int chars = 5;
+        Random random = new Random();
         String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("win")) {
             chars = 6;
@@ -303,9 +304,9 @@ public class MainMenuFrame extends JFrame {
                 file.createNewFile();
                 fileWriter = new FileWriter(file);
                 fileWriter.write("description=Descripcion del Tema " + i + '\n');
-                fileWriter.write("progress=0" + '\n');
-                fileWriter.write("value=0" + '\n');
-                fileWriter.write("views=0" + '\n');
+                fileWriter.write("progress=" + (random.nextInt(99) + 1) + '\n');
+                fileWriter.write("value=" + (random.nextInt(9999) + 1) + '\n');
+                fileWriter.write("views=" + random.nextInt(19) + 1 + "\n\n");
                 fileWriter.close();
             } catch (IOException e) {
                 System.out.println(e);
