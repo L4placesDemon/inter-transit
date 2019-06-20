@@ -34,9 +34,9 @@ public class WorkshopsFrame extends Dialog {
         this.account = account;
         this.themes = new ArrayList<>();
 
+        this.initThemes();
         this.initComponents();
         this.initEvents();
-        this.initThemes();
     }
 
     /* METHODS ______________________________________________________________ */
@@ -48,13 +48,7 @@ public class WorkshopsFrame extends Dialog {
         JPanel centerPanel;
         JPanel southPanel;
 
-        JLabel imageLabel;
-        JLabel titleLabel;
-        JLabel descriptionLabel;
-        JLabel progressLabel;
-        JLabel valueLabel;
-
-        // Set up Frame --------------------------------------------------------
+        // Set up Dialog -------------------------------------------------------
         this.setLayout(new BorderLayout());
         this.setSize(700, 500);
         this.setLocationRelativeTo(null);
@@ -71,25 +65,24 @@ public class WorkshopsFrame extends Dialog {
 
         labelsPanel = new JPanel(new GridLayout());
 
-        imageLabel = new JLabel("Imagen", JLabel.CENTER);
-        titleLabel = new JLabel("Titulo", JLabel.CENTER);
-        descriptionLabel = new JLabel("Descripcion", JLabel.CENTER);
-        progressLabel = new JLabel("Progreso", JLabel.CENTER);
-        valueLabel = new JLabel("Valor", JLabel.CENTER);
-
         // ---------------------------------------------------------------------
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
+        // ---------------------------------------------------------------------
         this.themes.forEach(i -> {
-            centerPanel.add(new ThemeButton(i));
+            ThemeButton themeButton = new ThemeButton(i);
+            
+            themeButton.addActionListener(ae -> {
+                new ThemeDialog(i, this.account).showDialog();
+            });
+            centerPanel.add(themeButton);
         });
 
-        // ---------------------------------------------------------------------
-        labelsPanel.add(imageLabel);
-        labelsPanel.add(titleLabel);
-        labelsPanel.add(descriptionLabel);
-        labelsPanel.add(progressLabel);
-        labelsPanel.add(valueLabel);
+        labelsPanel.add(new JLabel("Imagen", JLabel.CENTER));
+        labelsPanel.add(new JLabel("Titulo", JLabel.CENTER));
+        labelsPanel.add(new JLabel("Descripcion", JLabel.CENTER));
+        labelsPanel.add(new JLabel("Progreso", JLabel.CENTER));
+        labelsPanel.add(new JLabel("Valor", JLabel.CENTER));
 
         northPanel.add(userPanel, BorderLayout.NORTH);
         northPanel.add(labelsPanel, BorderLayout.CENTER);
@@ -111,29 +104,29 @@ public class WorkshopsFrame extends Dialog {
 
     /* ______________________________________________________________________ */
     private void initThemes() {
-        String themesDirectoryPath = WorkshopsFrame.class.getResource("/files").toString().substring(5);
+        String themesDirectoryPath = WorkshopsFrame.class.getResource("/utilities").toString().substring(5);
+
         File themesDirectory;
 
         Object[] description = null;
         ArrayList<Tip> tips;
         String fileName;
-        
+
         themesDirectoryPath = themesDirectoryPath.substring(0, themesDirectoryPath.indexOf("build")) + "src/files";
         themesDirectory = new File(themesDirectoryPath);
 
         if (themesDirectory.exists()) {
             for (File themeDirectory : themesDirectory.listFiles()) {
 
+                description = this.getDescription(
+                        themesDirectoryPath + "/"
+                        + themeDirectory.getName() + "/descripcion.txt");
+
                 tips = new ArrayList<>();
                 for (File themeFile : themeDirectory.listFiles()) {
-
                     fileName = themeFile.getName();
-                    if (fileName.contains("descripcion")) {
 
-                        description = this.getDescription(
-                                themesDirectoryPath + "/"
-                                + themeDirectory.getName() + "/descripcion.txt");
-                    } else {
+                    if (!fileName.contains("descripcion")) {
                         tips.add(new Tip(
                                 fileName.substring(0, fileName.indexOf(".txt")),
                                 this.getFileText(themeFile)
@@ -153,9 +146,9 @@ public class WorkshopsFrame extends Dialog {
                 }
             }
         }
-        for (Theme theme : this.themes) {
-            System.out.println(theme);
-        }
+//        for (Theme theme : this.themes) {
+//            System.out.println(theme);
+//        }
     }
 
     /* ______________________________________________________________________ */
