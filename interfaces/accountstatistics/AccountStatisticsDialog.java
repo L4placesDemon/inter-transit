@@ -1,5 +1,6 @@
 package interfaces.accountstatistics;
 
+import interfaces.themestatistics.ThemesStatisticsDialog;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
