@@ -1,0 +1,9 @@
+NOTES:
+- Implement a themes manager
+- In the accounts manager replace the buttons in the bottom for a popup menu in
+  each AccountButton
+- Add verification message when finish edit account
+- Statistics for Users in each Workshop
+- Add getters and setter for each attribute in each class
+- Sort imports in each class
+- Organize code
