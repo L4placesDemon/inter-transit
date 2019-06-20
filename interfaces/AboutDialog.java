@@ -5,23 +5,18 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+
+import utilities.Dialog;
 import utilities.Utilities;
 
-public class AboutDialog extends JDialog {
+public class AboutDialog extends Dialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    private JLabel logoLabel;
-    private JLabel company_logoLabel;
-
-    private JPanel descriptionPanel;
-    private JPanel creditsPanel;
-
     private JButton closeButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
@@ -34,6 +29,11 @@ public class AboutDialog extends JDialog {
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
+        JLabel logoLabel;
+        JLabel company_logoLabel;
+        JPanel descriptionPanel;
+        JPanel creditsPanel;
+
         JLabel programDescriptionLabel;
         JLabel programCreditsLabel;
 
@@ -50,13 +50,11 @@ public class AboutDialog extends JDialog {
         this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
-        this.logoLabel = new JLabel(
-                Utilities.getImageIcon("/images/logos/logo.png", 230, 230));
-        this.company_logoLabel = new JLabel(
-                Utilities.getImageIcon("/images/logos/company_logo.png", 180, 180));
+        logoLabel = new JLabel(Utilities.getImageIcon("/images/logos/logo.png", 230, 230));
+        company_logoLabel = new JLabel(Utilities.getImageIcon("/images/logos/company_logo.png", 180, 180));
 
-        this.descriptionPanel = new JPanel();
-        this.creditsPanel = new JPanel();
+        descriptionPanel = new JPanel();
+        creditsPanel = new JPanel();
         this.closeButton = new JButton("Cerrar");
 
         programDescriptionLabel = new JLabel(
@@ -74,32 +72,23 @@ public class AboutDialog extends JDialog {
         // ---------------------------------------------------------------------
         logosPanel.setBorder(new EmptyBorder(0, 13, 0, 0));
 
-        this.descriptionPanel.setLayout(new BoxLayout(this.descriptionPanel, BoxLayout.Y_AXIS));
-        this.descriptionPanel.setBorder(new EtchedBorder());
-//        this.descriptionPanel.setBackground(Color.white);
+        descriptionPanel.setLayout(new BoxLayout(descriptionPanel, BoxLayout.Y_AXIS));
+        descriptionPanel.setBorder(new EtchedBorder());
 
-        this.creditsPanel.setLayout(new BoxLayout(this.creditsPanel, BoxLayout.Y_AXIS));
-        this.creditsPanel.setBorder(new EtchedBorder());
-//        this.creditsPanel.setBackground(Color.white);
-
-//        logosPanel.setBackground(Color.white);
-
-//        mainPanel.setBackground(Color.white);
+        creditsPanel.setLayout(new BoxLayout(creditsPanel, BoxLayout.Y_AXIS));
+        creditsPanel.setBorder(new EtchedBorder());
 
         labelsPanel.setBorder(new EmptyBorder(0, 20, 5, 20));
-//        labelsPanel.setBackground(Color.white);
-
-//        buttonPanel.setBackground(Color.white);
 
         // ---------------------------------------------------------------------
-        this.descriptionPanel.add(programDescriptionLabel);
-        this.creditsPanel.add(programCreditsLabel);
+        descriptionPanel.add(programDescriptionLabel);
+        creditsPanel.add(programCreditsLabel);
 
-        logosPanel.add(this.logoLabel);
-        logosPanel.add(this.company_logoLabel);
+        logosPanel.add(logoLabel);
+        logosPanel.add(company_logoLabel);
 
-        labelsPanel.add(this.descriptionPanel);
-        labelsPanel.add(this.creditsPanel);
+        labelsPanel.add(descriptionPanel);
+        labelsPanel.add(creditsPanel);
 
         mainPanel.add(logosPanel);
         mainPanel.add(labelsPanel);
@@ -112,22 +101,14 @@ public class AboutDialog extends JDialog {
 
     /* ______________________________________________________________________ */
     private void initEvents() {
-        // Dialog Events -------------------------------------------------------
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
         // Components Events ---------------------------------------------------
         this.closeButton.addActionListener(ae -> {
             this.dispose();
         });
     }
 
-    /* ______________________________________________________________________ */
-    public void showDialog() {
-        this.setVisible(true);
-    }
-
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
-        new AboutDialog().setVisible(true);
+        new AboutDialog().showTestDialog();
     }
 }

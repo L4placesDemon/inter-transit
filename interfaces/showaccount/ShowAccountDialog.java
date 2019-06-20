@@ -121,7 +121,7 @@ public class ShowAccountDialog extends Dialog {
             int option = DialogPane.yesNoOption("Cerrar Sesion?");
             if (option == DialogPane.YES_OPTION) {
                 this.dispose();
-                this.ok();
+                this.okAction();
             }
         });
 
@@ -136,7 +136,7 @@ public class ShowAccountDialog extends Dialog {
 
         if (option == DialogPane.YES_OPTION) {
             this.dispose();
-            this.ok();
+            this.okAction();
             removeAccount(this.account);
         }
     }
@@ -168,7 +168,7 @@ public class ShowAccountDialog extends Dialog {
             this.userPanel.setNickname(this.account.getNickname());
 
             if (this.account instanceof UserAccount) {
-                this.userPanel.setLevel(((UserAccount) this.account).getPoints());
+                this.userPanel.setLevel(((UserAccount) this.account).getLevel());
                 this.userPanel.setPoints(((UserAccount) this.account).getPoints());
             }
 

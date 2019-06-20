@@ -7,7 +7,6 @@ import javax.swing.JComponent;
 public class StatisticsGraph extends JComponent {
 
     /* ATTRIBUTTES __________________________________________________________ */
-    private static final long serialVersionUID = 3L;
     private ArrayList<Integer> values;
 
     /* CONSTRUCTORS _________________________________________________________ */
@@ -17,13 +16,12 @@ public class StatisticsGraph extends JComponent {
 
     /* ______________________________________________________________________ */
     public StatisticsGraph() {
-        values = new ArrayList<>();
+        this(new ArrayList<>());
     }
 
     /* METHODS ______________________________________________________________ */
     @Override
     public void paint(Graphics g) {
-
         int width = getWidth();
         int height = getHeight();
 
@@ -76,10 +74,23 @@ public class StatisticsGraph extends JComponent {
     /* ______________________________________________________________________ */
     public void addValue(Integer value) {
         this.values.add(value);
+        repaint();
+    }
+
+    /* ______________________________________________________________________ */
+    public void removeValue(Integer value) {
+        this.values.remove(value);
+        repaint();
+    }
+
+    /* GETTERS ______________________________________________________________ */
+    public ArrayList<Integer> getValues() {
+        return this.values;
     }
 
     /* SETTERS ______________________________________________________________ */
     public void setValues(ArrayList<Integer> values) {
         this.values = values;
+        repaint();
     }
 }

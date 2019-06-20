@@ -136,7 +136,7 @@ public class SigninDialog extends Dialog {
             Account _account = this.initAccount(nickname);
             this.singin(_account);
             this.dispose();
-            this.ok();
+            this.okAction();
         }
     }
 

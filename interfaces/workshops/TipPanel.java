@@ -9,14 +9,14 @@ import worldclasses.themes.Tip;
 
 public class TipPanel extends JPanel {
 
-    /* ______________________________________________________________________ */
+    /* ATTRIBUTES ___________________________________________________________ */
     private Tip tip;
     private Boolean state;
 
     private JButton titleButton;
     private JScrollPane scrollPane;
 
-    /* ______________________________________________________________________ */
+    /* CONSTRUCTORS _________________________________________________________ */
     public TipPanel(Tip tip) {
         this.tip = tip;
         this.state = true;
@@ -25,7 +25,7 @@ public class TipPanel extends JPanel {
         this.initEvents();
     }
 
-    /* ______________________________________________________________________ */
+    /* METHODS ______________________________________________________________ */
     private void initComponents() {
         JTextArea contentArea;
 
@@ -33,14 +33,14 @@ public class TipPanel extends JPanel {
         this.setLayout(new BorderLayout());
 
         // Set up Components ---------------------------------------------------
-        contentArea = new JTextArea(this.tip.getContent());
-
         this.titleButton = new JButton(this.tip.getTitle());
-        this.scrollPane = new JScrollPane(contentArea);
+        this.scrollPane = new JScrollPane();
+
+        contentArea = new JTextArea(this.tip.getContent());
 
         // ---------------------------------------------------------------------
         this.scrollPane.setVisible(this.state);
-//        this.scrollPane.setViewportView(contentArea);
+        this.scrollPane.setViewportView(contentArea);
 
         // ---------------------------------------------------------------------
         this.add(this.titleButton, BorderLayout.NORTH);

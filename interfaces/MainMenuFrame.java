@@ -1,41 +1,36 @@
 package interfaces;
 
+import interfaces.showaccount.ShowAccountDialog;
+import interfaces.signin.SigninDialog;
+import interfaces.workshops.WorkshopsFrame;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import javax.swing.border.EmptyBorder;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import java.util.ArrayList;
+import javax.swing.border.EmptyBorder;
 
-import interfaces.showaccount.ShowAccountDialog;
-import interfaces.signin.SigninDialog;
-import interfaces.workshops.WorkshopsFrame;
-import java.awt.EventQueue;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Random;
+import utilities.Dialog;
+import utilities.DialogPane;
+import utilities.Utilities;
+import utilities.binaryfilemanager.BinaryFileManager;
 
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
 import worldclasses.accounts.UserAccount;
 
-import utilities.binaryfilemanager.BinaryFileManager;
-import utilities.Dialog;
-import utilities.DialogPane;
-import utilities.Utilities;
-
-/* NOTES ____________________________________________________________________ */
-// - Statistics for Workshops
-// - Statistics for Users in each Workshop
-// - Add getters and setter for each attribute in each class
 public class MainMenuFrame extends JFrame {
 
     /* ATTRIBUTES ___________________________________________________________ */
@@ -43,7 +38,6 @@ public class MainMenuFrame extends JFrame {
 
     private Account account;
 
-    private JLabel logoLabel;
     private JButton aboutButton;
     private JButton userButton;
     private JButton worksopsButton;
@@ -57,11 +51,12 @@ public class MainMenuFrame extends JFrame {
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
+        JLabel logoLabel;
+
         JPanel northPanel;
         JPanel southPanel;
 
         // Set up Frame --------------------------------------------------------
-//        this.getContentPane().setBackground(Color.white);
         this.setLayout(new BorderLayout());
         this.setSize(350, 537);
         this.setIconImage(Utilities.getImage("/images/logos/logo.png"));
@@ -71,44 +66,35 @@ public class MainMenuFrame extends JFrame {
 
         // Set up Components ---------------------------------------------------
         this.aboutButton = new JButton();
-        this.logoLabel = new JLabel();
         this.userButton = new JButton();
         this.worksopsButton = new JButton();
         this.testButton = new JButton();
+
+        logoLabel = new JLabel();
 
         northPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         southPanel = new JPanel(new GridLayout(1, 3, 20, 20));
 
         // ---------------------------------------------------------------------
-        this.aboutButton.setBackground(Color.white);
         this.aboutButton.setBorder(null);
         this.aboutButton.setIcon(Utilities.getImageIcon("/images/about.png", 30, 30));
-        this.aboutButton.setOpaque(false);
 
-        this.logoLabel.setIcon(Utilities.getImageIcon("/images/logos/logo.png", 350, 350));
-
-        this.userButton.setBackground(Color.white);
         this.userButton.setBorder(null);
         this.userButton.setFocusable(false);
         this.userButton.setIcon(Utilities.getImageIcon("/images/profile/image-00.png", 80, 80));
-        this.userButton.setOpaque(false);
 
-        this.worksopsButton.setBackground(Color.white);
         this.worksopsButton.setBorder(null);
         this.worksopsButton.setFocusable(false);
         this.worksopsButton.setIcon(Utilities.getImageIcon("/images/learn.png", 70, 70));
-        this.worksopsButton.setOpaque(false);
 
-        this.testButton.setBackground(Color.white);
         this.testButton.setBorder(null);
         this.testButton.setFocusable(false);
         this.testButton.setIcon(Utilities.getImageIcon("/images/test.png", 70, 70));
-        this.testButton.setOpaque(false);
+
+        logoLabel.setIcon(Utilities.getImageIcon("/images/logos/logo.png", 350, 350));
 
         northPanel.setBorder(new EmptyBorder(0, 0, 0, 10));
-        northPanel.setBackground(Color.white);
         southPanel.setPreferredSize(new Dimension(0, 100));
-        southPanel.setBackground(Color.white);
         southPanel.setBorder(new EmptyBorder(0, 40, 15, 40));
 
         // ---------------------------------------------------------------------
@@ -121,7 +107,7 @@ public class MainMenuFrame extends JFrame {
         southPanel.add(this.testButton);
 
         this.add(northPanel, BorderLayout.NORTH);
-        this.add(this.logoLabel, BorderLayout.CENTER);
+        this.add(logoLabel, BorderLayout.CENTER);
         this.add(southPanel, BorderLayout.SOUTH);
     }
 
@@ -218,13 +204,17 @@ public class MainMenuFrame extends JFrame {
         UIManager.put("OptionPane.background", Color.white);
         UIManager.put("OptionPane.messageFont", MainMenuFrame.DEFAULT_FONT);
         UIManager.put("OptionPane.buttonFont", MainMenuFrame.DEFAULT_FONT);
+
         UIManager.put("Panel.background", Color.white);
-        UIManager.put("Button.background", Color.white);
         UIManager.put("ToggleButton.background", Color.white);
         UIManager.put("Label.font", MainMenuFrame.DEFAULT_FONT);
+
+        UIManager.put("Button.background", Color.white);
         UIManager.put("Button.font", MainMenuFrame.DEFAULT_FONT);
+
         UIManager.put("RadioButton.font", MainMenuFrame.DEFAULT_FONT);
         UIManager.put("RadioButton.background", Color.white);
+
         UIManager.put("ScrollPane.background", Color.white);
         UIManager.put("ScrollBar.background", Color.white);
     }
@@ -306,7 +296,7 @@ public class MainMenuFrame extends JFrame {
 
         for (int i = 1; i < 10; i++) {
             String name = "Tema";
-            
+
             try {
                 folder = new File(pathFolder + name + " " + i);
                 folder.mkdir();
@@ -337,6 +327,16 @@ public class MainMenuFrame extends JFrame {
         }
     }
 
+    /* GETTERS ______________________________________________________________ */
+    public Account getAccount() {
+        return account;
+    }
+
+    /* SETTERS ______________________________________________________________ */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
         initUI();
@@ -344,8 +344,6 @@ public class MainMenuFrame extends JFrame {
         sortTestAccounts();
         showTestAccounts();
         initTestThemes();
-        EventQueue.invokeLater(() -> {
-            new MainMenuFrame().setVisible(true);
-        });
+        new MainMenuFrame().setVisible(true);
     }
 }

@@ -1,8 +1,8 @@
 package interfaces.editaccount;
 
 import interfaces.registeraccount.RegisterAccountDialog;
+
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -12,9 +12,10 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import utilities.DialogPane;
 
+import utilities.DialogPane;
 import utilities.binaryfilemanager.BinaryFileManager;
+
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
 import worldclasses.accounts.UserAccount;
@@ -148,7 +149,7 @@ public class EditAccountDialog extends RegisterAccountDialog {
             if (bool) {
                 this.edit(_account);
                 this.dispose();
-                this.ok();
+                this.okAction();
             }
         }
     }

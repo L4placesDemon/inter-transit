@@ -119,7 +119,7 @@ public class ImageChooserDialog extends Dialog {
 
         this.chooseButton.addActionListener(ae -> {
             this.dispose();
-            this.ok();
+            this.okAction();
         });
     }
 

@@ -4,21 +4,23 @@ import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JToggleButton;
+
 import utilities.Utilities;
+
 import worldclasses.accounts.Account;
 
 public class AccountButton extends JToggleButton {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    protected JLabel imageLabel;
-    protected JLabel nicknameLabel;
+    private Account account;
 
-    protected Account account;
+    private JLabel imageLabel;
+    private JLabel nicknameLabel;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public AccountButton(Account account) {
         this.account = account;
-
+        
         this.initComponents();
     }
 
@@ -31,6 +33,7 @@ public class AccountButton extends JToggleButton {
         this.imageLabel = new JLabel(Utilities.getImageIcon(this.account.getImage(), 60, 60));
         this.nicknameLabel = new JLabel(this.account.getNickname());
 
+        // ---------------------------------------------------------------------
         // ---------------------------------------------------------------------
         this.add(this.imageLabel, BorderLayout.CENTER);
         this.add(this.nicknameLabel, BorderLayout.SOUTH);

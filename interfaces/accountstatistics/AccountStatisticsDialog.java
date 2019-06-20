@@ -1,8 +1,8 @@
 package interfaces.accountstatistics;
 
 import interfaces.themestatistics.ThemesStatisticsDialog;
+
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -14,15 +14,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+
 import utilities.Dialog;
 import utilities.binaryfilemanager.BinaryFileManager;
+
 import worldclasses.accounts.Account;
 import worldclasses.accounts.UserAccount;
 
 public class AccountStatisticsDialog extends Dialog {
 
     /* ATTRIBUTTES __________________________________________________________ */
-    private final ArrayList<Account> accounts;
+    private ArrayList<Account> accounts;
 
     private StatisticsGraph levelStatisticsGraph;
     private StatisticsGraph pointsStatisticsGraph;
@@ -38,7 +40,7 @@ public class AccountStatisticsDialog extends Dialog {
         this.initEvents();
     }
 
-    /* ______________________________________________________________________ */
+    /* METHIODS _____________________________________________________________ */
     private void initComponents() {
         ArrayList<Integer> levels = new ArrayList<>();
         ArrayList<Integer> points = new ArrayList<>();
@@ -63,8 +65,8 @@ public class AccountStatisticsDialog extends Dialog {
         this.levelStatisticsGraph = new StatisticsGraph();
         this.pointsStatisticsGraph = new StatisticsGraph();
 
-        this.themesStatisticsButton = new JButton("Temas");
         this.backButton = new JButton("Volver");
+        this.themesStatisticsButton = new JButton("Temas");
 
         centerPanel = new JPanel(new GridLayout(1, 3));
         southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -98,7 +100,6 @@ public class AccountStatisticsDialog extends Dialog {
         this.pointsStatisticsGraph.setValues(points);
 
         scrollPane.getVerticalScrollBar().setUnitIncrement(7);
-        scrollPane.getViewport().setBackground(Color.white);
         scrollPane.setBorder(new EmptyBorder(0, 15, 0, 0));
 
         // ---------------------------------------------------------------------
@@ -112,8 +113,8 @@ public class AccountStatisticsDialog extends Dialog {
         centerPanel.add(levelsPanel);
         centerPanel.add(pointsPanel);
 
-        southPanel.add(this.themesStatisticsButton);
         southPanel.add(this.backButton);
+        southPanel.add(this.themesStatisticsButton);
 
         this.add(centerPanel, BorderLayout.CENTER);
         this.add(southPanel, BorderLayout.SOUTH);
@@ -121,13 +122,23 @@ public class AccountStatisticsDialog extends Dialog {
 
     /* ______________________________________________________________________ */
     private void initEvents() {
-        this.themesStatisticsButton.addActionListener(ae -> {
-            new ThemesStatisticsDialog().showDialog();
-        });
-
         this.backButton.addActionListener(ae -> {
             this.dispose();
         });
+
+        this.themesStatisticsButton.addActionListener(ae -> {
+            new ThemesStatisticsDialog().showDialog();
+        });
+    }
+
+    /* GETTERS ______________________________________________________________ */
+    public ArrayList<Account> getAccounts() {
+        return accounts;
+    }
+
+    /* SETTERS ______________________________________________________________ */
+    public void setAccounts(ArrayList<Account> accounts) {
+        this.accounts = accounts;
     }
 
     /* MAIN _________________________________________________________________ */
@@ -136,6 +147,6 @@ public class AccountStatisticsDialog extends Dialog {
         new BinaryFileManager("accounts.dat").read().forEach(i -> {
             accounts.add((Account) i);
         });
-        new AccountStatisticsDialog(accounts).showDialog();
+        new AccountStatisticsDialog(accounts).showTestDialog();
     }
 }

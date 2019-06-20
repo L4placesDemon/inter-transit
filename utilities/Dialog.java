@@ -29,7 +29,7 @@ public abstract class Dialog extends JDialog {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we) {
-                cancel();
+                cancelAction();
             }
         });
     }
@@ -39,14 +39,25 @@ public abstract class Dialog extends JDialog {
         this.setVisible(true);
         return this.getDialogResultValue();
     }
+    
+    /* ______________________________________________________________________ */
+    public int showTestDialog() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                System.exit(0);
+            }
+        });
+        return this.showDialog();
+    }
 
     /* ______________________________________________________________________ */
-    public void ok() {
+    public void okAction() {
         this.setDialogResultValue(Dialog.OK_OPTION);
     }
 
     /* ______________________________________________________________________ */
-    public void cancel() {
+    public void cancelAction() {
         this.setDialogResultValue(Dialog.CANCEL_OPTION);
     }
 

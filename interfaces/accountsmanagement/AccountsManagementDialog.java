@@ -3,6 +3,7 @@ package interfaces.accountsmanagement;
 import interfaces.accountstatistics.AccountStatisticsDialog;
 import interfaces.editaccount.EditAccountDialog;
 import interfaces.registeraccount.RegisterAccountDialog;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -15,26 +16,29 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 import utilities.Dialog;
 import utilities.DialogPane;
 import utilities.Utilities;
 import utilities.binaryfilemanager.BinaryFileManager;
+
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
 
 public class AccountsManagementDialog extends Dialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private AdminAccount adminAccount;
+    private ArrayList<Object> accounts;
+
     private JPanel centerPanel;
     private AccountButton selectedAccountButton;
 
-    private JButton registerAccountButton;
+    private JButton backButton;
+    private JButton editButton;
     private JButton removeButton;
-    protected JButton editButton;
-    private JButton showStatisticsButton;
-
-    private AdminAccount adminAccount;
-    private ArrayList<Object> accounts;
+    private JButton registerButton;
+    private JButton statisticsButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public AccountsManagementDialog(AdminAccount adminAccount) {
@@ -55,7 +59,7 @@ public class AccountsManagementDialog extends Dialog {
 
         // Set Up Frame --------------------------------------------------------
         this.setLayout(new BorderLayout());
-        this.setSize(415, 520);
+        this.setSize(520, 500);
         this.setMinimumSize(new Dimension(380, 260));
         this.setLocationRelativeTo(null);
         this.setTitle("Administrador de Cuentas");
@@ -63,10 +67,11 @@ public class AccountsManagementDialog extends Dialog {
         // Set Up Components ---------------------------------------------------
         this.centerPanel = new JPanel(new GridBagLayout());
 
-        this.registerAccountButton = new JButton("Registrar");
-        this.removeButton = new JButton("Eliminar");
+        this.backButton = new JButton("Volver");
         this.editButton = new JButton("Editar");
-        this.showStatisticsButton = new JButton("Estadisticas");
+        this.removeButton = new JButton("Eliminar");
+        this.registerButton = new JButton("Registrar");
+        this.statisticsButton = new JButton("Estadisticas");
 
         adminPanel = new JPanel(new BorderLayout());
         southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -75,16 +80,22 @@ public class AccountsManagementDialog extends Dialog {
         // ---------------------------------------------------------------------
         this.updateAccountButtons();
 
-        adminPanel.add(new JLabel(Utilities.getImageIcon(this.adminAccount.getImage(), 60, 60)), BorderLayout.CENTER);
-        adminPanel.add(new JLabel(this.adminAccount.getNickname(), JLabel.CENTER), BorderLayout.SOUTH);
+        adminPanel.add(
+                new JLabel(Utilities.getImageIcon(this.adminAccount.getImage(), 60, 60)),
+                BorderLayout.CENTER
+        );
+        adminPanel.add(
+                new JLabel(this.adminAccount.getNickname(), JLabel.CENTER),
+                BorderLayout.SOUTH
+        );
 
         scrollPane.getVerticalScrollBar().setUnitIncrement(7);
 
+        southPanel.add(this.backButton);
         southPanel.add(this.editButton);
         southPanel.add(this.removeButton);
-
-        southPanel.add(this.registerAccountButton);
-        southPanel.add(this.showStatisticsButton);
+        southPanel.add(this.registerButton);
+        southPanel.add(this.statisticsButton);
 
         this.add(adminPanel, BorderLayout.NORTH);
         this.add(scrollPane, BorderLayout.CENTER);
@@ -93,11 +104,12 @@ public class AccountsManagementDialog extends Dialog {
 
     /* ______________________________________________________________________ */
     private void initEvents() {
-        // Frame Events --------------------------------------------------------
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
         // Components Events ---------------------------------------------------
-        this.registerAccountButton.addActionListener(ae -> {
+        this.backButton.addActionListener(ae -> {
+            this.dispose();
+        });
+
+        this.registerButton.addActionListener(ae -> {
             this.registerAccountAction();
         });
 
@@ -109,7 +121,7 @@ public class AccountsManagementDialog extends Dialog {
             this.removeAccountAction();
         });
 
-        this.showStatisticsButton.addActionListener(ae -> {
+        this.statisticsButton.addActionListener(ae -> {
             this.showStatisticsAction();
         });
     }
@@ -206,7 +218,7 @@ public class AccountsManagementDialog extends Dialog {
                 this.centerPanel.add(accountButton, c);
 
                 c.gridx++;
-                if (c.gridx == 4) {
+                if (c.gridx == 5) {
                     c.gridx = 0;
                     c.gridy++;
                 }
@@ -231,27 +243,47 @@ public class AccountsManagementDialog extends Dialog {
     /* ______________________________________________________________________ */
     private void sortAccounts() {
         BinaryFileManager manager = new BinaryFileManager("accounts.dat");
-        ArrayList<Account> accounts = new ArrayList<>();
+        ArrayList<Account> _accounts = new ArrayList<>();
 
         manager.read().forEach(i -> {
-            accounts.add((Account) i);
+            _accounts.add((Account) i);
         });
-        accounts.sort((Account a, Account b) -> {
+        _accounts.sort((Account a, Account b) -> {
             return a instanceof AdminAccount ? 0 : 1;
         });
-        accounts.sort((Account a, Account b) -> {
+        _accounts.sort((Account a, Account b) -> {
             return a.getNickname().compareTo(b.getNickname());
         });
 
         manager.clear();
-        accounts.forEach(i -> {
+        _accounts.forEach(i -> {
             manager.add(i);
         });
+    }
+
+    /* GETTERS ______________________________________________________________ */
+    public AdminAccount getAdminAccount() {
+        return adminAccount;
+    }
+
+    /* ______________________________________________________________________ */
+    public ArrayList<Object> getAccounts() {
+        return accounts;
+    }
+
+    /* SETTERS ______________________________________________________________ */
+    public void setAdminAccount(AdminAccount adminAccount) {
+        this.adminAccount = adminAccount;
+    }
+
+    /* ______________________________________________________________________ */
+    public void setAccounts(ArrayList<Object> accounts) {
+        this.accounts = accounts;
     }
 
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
         BinaryFileManager manager = new BinaryFileManager("accounts.dat");
-        new AccountsManagementDialog((AdminAccount) manager.read().get(0)).showDialog();
+        new AccountsManagementDialog((AdminAccount) manager.read().get(0)).showTestDialog();
     }
 }
