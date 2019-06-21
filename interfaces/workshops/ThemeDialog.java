@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import tools.Dialog;
+import tools.components.Dialog;
 
 import worldclasses.accounts.Account;
 import worldclasses.accounts.UserAccount;

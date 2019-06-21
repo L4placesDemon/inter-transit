@@ -1,4 +1,4 @@
-package tools;
+package tools.components;
 
 import java.awt.Font;
 import javax.swing.border.AbstractBorder;

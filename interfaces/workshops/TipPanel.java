@@ -5,6 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+
 import worldclasses.themes.Tip;
 
 public class TipPanel extends JPanel {

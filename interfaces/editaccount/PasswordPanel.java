@@ -13,8 +13,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
 
-import tools.Border;
-import tools.PasswordField;
+import tools.components.Border;
+import tools.components.PasswordField;
 
 public class PasswordPanel extends interfaces.registeraccount.PasswordPanel {
 

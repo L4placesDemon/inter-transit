@@ -10,9 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
-
-import tools.Dialog;
 import tools.Tools;
+import tools.components.Dialog;
 
 public class AboutDialog extends Dialog {
 

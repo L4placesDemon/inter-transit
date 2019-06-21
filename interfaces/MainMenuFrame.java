@@ -22,14 +22,14 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import tools.Dialog;
-import tools.DialogPane;
+import tools.Tools;
 import tools.binaryfilemanager.BinaryFileManager;
+import tools.components.Dialog;
+import tools.components.DialogPane;
 
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
 import worldclasses.accounts.UserAccount;
-import tools.Tools;
 
 public class MainMenuFrame extends JFrame {
 
@@ -280,7 +280,7 @@ public class MainMenuFrame extends JFrame {
             chars = 6;
         }
 
-        String pathFolder = MainMenuFrame.class.getResource("/utilities").toString().substring(chars);
+        String pathFolder = MainMenuFrame.class.getResource("/tools").toString().substring(chars);
         pathFolder = pathFolder.substring(0, pathFolder.indexOf("build")) + "src/files/";
 
         File foldersFolder = new File(pathFolder);

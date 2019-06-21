@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
 
-import tools.Border;
-import tools.TextField;
+import tools.components.Border;
+import tools.components.TextField;
 
 public class UserPanel extends interfaces.registeraccount.UserPanel {
 

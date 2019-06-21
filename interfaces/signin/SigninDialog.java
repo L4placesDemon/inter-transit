@@ -3,10 +3,8 @@ package interfaces.signin;
 import interfaces.registeraccount.RegisterAccountDialog;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -14,14 +12,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
-import tools.Border;
-import tools.Dialog;
+import tools.Tools;
+import tools.components.Border;
+import tools.components.Dialog;
 import tools.binaryfilemanager.BinaryFileManager;
 
 import worldclasses.accounts.Account;
-import tools.Tools;
 
 public class SigninDialog extends Dialog {
 

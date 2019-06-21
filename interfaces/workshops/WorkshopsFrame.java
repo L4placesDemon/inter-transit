@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import tools.Dialog;
+import tools.components.Dialog;
 
 import worldclasses.themes.Tip;
 import worldclasses.accounts.Account;
@@ -106,7 +106,7 @@ public class WorkshopsFrame extends Dialog {
 
     /* ______________________________________________________________________ */
     private void initThemes() {
-        String themesDirectoryPath = WorkshopsFrame.class.getResource("/utilities").toString().substring(5);
+        String themesDirectoryPath = WorkshopsFrame.class.getResource("/tools").toString().substring(5);
 
         File themesDirectory;
 

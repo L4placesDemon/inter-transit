@@ -5,9 +5,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JToggleButton;
 
+import tools.Tools;
 
 import worldclasses.accounts.Account;
-import tools.Tools;
 
 public class AccountButton extends JToggleButton {
 

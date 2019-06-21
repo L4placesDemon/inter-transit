@@ -17,13 +17,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import tools.Dialog;
-import tools.DialogPane;
+import tools.Tools;
 import tools.binaryfilemanager.BinaryFileManager;
+import tools.components.Dialog;
+import tools.components.DialogPane;
 
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
-import tools.Tools;
 
 public class AccountsManagementDialog extends Dialog {
 

@@ -6,8 +6,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import tools.Border;
 import tools.Tools;
+import tools.components.Border;
 
 public class ImagePanel extends JPanel {
 

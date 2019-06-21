@@ -3,8 +3,8 @@ package worldclasses.accounts;
 public class UserAccount extends Account {
 
     /* ATTRIBUTTES __________________________________________________________ */
-    private Integer level = 1;
-    private Integer points = 0;
+    private Integer level;
+    private Integer points;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public UserAccount(String username, String nickname, String password, String image, Integer level, Integer points) {
@@ -16,11 +16,15 @@ public class UserAccount extends Account {
     /* ______________________________________________________________________ */
     public UserAccount(String username, String nickname, String password, String image) {
         super(username, nickname, password, image);
+        this.points = 0;
+        this.level = 1;
     }
 
     /* ______________________________________________________________________ */
     public UserAccount(String username, String nickname, String password) {
         super(username, nickname, password);
+        this.points = 0;
+        this.level = 1;
     }
 
     /* GETTERS ______________________________________________________________ */

@@ -13,9 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
 
-import tools.Border;
-import tools.PasswordField;
 import tools.Tools;
+import tools.components.Border;
+import tools.components.PasswordField;
 
 public class PasswordPanel extends JPanel {
 

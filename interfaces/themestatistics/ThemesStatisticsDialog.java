@@ -17,8 +17,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
-import tools.Dialog;
+import tools.components.Dialog;
 
 import worldclasses.themes.Theme;
 import worldclasses.themes.Tip;
@@ -28,7 +29,11 @@ public class ThemesStatisticsDialog extends Dialog {
     /* ATRRIBUTES ___________________________________________________________ */
     private ArrayList<Theme> themes;
 
+    private Pie viewsPie;
+    private PieInformation viewsInfo;
+
     private JButton backButton;
+    private JButton reloadButton;
 
     /* CONSRUCTORS __________________________________________________________ */
     public ThemesStatisticsDialog() {
@@ -49,8 +54,6 @@ public class ThemesStatisticsDialog extends Dialog {
         JPanel labelsPanel;
         JPanel themesPanel;
 
-        Pie viewsPie;
-        PieInformation viewsInfo;
         JPanel viewsPanel;
 
         JPanel centerPanel;
@@ -65,17 +68,17 @@ public class ThemesStatisticsDialog extends Dialog {
         this.setTitle("Inter Transit");
 
         // Set up Components ---------------------------------------------------
+        this.viewsPie = new Pie();
+        this.viewsInfo = new PieInformation();
+
         this.backButton = new JButton("Volver");
+        this.reloadButton = new JButton("Recargar");
 
         views = new ArrayList<>();
-        names = new ArrayList<>();
-        colors = new ArrayList<>();
 
         labelsPanel = new JPanel(new GridLayout(1, 3));
         themesPanel = new JPanel();
 
-        viewsPie = new Pie();
-        viewsInfo = new PieInformation(names, colors);
         viewsPanel = new JPanel(new BorderLayout());
 
         centerPanel = new JPanel(new GridLayout());
@@ -88,9 +91,9 @@ public class ThemesStatisticsDialog extends Dialog {
         for (int i = 0; i < getThemes().size(); i++) {
             Theme theme = getThemes().get(i);
             Integer view = theme.getViews();
-            Color color = viewsPie.addValue(view);
+            Color color = this.viewsPie.addValue(view);
             views.add(view);
-            viewsInfo.addSomething(theme.getTitle(), color);
+            this.viewsInfo.add(theme.getTitle(), color);
         }
 
         // ---------------------------------------------------------------------
@@ -111,6 +114,7 @@ public class ThemesStatisticsDialog extends Dialog {
 
         centerPanel.add(viewsPanel);
         southPanel.add(this.backButton);
+        southPanel.add(this.reloadButton);
 
         this.add(westPanel, BorderLayout.WEST);
         this.add(centerPanel, BorderLayout.CENTER);
@@ -123,11 +127,29 @@ public class ThemesStatisticsDialog extends Dialog {
         this.backButton.addActionListener(ae -> {
             this.dispose();
         });
+
+        this.reloadButton.addActionListener(ae -> {
+//            ArrayList<String> names = new ArrayList<>();
+//            ArrayList<Color> colors = new ArrayList<>();
+//
+//            this.viewsPie.reload();
+//
+//            for (int i = 0; i < getThemes().size(); i++) {
+//                Theme theme = getThemes().get(i);
+//                names.add(theme.getTitle());
+//                colors.add(this.viewsPie.getColors().get(i));
+//            }
+//
+//            this.viewsInfo.setNames(names);
+//            this.viewsInfo.setColors(colors);
+//            this.viewsInfo.repaint();
+//            this.viewsInfo.updateUI();
+        });
     }
 
     /* ______________________________________________________________________ */
     private void initThemes() {
-        String themesDirectoryPath = WorkshopsFrame.class.getResource("/utilities").toString().substring(5);
+        String themesDirectoryPath = WorkshopsFrame.class.getResource("/tools").toString().substring(5);
         File themesDirectory;
 
         Object[] description = null;

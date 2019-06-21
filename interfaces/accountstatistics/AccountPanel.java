@@ -6,9 +6,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import tools.Tools;
 
 import worldclasses.accounts.UserAccount;
-import tools.Tools;
 
 public class AccountPanel extends JPanel {
 

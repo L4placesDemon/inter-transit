@@ -8,8 +8,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import tools.Dialog;
 import tools.Tools;
+import tools.components.Dialog;
 
 import worldclasses.accounts.Account;
 

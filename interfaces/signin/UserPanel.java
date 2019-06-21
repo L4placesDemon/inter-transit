@@ -3,7 +3,6 @@ package interfaces.signin;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -13,10 +12,10 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
 
-import tools.Border;
-import tools.PasswordField;
-import tools.TextField;
 import tools.Tools;
+import tools.components.Border;
+import tools.components.PasswordField;
+import tools.components.TextField;
 
 public class UserPanel extends JPanel {
 

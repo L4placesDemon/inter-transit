@@ -5,8 +5,10 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import tools.Border;
-import tools.TextField;
+
+import tools.components.Border;
+import tools.components.TextField;
+
 import worldclasses.accounts.Account;
 import worldclasses.accounts.UserAccount;
 

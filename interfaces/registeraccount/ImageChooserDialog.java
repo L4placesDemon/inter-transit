@@ -1,7 +1,6 @@
 package interfaces.registeraccount;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.ButtonGroup;
@@ -12,9 +11,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
 
-import tools.Border;
-import tools.Dialog;
 import tools.Tools;
+import tools.components.Border;
+import tools.components.Dialog;
 
 public class ImageChooserDialog extends Dialog {
 

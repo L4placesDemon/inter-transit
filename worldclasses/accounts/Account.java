@@ -12,12 +12,7 @@ public abstract class Account implements Serializable {
     private String image;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public Account(
-            String username,
-            String nickname,
-            String password,
-            String image
-    ) {
+    public Account(String username, String nickname, String password, String image) {
         this.username = username;
         this.nickname = nickname;
         this.password = password;

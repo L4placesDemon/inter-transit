@@ -3,10 +3,12 @@ package interfaces.themestatistics;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 public class PieInformation extends JPanel {
 
@@ -33,29 +35,44 @@ public class PieInformation extends JPanel {
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
         // Set up Button -------------------------------------------------------
-        this.setLayout(new BorderLayout());
+        this.setBorder(new EmptyBorder(0, 0, 0, 5));
+        this.setLayout(new BorderLayout(5, 0));
 
         // Set up Components ---------------------------------------------------
-        westPanel = new JPanel();
-        centerPanel = new JPanel();
+        this.westPanel = new JPanel();
+        this.centerPanel = new JPanel();
 
         // ---------------------------------------------------------------------
-        westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.Y_AXIS));
-        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        this.westPanel.setLayout(new BoxLayout(this.westPanel, BoxLayout.Y_AXIS));
+        this.centerPanel.setLayout(new BoxLayout(this.centerPanel, BoxLayout.Y_AXIS));
 
-        if (names.size() == colors.size()) {
-            for (int i = 0; i < names.size(); i++) {
-                this.addSomething(this.names.get(i), this.colors.get(i));
+        if (this.getNames().size() == this.getColors().size()) {
+            for (int i = 0; i < this.getNames().size(); i++) {
+                this.add(this.getNames().get(i), this.getColors().get(i));
             }
         }
 
         // ---------------------------------------------------------------------
-        this.add(westPanel, BorderLayout.WEST);
-        this.add(centerPanel, BorderLayout.CENTER);
+        this.add(this.westPanel, BorderLayout.WEST);
+        this.add(this.centerPanel, BorderLayout.CENTER);
     }
 
     /* ______________________________________________________________________ */
-    public void addSomething(String name, Color color) {
+//    @Override
+//    public void paint(Graphics g) {
+//        System.out.println("init");
+////        this.westPanel.removeAll();
+////        this.centerPanel.removeAll();
+//        if (this.getNames().size() == this.getColors().size()) {
+//            for (int i = 0; i < this.getNames().size(); i++) {
+//                this.add(this.getNames().get(i), this.getColors().get(i));
+//            }
+//        }
+//        this.updateUI();
+//    }
+
+    /* ______________________________________________________________________ */
+    public void add(String name, Color color) {
         JLabel nameLabel;
         JLabel colorLabel;
 
@@ -70,8 +87,14 @@ public class PieInformation extends JPanel {
         this.westPanel.add(colorLabel);
         this.centerPanel.add(nameLabel);
 
-        this.updateUI();
+//        this.updateUI();
     }
+
+    /* ______________________________________________________________________ */
+//    public void reload() {
+//        this.repaint();
+//        this.updateUI();
+//    }
 
     /* GETTERS ______________________________________________________________ */
     public ArrayList<String> getNames() {

@@ -9,10 +9,9 @@ NOTES:
 - Documentate code
 - Divide /interfaces/showaccount/UserPanel in two classes, one for users and
   other for admins
-- Output text by console with Utilities.output function
+- Output text by console with tools.output function
 - Dark mode option
+- Add personalized exceptions
 
 - Statistics for Users in each Workshop
-- Add getters and setter for each attribute in each class
 - Sort imports in each class
-- Organize code

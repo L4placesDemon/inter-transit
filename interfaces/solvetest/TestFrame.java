@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-import tools.Border;
+import tools.components.Border;
 
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;

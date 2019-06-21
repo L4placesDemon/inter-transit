@@ -12,8 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import tools.Dialog;
-import tools.DialogPane;
+import tools.components.Dialog;
+import tools.components.DialogPane;
 import tools.binaryfilemanager.BinaryFileManager;
 
 import worldclasses.accounts.Account;

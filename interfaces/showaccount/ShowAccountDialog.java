@@ -5,23 +5,21 @@ import interfaces.editaccount.EditAccountDialog;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
-import tools.Border;
-import tools.Dialog;
-import tools.DialogPane;
+import tools.Tools;
+import tools.components.Border;
+import tools.components.Dialog;
+import tools.components.DialogPane;
 import tools.binaryfilemanager.BinaryFileManager;
 
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
 import worldclasses.accounts.UserAccount;
-import tools.Tools;
 
 public class ShowAccountDialog extends Dialog {
 

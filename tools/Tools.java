@@ -1,6 +1,12 @@
 package tools;
 
 import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -44,27 +50,28 @@ public interface Tools {
     }
 
     /* ______________________________________________________________________ */
-//    public static void setClipboard(String string) {
-//        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
-//                new StringSelection(string),
-//                (Clipboard clpbrd, Transferable t) -> {
-//                });
-//    }
+    public static void setClipboard(String string) {
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
+                new StringSelection(string),
+                (Clipboard clpbrd, Transferable t) -> {
+                });
+    }
 
     /* ______________________________________________________________________ */
-//    public static String getClipboard() {
-//        String result = "";
-//        Transferable contents = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
-//
-//        if (contents != null && contents.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-//            try {
-//                result = (String) contents.getTransferData(DataFlavor.stringFlavor);
-//            } catch (UnsupportedFlavorException | IOException ex) {
-//                System.out.println(ex);
-//            }
-//        }
-//        return result;
-//    }
+    public static String getClipboard() {
+        String result = "";
+        Transferable contents = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
+
+        if (contents != null && contents.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+            try {
+                result = (String) contents.getTransferData(DataFlavor.stringFlavor);
+            } catch (UnsupportedFlavorException | IOException ex) {
+                System.out.println(ex);
+            }
+        }
+        return result;
+    }
+
     /* ______________________________________________________________________ */
     public static String getFileText(File file) {
         String text = "";

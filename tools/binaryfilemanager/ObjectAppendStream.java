@@ -11,6 +11,7 @@ public class ObjectAppendStream extends ObjectOutputStream {
         super(out);
     }
 
+    /* ______________________________________________________________________ */
     public ObjectAppendStream() throws IOException, SecurityException {
     }
 
