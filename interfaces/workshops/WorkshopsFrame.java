@@ -14,7 +14,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import utilities.Dialog;
+
+import tools.Dialog;
+
 import worldclasses.themes.Tip;
 import worldclasses.accounts.Account;
 import worldclasses.accounts.UserAccount;
@@ -23,8 +25,8 @@ import worldclasses.themes.Theme;
 public class WorkshopsFrame extends Dialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    private final Account account;
-    private final ArrayList<Theme> themes;
+    private Account account;
+    private ArrayList<Theme> themes;
 
     private JButton backButton;
 
@@ -71,7 +73,7 @@ public class WorkshopsFrame extends Dialog {
         // ---------------------------------------------------------------------
         this.themes.forEach(i -> {
             ThemeButton themeButton = new ThemeButton(i);
-            
+
             themeButton.addActionListener(ae -> {
                 new ThemeDialog(i, this.account).showDialog();
             });
@@ -220,6 +222,16 @@ public class WorkshopsFrame extends Dialog {
         return this.themes;
     }
 
+    /* SETTERS ______________________________________________________________ */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /* ______________________________________________________________________ */
+    public void setThemes(ArrayList<Theme> themes) {
+        this.themes = themes;
+    }
+
     /*  MAIN ________________________________________________________________ */
     public static void main(String[] args) {
         new WorkshopsFrame(new UserAccount(
@@ -227,6 +239,6 @@ public class WorkshopsFrame extends Dialog {
                 "413J0c",
                 "passwd",
                 "/images/profile/image-31.png")
-        ).setVisible(true);
+        ).showTestDialog();
     }
 }

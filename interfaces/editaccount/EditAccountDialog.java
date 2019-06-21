@@ -13,8 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import utilities.DialogPane;
-import utilities.binaryfilemanager.BinaryFileManager;
+import tools.DialogPane;
+import tools.binaryfilemanager.BinaryFileManager;
 
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
@@ -31,21 +31,21 @@ public class EditAccountDialog extends RegisterAccountDialog {
         super(new JFrame(), true);
 
         if (account instanceof AdminAccount) {
-            this.account = new AdminAccount(
+            this.setAccount(new AdminAccount(
                     account.getUsername(),
                     account.getNickname(),
                     account.getPassword(),
                     account.getImage()
-            );
+            ));
         } else if (account instanceof UserAccount) {
-            this.account = new UserAccount(
+            this.setAccount(new UserAccount(
                     account.getUsername(),
                     account.getNickname(),
                     account.getPassword(),
                     account.getImage(),
                     ((UserAccount) account).getLevel(),
                     ((UserAccount) account).getPoints()
-            );
+            ));
         }
 
         this.initComponents();
@@ -67,8 +67,11 @@ public class EditAccountDialog extends RegisterAccountDialog {
 
         // Set up Components ---------------------------------------------------
         // ---------------------------------------------------------------------
-        this.imagePanel = new ImagePanel(this.account.getImage());
-        this.userPanel = new UserPanel(this.account.getUsername(), this.account.getNickname());
+        this.imagePanel = new ImagePanel(this.getAccount().getImage());
+        this.userPanel = new UserPanel(
+                this.getAccount().getUsername(),
+                this.getAccount().getNickname()
+        );
         this.passwordPanel = new PasswordPanel();
 
         this.cancelButton = new JButton("Cancelar");
@@ -79,7 +82,7 @@ public class EditAccountDialog extends RegisterAccountDialog {
         buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         // ---------------------------------------------------------------------
-        this.imagePanel.setPreferredSize(new Dimension(0, getHeight() / 2));
+        this.imagePanel.setPreferredSize(new Dimension(0, this.getHeight() / 2));
 
         // ---------------------------------------------------------------------
         southPanel.add(this.userPanel);
@@ -167,7 +170,6 @@ public class EditAccountDialog extends RegisterAccountDialog {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -175,7 +177,7 @@ public class EditAccountDialog extends RegisterAccountDialog {
     @Override
     public String verifyAccount() {
         String username = this.userPanel.getUsername();
-        String nickname = this.account.getNickname();
+        String nickname = this.getAccount().getNickname();
         String _nickname = this.userPanel.getNickname();
         String password = this.passwordPanel.getPassword();
         String confirmPassword = this.passwordPanel.getConfirmPassword();
@@ -272,17 +274,17 @@ public class EditAccountDialog extends RegisterAccountDialog {
 
     /* ______________________________________________________________________ */
     protected Account initAccount() {
-        String image = this.imagePanel.getImage();
+        String image = this.imagePanel.getImagePath();
         String name = this.userPanel.getUsername();
         String username = this.userPanel.getNickname();
         String password = this.passwordPanel.getPassword();
 
-        if (this.account instanceof AdminAccount) {
+        if (this.getAccount() instanceof AdminAccount) {
             return new AdminAccount(name, username, password, image);
 
-        } else if (this.account instanceof UserAccount) {
-            Integer level = ((UserAccount) this.account).getLevel();
-            Integer points = ((UserAccount) this.account).getPoints();
+        } else if (this.getAccount() instanceof UserAccount) {
+            Integer level = ((UserAccount) this.getAccount()).getLevel();
+            Integer points = ((UserAccount) this.getAccount()).getPoints();
 
             return new UserAccount(name, username, password, image, level, points);
         }
@@ -292,19 +294,18 @@ public class EditAccountDialog extends RegisterAccountDialog {
     /* ______________________________________________________________________ */
     public void edit(Account account) {
 
-        this.account.setImage(account.getImage());
+        this.getAccount().setImage(account.getImage());
 
         if (account instanceof AdminAccount) {
-            this.account = new AdminAccount(this.account);
+            this.setAccount(new AdminAccount(this.getAccount()));
         }
 
         if (this.userPanel.isEditable()) {
-
-            this.account.setUsername(account.getUsername());
-            this.account.setNickname(account.getNickname());
+            this.getAccount().setUsername(account.getUsername());
+            this.getAccount().setNickname(account.getNickname());
         }
         if (this.passwordPanel.isEditable()) {
-            this.account.setPassword(account.getPassword());
+            this.getAccount().setPassword(account.getPassword());
         }
     }
 
@@ -312,6 +313,12 @@ public class EditAccountDialog extends RegisterAccountDialog {
     @Override
     public Account getAccount() {
         return this.account;
+    }
+
+    /* GETTERS ______________________________________________________________ */
+    @Override
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     /* MAIN _________________________________________________________________ */

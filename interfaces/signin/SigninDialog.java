@@ -1,36 +1,34 @@
 package interfaces.signin;
 
 import interfaces.registeraccount.RegisterAccountDialog;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import utilities.Border;
-import utilities.Dialog;
-import utilities.Utilities;
-import utilities.binaryfilemanager.BinaryFileManager;
+
+import tools.Border;
+import tools.Dialog;
+import tools.binaryfilemanager.BinaryFileManager;
+
 import worldclasses.accounts.Account;
+import tools.Tools;
 
 public class SigninDialog extends Dialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    private static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
-
     private Account account;
 
     private JLabel imageLabel;
-
     private UserPanel userPanel;
 
     private JButton registerButton;
@@ -59,9 +57,7 @@ public class SigninDialog extends Dialog {
         this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
-        this.imageLabel = new JLabel(
-                Utilities.getImageIcon("/images/logos/logo.png", 200, 200));
-
+        this.imageLabel = new JLabel(Tools.getImageIcon("/images/logos/logo.png", 200, 200));
         this.userPanel = new UserPanel();
 
         this.registerButton = new JButton("Registrar");
@@ -69,23 +65,13 @@ public class SigninDialog extends Dialog {
         this.signinButton = new JButton("Iniciar Sesion");
 
         mainPanel = new JPanel(new BorderLayout());
-        buttonsPanel = new JPanel(new GridLayout(1, 4, 7, 7));
+        buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         // ---------------------------------------------------------------------
         this.imageLabel.setBorder(new Border(10, 40, 10, 40));
-        this.imageLabel.setFont(Dialog.DEFAULT_FONT);
-        this.registerButton.setFont(Dialog.DEFAULT_FONT);
-        this.cancelButton.setFont(Dialog.DEFAULT_FONT);
-        this.signinButton.setFont(Dialog.DEFAULT_FONT);
-
-        mainPanel.setBackground(Color.white);
-
-        buttonsPanel.setBackground(Color.white);
-        buttonsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         // ---------------------------------------------------------------------
         buttonsPanel.add(this.registerButton);
-        buttonsPanel.add(new JLabel());
         buttonsPanel.add(this.cancelButton);
         buttonsPanel.add(this.signinButton);
 
@@ -261,8 +247,13 @@ public class SigninDialog extends Dialog {
         return this.account;
     }
 
+    /* GETTERS ______________________________________________________________ */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
-        new SigninDialog().setVisible(true);
+        new SigninDialog().showTestDialog();
     }
 }

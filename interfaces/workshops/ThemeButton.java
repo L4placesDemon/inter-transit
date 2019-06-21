@@ -3,18 +3,19 @@ package interfaces.workshops;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+
 import worldclasses.themes.Theme;
 
 public class ThemeButton extends JButton {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private Theme theme;
+
     private JLabel imageLabel;
     private JLabel titleLabel;
     private JLabel descriptionLabel;
     private JLabel progressLabel;
     private JLabel valueLabel;
-
-    private Theme theme;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public ThemeButton(Theme theme) {
@@ -29,14 +30,14 @@ public class ThemeButton extends JButton {
         this.setLayout(new GridLayout());
 
         this.imageLabel = new JLabel();
-        if (this.theme.getImage() != null) {
-            this.imageLabel.setIcon(this.theme.getImage());
+        if (this.getTheme().getImage() != null) {
+            this.imageLabel.setIcon(this.getTheme().getImage());
         }
 
-        this.titleLabel = new JLabel(this.theme.getTitle(), JLabel.CENTER);
-        this.descriptionLabel = new JLabel(this.theme.getDescription(), JLabel.CENTER);
-        this.progressLabel = new JLabel(this.theme.getProgress() + "%", JLabel.CENTER);
-        this.valueLabel = new JLabel("$" + this.theme.getValue(), JLabel.CENTER);
+        this.titleLabel = new JLabel(this.getTheme().getTitle(), JLabel.CENTER);
+        this.descriptionLabel = new JLabel(this.getTheme().getDescription(), JLabel.CENTER);
+        this.progressLabel = new JLabel(this.getTheme().getProgress() + "%", JLabel.CENTER);
+        this.valueLabel = new JLabel("$" + this.getTheme().getValue(), JLabel.CENTER);
 
         this.add(imageLabel);
         this.add(titleLabel);
@@ -48,5 +49,15 @@ public class ThemeButton extends JButton {
     /* ______________________________________________________________________ */
     private void initEvents() {
 
+    }
+
+    /* GETTERS ______________________________________________________________ */
+    public Theme getTheme() {
+        return this.theme;
+    }
+
+    /* SETTERS ______________________________________________________________ */
+    public void setTheme(Theme theme) {
+        this.theme = theme;
     }
 }

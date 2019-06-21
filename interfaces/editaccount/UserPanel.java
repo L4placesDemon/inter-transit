@@ -9,8 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
-import utilities.Border;
-import utilities.TextField;
+
+import tools.Border;
+import tools.TextField;
 
 public class UserPanel extends interfaces.registeraccount.UserPanel {
 
@@ -22,10 +23,11 @@ public class UserPanel extends interfaces.registeraccount.UserPanel {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public UserPanel(String userName, String nickname) {
-        this.initComponents();
-        this.initEvents();
         super.setUsername(userName);
         super.setNickname(nickname);
+
+        this.initComponents();
+        this.initEvents();
     }
 
     /* METHODS ______________________________________________________________ */
@@ -35,8 +37,7 @@ public class UserPanel extends interfaces.registeraccount.UserPanel {
 
         // Set up Panel --------------------------------------------------------
         this.setLayout(new BorderLayout());
-        this.setBorder(new Border(new EmptyBorder(5, 5, 5, 5),
-                new Border("Usuario")));
+        this.setBorder(new Border(new EmptyBorder(5, 5, 5, 5), new Border("Usuario")));
 
         // Set up Components ---------------------------------------------------
         this.changePasswordButton = new JRadioButton("Cambiar datos usuario", false);
@@ -53,18 +54,15 @@ public class UserPanel extends interfaces.registeraccount.UserPanel {
 
         // ---------------------------------------------------------------------
         this.usernameLabel.setEnabled(false);
-
         this.nicknameLabel.setEnabled(false);
 
         this.usernameField.setEnabled(false);
-
         this.nicknameField.setEnabled(false);
 
         this.messageLabel.setForeground(Color.red);
         this.messageLabel.setEnabled(false);
 
         leftPanel.setBorder(new EmptyBorder(5, 43, 5, 20));
-
         rightPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         // ---------------------------------------------------------------------
@@ -103,19 +101,13 @@ public class UserPanel extends interfaces.registeraccount.UserPanel {
         });
     }
 
+    /* GETTERS ______________________________________________________________ */
+    public String getMessage() {
+        return this.messageLabel.getText();
+    }
+
     /* ______________________________________________________________________ */
     public boolean isEditable() {
         return this.changePasswordButton.isSelected();
-    }
-
-    /* GETTERS ______________________________________________________________ */
-//    @Override
-//    public TextField getNicknameField() {
-//        return this.nicknameField;
-//    }
-
-    /* ______________________________________________________________________ */
-    public String getMessage() {
-        return this.messageLabel.getText();
     }
 }

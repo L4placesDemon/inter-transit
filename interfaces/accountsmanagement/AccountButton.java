@@ -5,9 +5,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JToggleButton;
 
-import utilities.Utilities;
 
 import worldclasses.accounts.Account;
+import tools.Tools;
 
 public class AccountButton extends JToggleButton {
 
@@ -20,7 +20,7 @@ public class AccountButton extends JToggleButton {
     /* CONSTRUCTORS _________________________________________________________ */
     public AccountButton(Account account) {
         this.account = account;
-        
+
         this.initComponents();
     }
 
@@ -30,13 +30,20 @@ public class AccountButton extends JToggleButton {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // Set up Components ---------------------------------------------------
-        this.imageLabel = new JLabel(Utilities.getImageIcon(this.account.getImage(), 60, 60));
-        this.nicknameLabel = new JLabel(this.account.getNickname());
+        this.imageLabel = new JLabel(Tools.getImageIcon(this.getAccount().getImage(), 60, 60));
+        this.nicknameLabel = new JLabel(this.getAccount().getNickname());
 
         // ---------------------------------------------------------------------
         // ---------------------------------------------------------------------
         this.add(this.imageLabel, BorderLayout.CENTER);
         this.add(this.nicknameLabel, BorderLayout.SOUTH);
+    }
+
+    /* ______________________________________________________________________ */
+    public void updateAccount(Account account) {
+        this.setAccount(account);
+        this.imageLabel.setIcon(Tools.getImageIcon(this.account.getImage(), 60, 60));
+        this.nicknameLabel.setText(this.account.getNickname());
     }
 
     /* GETTERS ______________________________________________________________ */
@@ -45,9 +52,7 @@ public class AccountButton extends JToggleButton {
     }
 
     /* SETTERS ______________________________________________________________ */
-    public void setAccount(Account account) {
+    public final void setAccount(Account account) {
         this.account = account;
-        this.imageLabel.setIcon(Utilities.getImageIcon(this.account.getImage(), 60, 60));
-        this.nicknameLabel.setText(this.account.getNickname());
     }
 }

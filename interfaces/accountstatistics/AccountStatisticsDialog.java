@@ -15,8 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import utilities.Dialog;
-import utilities.binaryfilemanager.BinaryFileManager;
+import tools.Dialog;
+import tools.binaryfilemanager.BinaryFileManager;
 
 import worldclasses.accounts.Account;
 import worldclasses.accounts.UserAccount;
@@ -81,7 +81,7 @@ public class AccountStatisticsDialog extends Dialog {
         usersPanel.setLayout(new BoxLayout(usersPanel, BoxLayout.Y_AXIS));
 
         int i = 1;
-        for (Account account : accounts) {
+        for (Account account : this.getAccounts()) {
             if (account instanceof UserAccount) {
                 UserAccount userAccount = (UserAccount) account;
 

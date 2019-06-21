@@ -19,7 +19,7 @@ public class TipPanel extends JPanel {
     /* CONSTRUCTORS _________________________________________________________ */
     public TipPanel(Tip tip) {
         this.tip = tip;
-        this.state = true;
+        this.state = false;
 
         this.initComponents();
         this.initEvents();
@@ -33,13 +33,13 @@ public class TipPanel extends JPanel {
         this.setLayout(new BorderLayout());
 
         // Set up Components ---------------------------------------------------
-        this.titleButton = new JButton(this.tip.getTitle());
+        this.titleButton = new JButton(this.getTip().getTitle());
         this.scrollPane = new JScrollPane();
 
-        contentArea = new JTextArea(this.tip.getContent());
+        contentArea = new JTextArea(this.getTip().getContent());
 
         // ---------------------------------------------------------------------
-        this.scrollPane.setVisible(this.state);
+        this.scrollPane.setVisible(this.getState());
         this.scrollPane.setViewportView(contentArea);
 
         // ---------------------------------------------------------------------
@@ -60,5 +60,25 @@ public class TipPanel extends JPanel {
     /* GETTERS ______________________________________________________________ */
     public JButton getTitleButton() {
         return this.titleButton;
+    }
+
+    /* GETTERS ______________________________________________________________ */
+    public Tip getTip() {
+        return this.tip;
+    }
+
+    /* ______________________________________________________________________ */
+    public Boolean getState() {
+        return this.state;
+    }
+
+    /* SETTERS ______________________________________________________________ */
+    public void setTip(Tip tip) {
+        this.tip = tip;
+    }
+
+    /* ______________________________________________________________________ */
+    public void setState(Boolean state) {
+        this.state = state;
     }
 }

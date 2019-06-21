@@ -9,7 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import utilities.Dialog;
+
+import tools.Dialog;
+
 import worldclasses.accounts.Account;
 import worldclasses.accounts.UserAccount;
 import worldclasses.themes.Theme;
@@ -26,7 +28,6 @@ public class ThemeDialog extends Dialog {
     /* CONSTRUCTORS _________________________________________________________ */
     public ThemeDialog(Theme theme, Account account) {
         super(new JFrame(), true);
-
         this.theme = theme;
         this.account = account;
 
@@ -50,7 +51,7 @@ public class ThemeDialog extends Dialog {
         // Set up Components ---------------------------------------------------
         this.backButton = new JButton("Volver");
 
-        userPanel = new UserPanel(this.account);
+        userPanel = new UserPanel(this.getAccount());
         centerPanel = new JPanel();
         southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
@@ -58,7 +59,7 @@ public class ThemeDialog extends Dialog {
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
         // ---------------------------------------------------------------------
-        for (Tip tip : this.theme.getTips()) {
+        for (Tip tip : this.getTheme().getTips()) {
             TipPanel tipPanel = new TipPanel(tip);
 
             tipPanel.getTitleButton().addActionListener(ae -> {
@@ -79,6 +80,26 @@ public class ThemeDialog extends Dialog {
         this.backButton.addActionListener(ae -> {
             this.dispose();
         });
+    }
+
+    /* GETTERS ______________________________________________________________ */
+    public Account getAccount() {
+        return this.account;
+    }
+
+    /* ______________________________________________________________________ */
+    public Theme getTheme() {
+        return this.theme;
+    }
+
+    /* SETTERS ______________________________________________________________ */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /* ______________________________________________________________________ */
+    public void setTheme(Theme theme) {
+        this.theme = theme;
     }
 
     /* MAIN _________________________________________________________________ */
@@ -109,6 +130,6 @@ public class ThemeDialog extends Dialog {
                 40
         );
 
-        new ThemeDialog(theme, account).showDialog();
+        new ThemeDialog(theme, account).showTestDialog();
     }
 }

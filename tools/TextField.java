@@ -1,4 +1,4 @@
-package utilities;
+package tools;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

@@ -11,15 +11,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
-import utilities.Border;
-import utilities.Dialog;
-import utilities.Utilities;
+
+import tools.Border;
+import tools.Dialog;
+import tools.Tools;
 
 public class ImageChooserDialog extends Dialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
     private String selectedIconPath;
-
+    
     private JToggleButton[] buttons;
     private JButton cancelButton;
     private JButton chooseButton;
@@ -89,10 +90,9 @@ public class ImageChooserDialog extends Dialog {
 
         button.setName(imagePath);
         button.setBorder(null);
-        button.setBackground(Color.white);
         button.setFocusable(false);
 
-        button.setIcon(Utilities.getImageIcon(imagePath, 70, 70));
+        button.setIcon(Tools.getImageIcon(imagePath, 70, 70));
 
         return button;
     }
@@ -103,13 +103,13 @@ public class ImageChooserDialog extends Dialog {
         for (int i = 0; i < 50; i++) {
             this.buttons[i].addActionListener(ae -> {
                 JToggleButton source = (JToggleButton) ae.getSource();
-                this.selectedIconPath = source.getName();
+                this.setSelectedIconPath(source.getName());
             });
         }
 
-        int length = this.selectedIconPath.length();
-        char c1 = this.selectedIconPath.charAt(length - 5);
-        char c2 = this.selectedIconPath.charAt(length - 6);
+        int length = this.getSelectedIconPath().length();
+        char c1 = this.getSelectedIconPath().charAt(length - 5);
+        char c2 = this.getSelectedIconPath().charAt(length - 6);
         int pos = Integer.parseInt(c2 + "" + c1) - 1;
         this.buttons[pos].doClick();
 
@@ -123,13 +123,18 @@ public class ImageChooserDialog extends Dialog {
         });
     }
 
-    /* ______________________________________________________________________ */
+    /* GETTERS ______________________________________________________________ */
     public String getSelectedIconPath() {
         return this.selectedIconPath;
     }
 
+    /* SETTERS ______________________________________________________________ */
+    public void setSelectedIconPath(String selectedIconPath) {
+        this.selectedIconPath = selectedIconPath;
+    }
+
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
-        new ImageChooserDialog("/images/path/image-50.png").setVisible(true);
+        new ImageChooserDialog("/images/path/image-50.png").showTestDialog();
     }
 }

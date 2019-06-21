@@ -12,19 +12,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
-import utilities.Border;
-import utilities.PasswordField;
-import utilities.TextField;
-import utilities.Utilities;
-import utilities.binaryfilemanager.BinaryFileManager;
-import worldclasses.accounts.AdminAccount;
+
+import tools.Border;
+import tools.PasswordField;
+import tools.TextField;
+import tools.Tools;
 
 public class UserPanel extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    private static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
-    private static final ImageIcon SHOW_ICON = Utilities.getImageIcon("/images/show.png", 15, 15);
-    private static final ImageIcon HIDE_ICON = Utilities.getImageIcon("/images/hide.png", 15, 15);
+    private static final ImageIcon SHOW_ICON = Tools.getImageIcon("/images/show.png", 15, 15);
+    private static final ImageIcon HIDE_ICON = Tools.getImageIcon("/images/hide.png", 15, 15);
 
     private TextField nicknameField;
     private PasswordField passwordField;
@@ -48,7 +46,6 @@ public class UserPanel extends JPanel {
         JPanel eastPanel;
 
         // Set up Panel --------------------------------------------------------
-        this.setBackground(Color.white);
         this.setBorder(new Border(new EmptyBorder(20, 40, 15, 40),
                 new Border("Usuario"), new EmptyBorder(10, 15, 5, 15)));
         this.setLayout(new BorderLayout());
@@ -68,24 +65,10 @@ public class UserPanel extends JPanel {
         eastPanel = new JPanel(new GridLayout(2, 1, 10, 10));
 
         // ---------------------------------------------------------------------
-        this.nicknameField.setFont(UserPanel.DEFAULT_FONT);
-        this.passwordField.setFont(UserPanel.DEFAULT_FONT);
-
-        this.showPasswordButton.setBackground(Color.white);
         this.showPasswordButton.setPreferredSize(new Dimension(24, 16));
-
-        this.messageLabel.setFont(UserPanel.DEFAULT_FONT);
         this.messageLabel.setForeground(Color.red);
 
-        nicknameLabel.setFont(UserPanel.DEFAULT_FONT);
-        passwordLabel.setFont(UserPanel.DEFAULT_FONT);
-
-        westPanel.setBackground(Color.white);
-
-        centerPanel.setBackground(Color.white);
         centerPanel.setBorder(new EmptyBorder(0, 20, 0, 10));
-
-        eastPanel.setBackground(Color.white);
 
         // ---------------------------------------------------------------------
         westPanel.add(nicknameLabel);

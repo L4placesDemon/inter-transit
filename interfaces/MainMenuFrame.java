@@ -22,14 +22,14 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import utilities.Dialog;
-import utilities.DialogPane;
-import utilities.Utilities;
-import utilities.binaryfilemanager.BinaryFileManager;
+import tools.Dialog;
+import tools.DialogPane;
+import tools.binaryfilemanager.BinaryFileManager;
 
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
 import worldclasses.accounts.UserAccount;
+import tools.Tools;
 
 public class MainMenuFrame extends JFrame {
 
@@ -37,7 +37,6 @@ public class MainMenuFrame extends JFrame {
     public static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
 
     private Account account;
-
     private JButton aboutButton;
     private JButton userButton;
     private JButton worksopsButton;
@@ -59,7 +58,7 @@ public class MainMenuFrame extends JFrame {
         // Set up Frame --------------------------------------------------------
         this.setLayout(new BorderLayout());
         this.setSize(350, 537);
-        this.setIconImage(Utilities.getImage("/images/logos/logo.png"));
+        this.setIconImage(Tools.getImage("/images/logos/logo.png"));
         this.setLocationRelativeTo(null);
         this.setTitle("Inter Transit");
         this.setResizable(false);
@@ -77,21 +76,21 @@ public class MainMenuFrame extends JFrame {
 
         // ---------------------------------------------------------------------
         this.aboutButton.setBorder(null);
-        this.aboutButton.setIcon(Utilities.getImageIcon("/images/about.png", 30, 30));
+        this.aboutButton.setIcon(Tools.getImageIcon("/images/about.png", 30, 30));
 
         this.userButton.setBorder(null);
         this.userButton.setFocusable(false);
-        this.userButton.setIcon(Utilities.getImageIcon("/images/profile/image-00.png", 80, 80));
+        this.userButton.setIcon(Tools.getImageIcon("/images/profile/image-00.png", 80, 80));
 
         this.worksopsButton.setBorder(null);
         this.worksopsButton.setFocusable(false);
-        this.worksopsButton.setIcon(Utilities.getImageIcon("/images/learn.png", 70, 70));
+        this.worksopsButton.setIcon(Tools.getImageIcon("/images/learn.png", 70, 70));
 
         this.testButton.setBorder(null);
         this.testButton.setFocusable(false);
-        this.testButton.setIcon(Utilities.getImageIcon("/images/test.png", 70, 70));
+        this.testButton.setIcon(Tools.getImageIcon("/images/test.png", 70, 70));
 
-        logoLabel.setIcon(Utilities.getImageIcon("/images/logos/logo.png", 350, 350));
+        logoLabel.setIcon(Tools.getImageIcon("/images/logos/logo.png", 350, 350));
 
         northPanel.setBorder(new EmptyBorder(0, 0, 0, 10));
         southPanel.setPreferredSize(new Dimension(0, 100));
@@ -139,32 +138,32 @@ public class MainMenuFrame extends JFrame {
         String result;
         Dialog userDialog;
 
-        userDialog = this.account == null
+        userDialog = this.getAccount() == null
                 ? new SigninDialog()
-                : new ShowAccountDialog(this.account);
+                : new ShowAccountDialog(this.getAccount());
 
         int option = userDialog.showDialog();
         String imagePath = "/images/profile/image-00.png";
 
-        if (this.account == null) {
+        if (this.getAccount() == null) {
             if (option == SigninDialog.OK_OPTION) {
-                this.account = ((SigninDialog) userDialog).getAccount();
-                imagePath = this.account.getImage();
+                this.setAccount(((SigninDialog) userDialog).getAccount());
+                imagePath = this.getAccount().getImage();
                 result = "ok sign in";
             } else {
                 result = "cancel sign in";
             }
         } else {
             if (option == ShowAccountDialog.OK_OPTION) {
-                this.account = null;
+                this.setAccount(null);
                 result = "ok show";
             } else {
-                this.account = ((ShowAccountDialog) userDialog).getAccount();
-                imagePath = this.account.getImage();
+                this.setAccount(((ShowAccountDialog) userDialog).getAccount());
+                imagePath = this.getAccount().getImage();
                 result = "cancel show";
             }
         }
-        this.userButton.setIcon(Utilities.getImageIcon(imagePath, 80, 80));
+        this.userButton.setIcon(Tools.getImageIcon(imagePath, 80, 80));
 
         return result;
     }
@@ -172,7 +171,7 @@ public class MainMenuFrame extends JFrame {
     /* ______________________________________________________________________ */
     private void showWorkshopsDialog() {
         this.setVisible(false);
-        new WorkshopsFrame(this.account).showDialog();
+        new WorkshopsFrame(this.getAccount()).showDialog();
         this.setVisible(true);
     }
 
@@ -180,7 +179,7 @@ public class MainMenuFrame extends JFrame {
     private void workshopsSigninAction() {
         String result;
 
-        if (account == null) {
+        if (getAccount() == null) {
             int option = DialogPane.yesNoCancelOption(
                     "Iniciar Sesion",
                     "Iniciar sesion para guardar el progreso?"
@@ -217,6 +216,8 @@ public class MainMenuFrame extends JFrame {
 
         UIManager.put("ScrollPane.background", Color.white);
         UIManager.put("ScrollBar.background", Color.white);
+        
+        UIManager.put("TextField.background", Color.white);
     }
 
     /* ______________________________________________________________________ */

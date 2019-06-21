@@ -12,19 +12,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
-import utilities.Border;
-import utilities.PasswordField;
-import utilities.Utilities;
+
+import tools.Border;
+import tools.PasswordField;
+import tools.Tools;
 
 public class PasswordPanel extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    protected static final ImageIcon SHOW_ICON = Utilities.getImageIcon("/images/show.png", 15, 15);
-    protected static final ImageIcon HIDE_ICON = Utilities.getImageIcon("/images/hide.png", 15, 15);
+    protected static final ImageIcon SHOW_ICON = Tools.getImageIcon("/images/show.png", 15, 15);
+    protected static final ImageIcon HIDE_ICON = Tools.getImageIcon("/images/hide.png", 15, 15);
 
     protected PasswordField passwordField;
     protected PasswordField confirmPasswordField;
-
     protected JToggleButton showPasswordButton;
     protected JLabel messageLabel;
 
@@ -45,8 +45,7 @@ public class PasswordPanel extends JPanel {
 
         // Set up Panel --------------------------------------------------------
         this.setLayout(new BorderLayout());
-        this.setBorder(new Border(new EmptyBorder(5, 5, 5, 5),
-                new Border("Constraseña")));
+        this.setBorder(new Border(new EmptyBorder(5, 5, 5, 5), new Border("Constraseña")));
 
         // Set up Components ---------------------------------------------------
         this.passwordField = new PasswordField();
@@ -63,7 +62,6 @@ public class PasswordPanel extends JPanel {
 
         // ---------------------------------------------------------------------
         this.showPasswordButton.setPreferredSize(new Dimension(24, 18));
-
         this.messageLabel.setForeground(Color.red);
 
         westPanel.setBorder(new EmptyBorder(5, 10, 5, 10));

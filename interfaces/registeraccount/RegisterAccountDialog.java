@@ -11,9 +11,11 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import utilities.Dialog;
-import utilities.DialogPane;
-import utilities.binaryfilemanager.BinaryFileManager;
+
+import tools.Dialog;
+import tools.DialogPane;
+import tools.binaryfilemanager.BinaryFileManager;
+
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
 import worldclasses.accounts.UserAccount;
@@ -28,7 +30,6 @@ public class RegisterAccountDialog extends Dialog {
     protected ImagePanel imagePanel;
     private UserPanel userPanel;
     private PasswordPanel passwordPanel;
-
     protected JButton cancelButton;
     protected JButton finishButton;
 
@@ -58,7 +59,6 @@ public class RegisterAccountDialog extends Dialog {
         this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
-        // ---------------------------------------------------------------------
         this.imagePanel = new ImagePanel();
         this.userPanel = new UserPanel();
         this.passwordPanel = new PasswordPanel();
@@ -275,7 +275,7 @@ public class RegisterAccountDialog extends Dialog {
     private Account initAccount() {
         Account _account;
 
-        String image = this.imagePanel.getImage();
+        String image = this.imagePanel.getImagePath();
         String username = this.userPanel.getUsername();
         String nickname = this.userPanel.getNickname();
         String password = this.passwordPanel.getPassword();
@@ -294,9 +294,9 @@ public class RegisterAccountDialog extends Dialog {
         BinaryFileManager binaryFileManager = new BinaryFileManager("accounts.dat");
 
         if (account instanceof AdminAccount) {
-            this.account = (AdminAccount) account;
+            this.setAccount((AdminAccount) account);
         } else if (account instanceof UserAccount) {
-            this.account = (UserAccount) account;
+            this.setAccount((UserAccount) account);
         }
 
         System.out.println("new account: " + this.account);
@@ -308,8 +308,13 @@ public class RegisterAccountDialog extends Dialog {
         return this.account;
     }
 
+    /* SETTERS ______________________________________________________________ */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
-        new RegisterAccountDialog().setVisible(true);
+        new RegisterAccountDialog().showTestDialog();
     }
 }

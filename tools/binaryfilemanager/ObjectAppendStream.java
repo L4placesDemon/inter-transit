@@ -1,4 +1,4 @@
-package utilities.binaryfilemanager;
+package tools.binaryfilemanager;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

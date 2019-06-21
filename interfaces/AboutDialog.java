@@ -11,8 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-import utilities.Dialog;
-import utilities.Utilities;
+import tools.Dialog;
+import tools.Tools;
 
 public class AboutDialog extends Dialog {
 
@@ -50,8 +50,8 @@ public class AboutDialog extends Dialog {
         this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
-        logoLabel = new JLabel(Utilities.getImageIcon("/images/logos/logo.png", 230, 230));
-        company_logoLabel = new JLabel(Utilities.getImageIcon("/images/logos/company_logo.png", 180, 180));
+        logoLabel = new JLabel(Tools.getImageIcon("/images/logos/logo.png", 230, 230));
+        company_logoLabel = new JLabel(Tools.getImageIcon("/images/logos/company_logo.png", 180, 180));
 
         descriptionPanel = new JPanel();
         creditsPanel = new JPanel();

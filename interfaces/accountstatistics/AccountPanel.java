@@ -6,9 +6,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import utilities.Utilities;
 
 import worldclasses.accounts.UserAccount;
+import tools.Tools;
 
 public class AccountPanel extends JPanel {
 
@@ -20,7 +20,7 @@ public class AccountPanel extends JPanel {
     public AccountPanel(UserAccount account, Integer index) {
         this.userAccount = account;
         this.index = index;
-        
+
         this.initComponents();
     }
 
@@ -41,14 +41,14 @@ public class AccountPanel extends JPanel {
         leftPanel = new JPanel(new FlowLayout());
         rightPanel = new JPanel(new GridLayout(2, 1));
 
-        imageLabel = new JLabel(Utilities.getImageIcon(this.userAccount.getImage(), 60, 60));
-        nicknameLabel = new JLabel(this.userAccount.getNickname());
-        levelLabel = new JLabel("Nivel " + this.userAccount.getLevel());
-        pointsLabel = new JLabel(this.userAccount.getPoints() + " puntos");
+        imageLabel = new JLabel(Tools.getImageIcon(this.getUserAccount().getImage(), 60, 60));
+        nicknameLabel = new JLabel(this.getUserAccount().getNickname());
+        levelLabel = new JLabel("Nivel " + this.getUserAccount().getLevel());
+        pointsLabel = new JLabel(this.getUserAccount().getPoints() + " puntos");
 
         // ---------------------------------------------------------------------
         // ---------------------------------------------------------------------
-        leftPanel.add(new JLabel(this.index + ""));
+        leftPanel.add(new JLabel(this.getIndex() + ""));
         leftPanel.add(imageLabel);
         leftPanel.add(nicknameLabel);
 
@@ -60,12 +60,22 @@ public class AccountPanel extends JPanel {
     }
 
     /* GETTERS ______________________________________________________________ */
-    public UserAccount getAccount() {
+    public UserAccount getUserAccount() {
         return this.userAccount;
     }
 
+    /* GETTERS ______________________________________________________________ */
+    public Integer getIndex() {
+        return this.index;
+    }
+
     /* SETTERS ______________________________________________________________ */
-    public void setAccount(UserAccount userAccount) {
+    public void setUserAccount(UserAccount userAccount) {
         this.userAccount = userAccount;
+    }
+
+    /* SETTERS ______________________________________________________________ */
+    public void setIndex(Integer index) {
+        this.index = index;
     }
 }

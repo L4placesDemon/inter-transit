@@ -2,12 +2,15 @@ package interfaces.workshops;
 
 import interfaces.showaccount.ShowAccountDialog;
 import interfaces.signin.SigninDialog;
+
 import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import utilities.Dialog;
-import utilities.Utilities;
+
+import tools.Dialog;
+import tools.Tools;
+
 import worldclasses.accounts.Account;
 
 public class UserPanel extends JPanel {
@@ -31,14 +34,14 @@ public class UserPanel extends JPanel {
         String nickname;
         ImageIcon imageIcon;
 
-        if (account != null) {
-            imagePath = this.account.getImage();
-            nickname = this.account.getNickname();
+        if (this.getAccount() != null) {
+            imagePath = this.getAccount().getImage();
+            nickname = this.getAccount().getNickname();
         } else {
             imagePath = "/images/profile/image-00.png";
             nickname = "Iniciar Sesion";
         }
-        imageIcon = Utilities.getImageIcon(imagePath, 40, 40);
+        imageIcon = Tools.getImageIcon(imagePath, 40, 40);
 
         // Set up Panel --------------------------------------------------------
         this.setLayout(new FlowLayout());
@@ -66,33 +69,43 @@ public class UserPanel extends JPanel {
         String result;
         Dialog userDialog;
 
-        userDialog = this.account == null
+        userDialog = this.getAccount() == null
                 ? new SigninDialog()
-                : new ShowAccountDialog(this.account);
+                : new ShowAccountDialog(this.getAccount());
 
         int option = userDialog.showDialog();
         String imagePath = "/images/profile/image-00.png";
 
-        if (this.account == null) {
+        if (this.getAccount() == null) {
             if (option == SigninDialog.OK_OPTION) {
-                this.account = ((SigninDialog) userDialog).getAccount();
-                imagePath = this.account.getImage();
+                this.setAccount(((SigninDialog) userDialog).getAccount());
+                imagePath = this.getAccount().getImage();
                 result = "ok sign in";
             } else {
                 result = "cancel sign in";
             }
         } else {
             if (option == ShowAccountDialog.OK_OPTION) {
-                this.account = null;
+                this.setAccount(null);
                 result = "ok show";
             } else {
-                this.account = ((ShowAccountDialog) userDialog).getAccount();
-                imagePath = this.account.getImage();
+                this.setAccount(((ShowAccountDialog) userDialog).getAccount());
+                imagePath = this.getAccount().getImage();
                 result = "cancel show";
             }
         }
-        this.userButton.setIcon(Utilities.getImageIcon(imagePath, 40, 40));
+        this.userButton.setIcon(Tools.getImageIcon(imagePath, 40, 40));
 
         return result;
+    }
+
+    /* GETTERS ______________________________________________________________ */
+    public Account getAccount() {
+        return this.account;
+    }
+
+    /* SETTERS ______________________________________________________________ */
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

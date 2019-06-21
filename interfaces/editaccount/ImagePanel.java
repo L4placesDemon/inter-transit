@@ -5,6 +5,6 @@ public class ImagePanel extends interfaces.registeraccount.ImagePanel {
     /* CONSTRUCTORS _________________________________________________________ */
     public ImagePanel(String imagePath){
         super();
-        super.setImage(imagePath);
+        super.setImagePath(imagePath);
     }
 }

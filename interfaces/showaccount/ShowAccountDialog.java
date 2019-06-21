@@ -1,7 +1,10 @@
 package interfaces.showaccount;
 
+import interfaces.accountsmanagement.AccountsManagementDialog;
+import interfaces.editaccount.EditAccountDialog;
+
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.JButton;
@@ -10,18 +13,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import interfaces.accountsmanagement.AccountsManagementDialog;
-import interfaces.editaccount.EditAccountDialog;
+import tools.Border;
+import tools.Dialog;
+import tools.DialogPane;
+import tools.binaryfilemanager.BinaryFileManager;
 
-import utilities.Border;
-import utilities.Dialog;
-import utilities.DialogPane;
-import utilities.Utilities;
-import utilities.binaryfilemanager.BinaryFileManager;
-
-import worldclasses.accounts.UserAccount;
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
+import worldclasses.accounts.UserAccount;
+import tools.Tools;
 
 public class ShowAccountDialog extends Dialog {
 
@@ -36,7 +36,6 @@ public class ShowAccountDialog extends Dialog {
     private JButton signoutButton;
     private JButton editButton;
 
-    private AccountsManagementDialog accountsManagementDialog;
     private EditAccountDialog editAccountDialog;
 
     /* CONSTRUCTORS _________________________________________________________ */
@@ -58,12 +57,12 @@ public class ShowAccountDialog extends Dialog {
         this.setSize(480, 450);
         this.setLocationRelativeTo(null);
         this.setTitle("Datos Usuario");
-        this.setResizable(false);
+//        this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
-        this.imageLabel = new JLabel(Utilities.getImageIcon(this.account.getImage(), 165, 165));
+        this.imageLabel = new JLabel(Tools.getImageIcon(this.getAccount().getImage(), 165, 165));
 
-        this.userPanel = new UserPanel(this.account);
+        this.userPanel = new UserPanel(this.getAccount());
 
         this.removeButton = new JButton("Eliminar");
         this.accountsManagementButton = new JButton("Cuentas");
@@ -71,21 +70,10 @@ public class ShowAccountDialog extends Dialog {
         this.editButton = new JButton("Editar");
 
         mainPanel = new JPanel(new BorderLayout());
-        buttonsPanel = new JPanel(new GridLayout(1, 4, 7, 7));
+        buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         // ---------------------------------------------------------------------
         this.imageLabel.setBorder(new Border(10, 20, 10, 20));
-        this.imageLabel.setFont(Dialog.DEFAULT_FONT);
-
-        this.removeButton.setFont(Dialog.DEFAULT_FONT);
-        this.accountsManagementButton.setFont(Dialog.DEFAULT_FONT);
-        this.signoutButton.setFont(Dialog.DEFAULT_FONT);
-        this.editButton.setFont(Dialog.DEFAULT_FONT);
-
-        mainPanel.setBackground(Color.white);
-
-        buttonsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-        buttonsPanel.setBackground(Color.white);
 
         // ---------------------------------------------------------------------
         mainPanel.add(this.imageLabel, BorderLayout.CENTER);
@@ -93,12 +81,9 @@ public class ShowAccountDialog extends Dialog {
 
         buttonsPanel.add(this.removeButton);
 
-        if (this.account instanceof AdminAccount) {
+        if (this.getAccount() instanceof AdminAccount) {
             buttonsPanel.add(this.accountsManagementButton);
-        } else {
-            buttonsPanel.add(new JLabel());
         }
-
         buttonsPanel.add(this.signoutButton);
         buttonsPanel.add(this.editButton);
 
@@ -137,43 +122,43 @@ public class ShowAccountDialog extends Dialog {
         if (option == DialogPane.YES_OPTION) {
             this.dispose();
             this.okAction();
-            removeAccount(this.account);
+            removeAccount(this.getAccount());
         }
     }
 
     /* ______________________________________________________________________ */
     public void accountsManagementAction() {
         this.setVisible(false);
-        new AccountsManagementDialog((AdminAccount) account).showDialog();
+        new AccountsManagementDialog((AdminAccount) getAccount()).showDialog();
         this.setVisible(true);
     }
 
     /* ______________________________________________________________________ */
     public void editAction() {
         this.setVisible(false);
-        this.editAccountDialog = new EditAccountDialog(this.account);
+        this.editAccountDialog = new EditAccountDialog(this.getAccount());
 
         int state = this.editAccountDialog.showDialog();
 
         if (state == EditAccountDialog.OK_OPTION) {
 
-            removeAccount(this.account);
-            System.out.println("removed account: " + this.account);
+            removeAccount(this.getAccount());
+            System.out.println("removed account: " + this.getAccount());
 
-            this.account = this.editAccountDialog.getAccount();
-            System.out.println("Edited account: " + this.account);
+            this.setAccount(this.editAccountDialog.getAccount());
+            System.out.println("Edited account: " + this.getAccount());
 
-            this.imageLabel.setIcon(Utilities.getImageIcon(this.account.getImage(), 165, 165));
-            this.userPanel.setUsername(this.account.getUsername());
-            this.userPanel.setNickname(this.account.getNickname());
+            this.imageLabel.setIcon(Tools.getImageIcon(this.getAccount().getImage(), 165, 165));
+            this.userPanel.setUsername(this.getAccount().getUsername());
+            this.userPanel.setNickname(this.getAccount().getNickname());
 
-            if (this.account instanceof UserAccount) {
-                this.userPanel.setLevel(((UserAccount) this.account).getLevel());
-                this.userPanel.setPoints(((UserAccount) this.account).getPoints());
+            if (this.getAccount() instanceof UserAccount) {
+                this.userPanel.setLevel(((UserAccount) this.getAccount()).getLevel());
+                this.userPanel.setPoints(((UserAccount) this.getAccount()).getPoints());
             }
 
             BinaryFileManager manager = new BinaryFileManager("accounts.dat");
-            manager.add(this.account);
+            manager.add(this.getAccount());
         }
         this.setVisible(true);
     }
@@ -192,15 +177,23 @@ public class ShowAccountDialog extends Dialog {
         }
     }
 
-    /* ______________________________________________________________________ */
+    /* GETTERS ______________________________________________________________ */
     public Account getAccount() {
         return this.account;
+    }
+
+    /* SETTERS ______________________________________________________________ */
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
         new ShowAccountDialog(new AdminAccount(
-                "Alejandro", "Admin", "password", "/images/profile/image-31.png"))
-                .setVisible(true);
+                "Alejandro",
+                "Admin",
+                "password",
+                "/images/profile/image-31.png"
+        )).showTestDialog();
     }
 }

@@ -1,8 +1,8 @@
 package interfaces.solvetest;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,15 +10,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
-import utilities.Border;
+
+import tools.Border;
+
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
 
-public class TestFrame extends JFrame {
+public class TestFrame extends Dialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    private static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
-
     private Account account;
 
     private JLabel nicknameLabel;
@@ -31,6 +31,7 @@ public class TestFrame extends JFrame {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public TestFrame(Account account) {
+        super(new JFrame(), true);
         this.account = account;
 
         this.initComponents();
@@ -67,13 +68,7 @@ public class TestFrame extends JFrame {
 
         // ---------------------------------------------------------------------
         this.nicknameLabel.setBorder(new Border(0, 5, 0, 5));
-        this.nicknameLabel.setFont(TestFrame.DEFAULT_FONT);
         this.pointsLabel.setBorder(new Border(0, 5, 0, 5));
-        this.pointsLabel.setFont(TestFrame.DEFAULT_FONT);
-        this.carTestButton.setFont(TestFrame.DEFAULT_FONT);
-        this.motorcicleTestButton.setFont(TestFrame.DEFAULT_FONT);
-        this.busTestButton.setFont(TestFrame.DEFAULT_FONT);
-        this.walkTestButton.setFont(TestFrame.DEFAULT_FONT);
 
         userPanel.setBorder(new Border(new EmptyBorder(10, 10, 5, 10), new EtchedBorder(), new EmptyBorder(7, 0, 7, 0)));
         buttonsPanel.setBorder(new Border(5, 10, 10, 10));
@@ -94,12 +89,19 @@ public class TestFrame extends JFrame {
 
     /* ______________________________________________________________________ */
     private void initEvents() {
-        // Frame Events --------------------------------------------------------
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
         // Components Events ---------------------------------------------------
         this.carTestButton.addActionListener(ae -> {
-            
+
         });
+    }
+
+    /* GETTERS ______________________________________________________________ */
+    public Account getAccount() {
+        return this.account;
+    }
+
+    /* SETTERS ______________________________________________________________ */
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

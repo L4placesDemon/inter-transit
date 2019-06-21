@@ -17,13 +17,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import utilities.Dialog;
-import utilities.DialogPane;
-import utilities.Utilities;
-import utilities.binaryfilemanager.BinaryFileManager;
+import tools.Dialog;
+import tools.DialogPane;
+import tools.binaryfilemanager.BinaryFileManager;
 
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
+import tools.Tools;
 
 public class AccountsManagementDialog extends Dialog {
 
@@ -80,12 +80,11 @@ public class AccountsManagementDialog extends Dialog {
         // ---------------------------------------------------------------------
         this.updateAccountButtons();
 
-        adminPanel.add(
-                new JLabel(Utilities.getImageIcon(this.adminAccount.getImage(), 60, 60)),
+        adminPanel.add(new JLabel(Tools.getImageIcon(this.getAdminAccount().getImage(), 60, 60)),
                 BorderLayout.CENTER
         );
         adminPanel.add(
-                new JLabel(this.adminAccount.getNickname(), JLabel.CENTER),
+                new JLabel(this.getAdminAccount().getNickname(), JLabel.CENTER),
                 BorderLayout.SOUTH
         );
 
@@ -155,7 +154,7 @@ public class AccountsManagementDialog extends Dialog {
                 account = editAccountDialog.getAccount();
                 System.out.println("Edited account: " + account);
 
-                this.selectedAccountButton.setAccount(account);
+                this.selectedAccountButton.updateAccount(account);
                 new BinaryFileManager("accounts.dat").add(account);
             }
 
@@ -171,7 +170,7 @@ public class AccountsManagementDialog extends Dialog {
 
             if (option == DialogPane.YES_OPTION) {
                 removeAccount(account);
-                this.accounts.remove(account);
+                this.getAccounts().remove(account);
 
                 this.centerPanel.removeAll();
                 this.updateAccountButtons();
@@ -185,7 +184,7 @@ public class AccountsManagementDialog extends Dialog {
         this.setVisible(false);
 
         ArrayList<Account> _accounts = new ArrayList<>();
-        this.accounts.forEach(i -> {
+        this.getAccounts().forEach(i -> {
             _accounts.add((Account) i);
         });
         new AccountStatisticsDialog(_accounts).showDialog();
@@ -202,12 +201,12 @@ public class AccountsManagementDialog extends Dialog {
         c.gridy = 0;
         sortAccounts();
 
-        this.accounts = new BinaryFileManager("accounts.dat").read();
+        this.setAccounts(new BinaryFileManager("accounts.dat").read());
 
-        for (int i = 0; i < this.accounts.size(); i++) {
-            Account account = (Account) this.accounts.get(i);
+        for (int i = 0; i < this.getAccounts().size(); i++) {
+            Account account = (Account) this.getAccounts().get(i);
 
-            if (!account.getNickname().equals(this.adminAccount.getNickname())) {
+            if (!account.getNickname().equals(this.getAdminAccount().getNickname())) {
 
                 AccountButton accountButton = new AccountButton(account);
                 accountButton.addActionListener(ae -> {

@@ -1,4 +1,4 @@
-package utilities.binaryfilemanager;
+package tools.binaryfilemanager;
 
 import java.io.EOFException;
 import java.io.File;

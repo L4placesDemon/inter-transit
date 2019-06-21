@@ -12,13 +12,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
-import utilities.Border;
+
+import tools.Border;
+
 import worldclasses.tests.Question;
 
 public class SolveTestFrame extends JFrame {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    private final ArrayList<Question> questions;
+    private ArrayList<Question> questions;
 
     private JButton answer1Button;
     private JButton answer2Button;
@@ -53,11 +55,11 @@ public class SolveTestFrame extends JFrame {
         this.setTitle("Solve Test Desing");
 
         // Set up Components ---------------------------------------------------
-        questionLabel = new JLabel(questions.get(0).getStatement());
-        answer1Button = new JButton(questions.get(0).getAnswers().get(0));
-        answer2Button = new JButton(questions.get(0).getAnswers().get(1));
-        answer3Button = new JButton(questions.get(0).getAnswers().get(2));
-        answer4Button = new JButton(questions.get(0).getAnswers().get(3));
+        questionLabel = new JLabel(getQuestions().get(0).getStatement());
+        answer1Button = new JButton(getQuestions().get(0).getAnswers().get(0));
+        answer2Button = new JButton(getQuestions().get(0).getAnswers().get(1));
+        answer3Button = new JButton(getQuestions().get(0).getAnswers().get(2));
+        answer4Button = new JButton(getQuestions().get(0).getAnswers().get(3));
 
         questionPanel = new JPanel(new BorderLayout());
         anwersPanel = new JPanel(new GridLayout(2, 2, 20, 20));
@@ -95,6 +97,16 @@ public class SolveTestFrame extends JFrame {
 
     public void setOption(String option) {
 
+    }
+
+    /* GETTERS ______________________________________________________________ */
+    public ArrayList<Question> getQuestions() {
+        return this.questions;
+    }
+
+    /* SETTERS ______________________________________________________________ */
+    public void setQuestions(ArrayList<Question> questions) {
+        this.questions = questions;
     }
 
     /* ______________________________________________________________________ */

@@ -12,8 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
-import utilities.Border;
-import utilities.PasswordField;
+
+import tools.Border;
+import tools.PasswordField;
 
 public class PasswordPanel extends interfaces.registeraccount.PasswordPanel {
 
@@ -45,11 +46,11 @@ public class PasswordPanel extends interfaces.registeraccount.PasswordPanel {
         this.passwordField = new PasswordField();
         this.confirmPasswordField = new PasswordField();
 
-        this.showPasswordButton = new JToggleButton(HIDE_ICON);
+        this.showPasswordButton = new JToggleButton(PasswordPanel.HIDE_ICON);
         this.messageLabel = new JLabel(" ", JLabel.RIGHT);
 
-        passwordLabel = new JLabel("          Contraseña:", JLabel.RIGHT);
-        confirmPasswordLabel = new JLabel("Confirmar:", JLabel.RIGHT);
+        this.passwordLabel = new JLabel("          Contraseña:", JLabel.RIGHT);
+        this.confirmPasswordLabel = new JLabel("Confirmar:", JLabel.RIGHT);
 
         westPanel = new JPanel(new GridLayout(2, 1, 3, 3));
         centerPanel = new JPanel(new GridLayout(2, 1, 3, 3));
@@ -104,7 +105,7 @@ public class PasswordPanel extends interfaces.registeraccount.PasswordPanel {
 
         this.showPasswordButton.addActionListener(ae -> {
             boolean selected = this.showPasswordButton.isSelected();
-            this.showPasswordButton.setIcon(selected ? SHOW_ICON : HIDE_ICON);
+            this.showPasswordButton.setIcon(selected ? PasswordPanel.SHOW_ICON : PasswordPanel.HIDE_ICON);
             this.passwordField.setEchoChar(selected ? 0 : echoChar);
             this.confirmPasswordField.setEchoChar(selected ? 0 : echoChar);
         });
@@ -119,19 +120,13 @@ public class PasswordPanel extends interfaces.registeraccount.PasswordPanel {
         });
     }
 
+    /* GETTERS ______________________________________________________________ */
+    public String getMessage() {
+        return this.messageLabel.getText();
+    }
+
     /* ______________________________________________________________________ */
     public boolean isEditable() {
         return this.changePasswordButton.isSelected();
-    }
-
-    /* GETTERS ______________________________________________________________ */
-//    @Override
-//    public PasswordField getConfirmPasswordField() {
-//        return this.confirmPasswordField;
-//    }
-
-    /* ______________________________________________________________________ */
-    public String getMessage() {
-        return this.messageLabel.getText();
     }
 }

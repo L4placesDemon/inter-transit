@@ -8,8 +8,9 @@ import java.awt.event.KeyEvent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import utilities.Border;
-import utilities.TextField;
+
+import tools.Border;
+import tools.TextField;
 
 public class UserPanel extends JPanel {
 
@@ -34,8 +35,7 @@ public class UserPanel extends JPanel {
 
         // Set up Panel --------------------------------------------------------
         this.setLayout(new BorderLayout());
-        this.setBorder(new Border(new EmptyBorder(5, 5, 5, 5),
-                new Border("Usuario")));
+        this.setBorder(new Border(new EmptyBorder(5, 5, 5, 5), new Border("Usuario")));
 
         // Set up Components ---------------------------------------------------
         this.usernameField = new TextField();
@@ -52,7 +52,6 @@ public class UserPanel extends JPanel {
         this.messageLabel.setForeground(Color.red);
 
         leftPanel.setBorder(new EmptyBorder(5, 43, 5, 20));
-
         rightPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         // ---------------------------------------------------------------------

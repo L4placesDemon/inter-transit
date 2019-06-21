@@ -23,16 +23,22 @@ public class ThemeButton extends JButton {
         JLabel imageLabel;
         JLabel titleLabel;
         JLabel viewsLabel;
+
+        // Set up Button -------------------------------------------------------
         this.setLayout(new GridLayout());
 
+        // Set up Components ---------------------------------------------------
         imageLabel = new JLabel();
+
+        titleLabel = new JLabel(this.theme.getTitle(), JLabel.CENTER);
+        viewsLabel = new JLabel(this.theme.getViews() + " views", JLabel.CENTER);
+
+        // ---------------------------------------------------------------------
         if (this.theme.getImage() != null) {
             imageLabel.setIcon(this.theme.getImage());
         }
 
-        titleLabel = new JLabel(this.theme.getTitle(), JLabel.CENTER);
-        viewsLabel = new JLabel(this.theme.getViews()+ " views", JLabel.CENTER);
-
+        // ---------------------------------------------------------------------
         this.add(imageLabel);
         this.add(titleLabel);
         this.add(viewsLabel);
@@ -41,5 +47,15 @@ public class ThemeButton extends JButton {
     /* ______________________________________________________________________ */
     private void initEvents() {
 
+    }
+
+    /* GETTERS ______________________________________________________________ */
+    public Theme getTheme() {
+        return theme;
+    }
+
+    /* SETTERS ______________________________________________________________ */
+    public void setTheme(Theme theme) {
+        this.theme = theme;
     }
 }

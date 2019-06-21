@@ -3,6 +3,15 @@ NOTES:
 - In the accounts manager replace the buttons in the bottom for a popup menu in
   each AccountButton
 - Add verification message when finish edit account
+- In PasswordPanel modify the object size
+- Manage dialog interfaces with panels
+- Change the hide password in PasswordPanels
+- Documentate code
+- Divide /interfaces/showaccount/UserPanel in two classes, one for users and
+  other for admins
+- Output text by console with Utilities.output function
+- Dark mode option
+
 - Statistics for Users in each Workshop
 - Add getters and setter for each attribute in each class
 - Sort imports in each class

@@ -1,22 +1,22 @@
 package interfaces.registeraccount;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import utilities.Border;
-import utilities.Utilities;
+
+import tools.Border;
+import tools.Tools;
 
 public class ImagePanel extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    protected String imagePath = "/images/profile/image-01.png";
+    
     protected JLabel imageLabel;
-    protected JButton chooseImageButton;
     protected ImageChooserDialog imageChooserDialog;
-    protected String image = "/images/profile/image-01.png";
+    protected JButton chooseImageButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public ImagePanel() {
@@ -41,8 +41,7 @@ public class ImagePanel extends JPanel {
         // ---------------------------------------------------------------------
         this.imageLabel.setSize(115, 115);
         this.imageLabel.setHorizontalAlignment(JLabel.CENTER);
-        this.imageLabel.setIcon(
-                Utilities.getImageIcon(this.image, 115, 115));
+        this.imageLabel.setIcon(Tools.getImageIcon(this.getImagePath(), 115, 115));
         this.imageLabel.setBorder(new EmptyBorder(0, 70, 0, 70));
 
         // ---------------------------------------------------------------------
@@ -55,25 +54,24 @@ public class ImagePanel extends JPanel {
     /* ______________________________________________________________________ */
     private void initEvents() {
         this.chooseImageButton.addActionListener(ae -> {
-            this.imageChooserDialog = new ImageChooserDialog(this.image);
+            this.imageChooserDialog = new ImageChooserDialog(this.getImagePath());
             int option = this.imageChooserDialog.showDialog();
 
             if (option == ImageChooserDialog.OK_OPTION) {
-                this.image = this.imageChooserDialog.getSelectedIconPath();
-                this.imageLabel.setIcon(Utilities.getImageIcon(this.image, 115, 115));
+                this.setImagePath(this.imageChooserDialog.getSelectedIconPath());
+                this.imageLabel.setIcon(Tools.getImageIcon(this.getImagePath(), 115, 115));
             }
         });
     }
 
     /* GETTERS ______________________________________________________________ */
-    public String getImage() {
-        return this.image;
+    public String getImagePath() {
+        return this.imagePath;
     }
 
     /* SETTERS ______________________________________________________________ */
-    public void setImage(String image) {
-        this.image = image;
-        this.imageLabel.setIcon(
-                Utilities.getImageIcon(image, 115, 115));
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+        this.imageLabel.setIcon(Tools.getImageIcon(this.getImagePath(), 115, 115));
     }
 }

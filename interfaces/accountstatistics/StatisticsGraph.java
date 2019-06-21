@@ -25,6 +25,7 @@ public class StatisticsGraph extends JComponent {
         int width = getWidth();
         int height = getHeight();
 
+        int size = this.getValues().size();
         int higherPopulation = 0;
         int currentValue = 0;
         int x, y, h;
@@ -35,24 +36,24 @@ public class StatisticsGraph extends JComponent {
         g.drawLine(20, height - 20, width - 20, height - 20);
 
         // Find the higher value -----------------------------------------------
-        for (Integer value : values) {
+        for (Integer value : this.getValues()) {
             currentValue = value;
             if (currentValue > higherPopulation) {
                 higherPopulation = currentValue;
             }
         }
         // Calculate the optimal bar width -------------------------------------
-        while ((w + 2) * values.size() >= width - 40) {
+        while ((w + 2) * size >= width - 40) {
             w--;
         }
 
         // Calculate the initial x coordinate ----------------------------------
-        x = (width / 2) - ((w + 2) * values.size() / 2);
+        x = (width / 2) - ((w + 2) * size / 2);
 
         // Draw the value bars -------------------------------------
-        for (int i = 0; i < values.size(); i++) {
+        for (int i = 0; i < size; i++) {
 
-            currentValue = values.get(i);
+            currentValue = this.getValues().get(i);
             // Calculate the y coordinate and height for a city bar ------------
             h = ((currentValue * (height - 40)) / higherPopulation);
             y = height - h - 20;
@@ -73,13 +74,13 @@ public class StatisticsGraph extends JComponent {
 
     /* ______________________________________________________________________ */
     public void addValue(Integer value) {
-        this.values.add(value);
+        this.getValues().add(value);
         repaint();
     }
 
     /* ______________________________________________________________________ */
     public void removeValue(Integer value) {
-        this.values.remove(value);
+        this.getValues().remove(value);
         repaint();
     }
 

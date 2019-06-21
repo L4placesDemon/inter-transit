@@ -1,6 +1,7 @@
 package interfaces.themestatistics;
 
 import interfaces.workshops.WorkshopsFrame;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,14 +17,16 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import utilities.Dialog;
+
+import tools.Dialog;
+
 import worldclasses.themes.Theme;
 import worldclasses.themes.Tip;
 
 public class ThemesStatisticsDialog extends Dialog {
 
     /* ATRRIBUTES ___________________________________________________________ */
-    private final ArrayList<Theme> themes;
+    private ArrayList<Theme> themes;
 
     private JButton backButton;
 
@@ -82,8 +85,8 @@ public class ThemesStatisticsDialog extends Dialog {
         // ---------------------------------------------------------------------
         themesPanel.setLayout(new BoxLayout(themesPanel, BoxLayout.Y_AXIS));
 
-        for (int i = 0; i < themes.size(); i++) {
-            Theme theme = themes.get(i);
+        for (int i = 0; i < getThemes().size(); i++) {
+            Theme theme = getThemes().get(i);
             Integer view = theme.getViews();
             Color color = viewsPie.addValue(view);
             views.add(view);
@@ -95,7 +98,7 @@ public class ThemesStatisticsDialog extends Dialog {
         labelsPanel.add(new JLabel("Titulo", JLabel.CENTER));
         labelsPanel.add(new JLabel("Vistas", JLabel.CENTER));
 
-        this.themes.forEach(i -> {
+        this.getThemes().forEach(i -> {
             themesPanel.add(new ThemeButton(i));
         });
 
@@ -154,7 +157,7 @@ public class ThemesStatisticsDialog extends Dialog {
                     }
                 }
                 if (description != null) {
-                    this.themes.add(new Theme(
+                    this.getThemes().add(new Theme(
                             null,
                             themeDirectory.getName(),
                             description[0] + "",
@@ -165,9 +168,6 @@ public class ThemesStatisticsDialog extends Dialog {
                     ));
                 }
             }
-        }
-        for (Theme theme : this.themes) {
-            System.out.println(theme);
         }
     }
 
@@ -230,8 +230,18 @@ public class ThemesStatisticsDialog extends Dialog {
         return text;
     }
 
+    /* GETTERS ______________________________________________________________ */
+    public ArrayList<Theme> getThemes() {
+        return this.themes;
+    }
+
+    /* SETTERS ______________________________________________________________ */
+    public void setThemes(ArrayList<Theme> themes) {
+        this.themes = themes;
+    }
+
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
-        new ThemesStatisticsDialog().showDialog();
+        new ThemesStatisticsDialog().showTestDialog();
     }
 }
