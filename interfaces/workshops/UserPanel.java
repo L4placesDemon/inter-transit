@@ -1,6 +1,7 @@
 package interfaces.workshops;
 
-import interfaces.showaccount.ShowAccountDialog;
+import interfaces.showaccount.ShowAdminDialog;
+import interfaces.showaccount.ShowUserDialog;
 import interfaces.signin.SigninDialog;
 
 import java.awt.FlowLayout;
@@ -12,6 +13,8 @@ import tools.Tools;
 import tools.components.Dialog;
 
 import worldclasses.accounts.Account;
+import worldclasses.accounts.AdminAccount;
+import worldclasses.accounts.UserAccount;
 
 public class UserPanel extends JPanel {
 
@@ -67,29 +70,31 @@ public class UserPanel extends JPanel {
     /* ______________________________________________________________________ */
     private String userAction() {
         String result;
-        Dialog userDialog;
+        Dialog accountDialog;
 
-        userDialog = this.getAccount() == null
+        accountDialog = this.getAccount() == null
                 ? new SigninDialog()
-                : new ShowAccountDialog(this.getAccount());
+                : this.getAccount() instanceof UserAccount
+                ? new ShowUserDialog((UserAccount) this.getAccount())
+                : new ShowAdminDialog((AdminAccount) this.getAccount());
 
-        int option = userDialog.showDialog();
+        int option = accountDialog.showDialog();
         String imagePath = "/images/profile/image-00.png";
 
         if (this.getAccount() == null) {
             if (option == SigninDialog.OK_OPTION) {
-                this.setAccount(((SigninDialog) userDialog).getAccount());
+                this.setAccount(((SigninDialog) accountDialog).getAccount());
                 imagePath = this.getAccount().getImage();
                 result = "ok sign in";
             } else {
                 result = "cancel sign in";
             }
         } else {
-            if (option == ShowAccountDialog.OK_OPTION) {
+            if (option == ShowUserDialog.OK_OPTION) {
                 this.setAccount(null);
                 result = "ok show";
             } else {
-                this.setAccount(((ShowAccountDialog) userDialog).getAccount());
+                this.setAccount(((ShowUserDialog) accountDialog).getAccount());
                 imagePath = this.getAccount().getImage();
                 result = "cancel show";
             }

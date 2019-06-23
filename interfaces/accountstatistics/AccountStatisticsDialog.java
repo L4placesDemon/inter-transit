@@ -9,7 +9,6 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -33,7 +32,7 @@ public class AccountStatisticsDialog extends Dialog {
 
     /* CONSTRUCTORS__________________________________________________________ */
     public AccountStatisticsDialog(ArrayList<Account> accounts) {
-        super(new JFrame(), true);
+        super();
         this.accounts = accounts;
 
         this.initComponents();

@@ -12,7 +12,6 @@ import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -42,8 +41,7 @@ public class AccountsManagementDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public AccountsManagementDialog(AdminAccount adminAccount) {
-        super(new JFrame(), true);
-
+        super();
         this.adminAccount = adminAccount;
         this.accounts = new BinaryFileManager("accounts.dat").read();
 

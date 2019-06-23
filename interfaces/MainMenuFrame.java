@@ -1,6 +1,8 @@
 package interfaces;
 
 import interfaces.showaccount.ShowAccountDialog;
+import interfaces.showaccount.ShowAdminDialog;
+import interfaces.showaccount.ShowUserDialog;
 import interfaces.signin.SigninDialog;
 import interfaces.workshops.WorkshopsFrame;
 
@@ -136,29 +138,31 @@ public class MainMenuFrame extends JFrame {
     /* ______________________________________________________________________ */
     private String userAction() {
         String result;
-        Dialog userDialog;
+        Dialog accountDialog;
 
-        userDialog = this.getAccount() == null
+        accountDialog = this.getAccount() == null
                 ? new SigninDialog()
-                : new ShowAccountDialog(this.getAccount());
+                : this.getAccount() instanceof UserAccount
+                ? new ShowUserDialog((UserAccount) this.getAccount())
+                : new ShowAdminDialog((AdminAccount) this.getAccount());
 
-        int option = userDialog.showDialog();
+        int option = accountDialog.showDialog();
         String imagePath = "/images/profile/image-00.png";
 
         if (this.getAccount() == null) {
             if (option == SigninDialog.OK_OPTION) {
-                this.setAccount(((SigninDialog) userDialog).getAccount());
+                this.setAccount(((SigninDialog) accountDialog).getAccount());
                 imagePath = this.getAccount().getImage();
                 result = "ok sign in";
             } else {
                 result = "cancel sign in";
             }
         } else {
-            if (option == ShowAccountDialog.OK_OPTION) {
+            if (option == ShowUserDialog.OK_OPTION) {
                 this.setAccount(null);
                 result = "ok show";
             } else {
-                this.setAccount(((ShowAccountDialog) userDialog).getAccount());
+                this.setAccount(((ShowAccountDialog) accountDialog).getAccount());
                 imagePath = this.getAccount().getImage();
                 result = "cancel show";
             }
@@ -216,7 +220,7 @@ public class MainMenuFrame extends JFrame {
 
         UIManager.put("ScrollPane.background", Color.white);
         UIManager.put("ScrollBar.background", Color.white);
-        
+
         UIManager.put("TextField.background", Color.white);
     }
 
@@ -306,8 +310,8 @@ public class MainMenuFrame extends JFrame {
                 file.createNewFile();
                 fileWriter = new FileWriter(file);
                 fileWriter.write("description=Descripcion del Tema " + i + '\n');
-                fileWriter.write("progress=" + (random.nextInt(99) + 1) + '\n');
                 fileWriter.write("value=" + (random.nextInt(9999) + 1) + '\n');
+                fileWriter.write("progress=" + (random.nextInt(99) + 1) + '\n');
                 fileWriter.write("views=" + random.nextInt(19) + 1 + "\n\n");
                 fileWriter.close();
             } catch (IOException e) {

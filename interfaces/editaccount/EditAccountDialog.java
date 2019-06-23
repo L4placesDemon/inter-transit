@@ -10,7 +10,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import tools.components.DialogPane;
@@ -20,7 +19,7 @@ import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
 import worldclasses.accounts.UserAccount;
 
-public class EditAccountDialog extends RegisterAccountDialog {
+public final class EditAccountDialog extends RegisterAccountDialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
     private UserPanel userPanel;
@@ -28,7 +27,7 @@ public class EditAccountDialog extends RegisterAccountDialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public EditAccountDialog(Account account) {
-        super(new JFrame(), true);
+        super();
 
         if (account instanceof AdminAccount) {
             this.setAccount(new AdminAccount(

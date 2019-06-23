@@ -9,7 +9,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -34,7 +33,7 @@ public class SigninDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public SigninDialog() {
-        super(new JFrame(), true);
+        super();
 
         this.initComponents();
         this.initEvents();

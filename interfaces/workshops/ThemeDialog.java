@@ -6,7 +6,6 @@ import java.awt.FlowLayout;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -27,7 +26,7 @@ public class ThemeDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public ThemeDialog(Theme theme, Account account) {
-        super(new JFrame(), true);
+        super();
         this.theme = theme;
         this.account = account;
 

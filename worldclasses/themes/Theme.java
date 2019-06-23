@@ -33,18 +33,14 @@ public class Theme {
     }
 
     /* ______________________________________________________________________ */
-    public Theme(ImageIcon image,
-            String title,
-            String description,
-            Integer progress,
-            Double value,
-            Integer views) {
-        this(image, title, description, new ArrayList<>(), progress, value, views);
-    }
-
-    /* ______________________________________________________________________ */
-    public Theme() {
-    }
+//    public Theme(ImageIcon image,
+//            String title,
+//            String description,
+//            Integer progress,
+//            Double value,
+//            Integer views) {
+//        this(image, title, description, new ArrayList<>(), progress, value, views);
+//    }
 
     /* METHODS ______________________________________________________________ */
     @Override

@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
@@ -26,7 +25,7 @@ public class ImageChooserDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public ImageChooserDialog(String selectedIconPath) {
-        super(new JFrame(), true);
+        super();
         this.selectedIconPath = selectedIconPath;
 
         this.initComponents();

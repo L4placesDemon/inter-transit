@@ -5,11 +5,11 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+
 import tools.Tools;
 import tools.components.Dialog;
 
@@ -20,7 +20,7 @@ public class AboutDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public AboutDialog() {
-        super(new JFrame(), true);
+        super();
 
         this.initComponents();
         this.initEvents();

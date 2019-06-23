@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -32,7 +31,7 @@ public class WorkshopsFrame extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public WorkshopsFrame(Account account) {
-        super(new JFrame(), true);
+        super();
         this.account = account;
         this.themes = new ArrayList<>();
 
@@ -166,11 +165,11 @@ public class WorkshopsFrame extends Dialog {
 
             start = text.indexOf('=', start) + 1;
             end = text.indexOf('\n', end + 1);
-            String progress = text.substring(start, end);
+            String value = text.substring(start, end);
 
             start = text.indexOf('=', start) + 1;
             end = text.indexOf('\n', end + 1);
-            String value = text.substring(start, end);
+            String progress = text.substring(start, end);
 
             start = text.indexOf('=', start) + 1;
             end = text.indexOf('\n', end + 1);
@@ -238,7 +237,7 @@ public class WorkshopsFrame extends Dialog {
                 "Alejandro",
                 "413J0c",
                 "passwd",
-                "/images/profile/image-31.png")
-        ).showTestDialog();
+                "/images/profile/image-31.png"
+        )).showTestDialog();
     }
 }

@@ -1,10 +1,10 @@
 package tools.components;
 
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 
 public abstract class Dialog extends JDialog {
 
@@ -16,8 +16,8 @@ public abstract class Dialog extends JDialog {
     private int dialogResultValue = Dialog.CANCEL_OPTION;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public Dialog(Frame frame, boolean bln) {
-        super(frame, bln);
+    public Dialog() {
+        super(new JFrame(), true);
         this.initEvents();
     }
 

@@ -7,17 +7,17 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import tools.components.Border;
+import tools.components.Dialog;
 
 import worldclasses.tests.Question;
 
-public class SolveTestFrame extends JFrame {
+public class SolveTestFrame extends Dialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
     private ArrayList<Question> questions;
@@ -30,6 +30,7 @@ public class SolveTestFrame extends JFrame {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public SolveTestFrame(ArrayList<Question> question) {
+        super();
         this.questions = question;
 
         this.initComponents();
@@ -84,9 +85,6 @@ public class SolveTestFrame extends JFrame {
     /* ______________________________________________________________________ */
     private void initEvents() {
         ActionListener actionListener;
-
-        // Frame Events --------------------------------------------------------
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // Components Events ---------------------------------------------------
         actionListener = ae -> {

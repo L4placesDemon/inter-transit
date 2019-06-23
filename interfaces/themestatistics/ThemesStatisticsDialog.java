@@ -14,10 +14,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import tools.components.Dialog;
 
@@ -37,7 +35,7 @@ public class ThemesStatisticsDialog extends Dialog {
 
     /* CONSRUCTORS __________________________________________________________ */
     public ThemesStatisticsDialog() {
-        super(new JFrame(), true);
+        super();
         this.themes = new ArrayList<>();
 
         this.initThemes();
@@ -206,11 +204,11 @@ public class ThemesStatisticsDialog extends Dialog {
 
             start = text.indexOf('=', start) + 1;
             end = text.indexOf('\n', end + 1);
-            String progress = text.substring(start, end);
+            String value = text.substring(start, end);
 
             start = text.indexOf('=', start) + 1;
             end = text.indexOf('\n', end + 1);
-            String value = text.substring(start, end);
+            String progress = text.substring(start, end);
 
             start = text.indexOf('=', start) + 1;
             end = text.indexOf('\n', end + 1);

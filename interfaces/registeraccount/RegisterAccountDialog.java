@@ -3,13 +3,11 @@ package interfaces.registeraccount;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import tools.components.Dialog;
@@ -35,14 +33,10 @@ public class RegisterAccountDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public RegisterAccountDialog() {
-        this(new JFrame(), true);
+        super();
 
         this.initComponents();
         this.initEvents();
-    }
-
-    public RegisterAccountDialog(Frame owner, boolean modal) {
-        super(owner, modal);
     }
 
     /* METHODS ______________________________________________________________ */
