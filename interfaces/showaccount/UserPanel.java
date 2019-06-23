@@ -9,27 +9,22 @@ import javax.swing.border.EmptyBorder;
 import tools.components.Border;
 import tools.components.TextField;
 
-import worldclasses.accounts.Account;
 import worldclasses.accounts.UserAccount;
 
-public class UserPanel extends JPanel {
+public class UserPanel extends AccountPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    private Account account;
-
-    private TextField usernameField;
-    private TextField nicknameField;
     private TextField levelField;
     private TextField pointsField;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public UserPanel(Account account) {
-        this.account = account;
-        this.initComponents();
+    public UserPanel(UserAccount userAccount) {
+        super(userAccount);
     }
 
     /* METHODS ______________________________________________________________ */
-    private void initComponents() {
+    @Override
+    protected void initComponents() {
         JLabel usernameLabel;
         JLabel nicknameLabel;
         JLabel levelLabel;
@@ -43,36 +38,28 @@ public class UserPanel extends JPanel {
         this.setLayout(new BorderLayout());
 
         // Set up Components ---------------------------------------------------
-        this.usernameField = new TextField(this.getAccount().getUsername());
-        this.nicknameField = new TextField(this.getAccount().getNickname());
+        super.usernameField = new TextField(super.getAccount().getUsername());
+        super.nicknameField = new TextField(super.getAccount().getNickname());
 
         this.levelField = new TextField();
         this.pointsField = new TextField();
-
-        if (this.getAccount() instanceof UserAccount) {
-            this.pointsField.setText(((UserAccount) this.getAccount()).getPoints() + "");
-            this.levelField.setText(((UserAccount) this.getAccount()).getLevel() + "");
-        }
+        this.pointsField.setText(((UserAccount) super.getAccount()).getPoints() + "");
+        this.levelField.setText(((UserAccount) super.getAccount()).getLevel() + "");
 
         usernameLabel = new JLabel("Nombre:", JLabel.RIGHT);
         nicknameLabel = new JLabel("Apodo:", JLabel.RIGHT);
         levelLabel = new JLabel("Nivel:", JLabel.RIGHT);
         pointsLabel = new JLabel("Puntos:", JLabel.RIGHT);
 
-        int rows = 2;
-        if (this.getAccount() instanceof UserAccount) {
-            rows = 4;
-        }
-
-        leftPanel = new JPanel(new GridLayout(rows, 1, 10, 7));
-        rightPanel = new JPanel(new GridLayout(rows, 1, 10, 5));
+        leftPanel = new JPanel(new GridLayout(4, 1, 10, 7));
+        rightPanel = new JPanel(new GridLayout(4, 1, 10, 5));
 
         // ---------------------------------------------------------------------
-        this.usernameField.setBorder(new Border(0, 5, 0, 5));
-        this.usernameField.setEditable(false);
+        super.usernameField.setBorder(new Border(0, 5, 0, 5));
+        super.usernameField.setEditable(false);
 
-        this.nicknameField.setBorder(new Border(0, 5, 0, 5));
-        this.nicknameField.setEditable(false);
+        super.nicknameField.setBorder(new Border(0, 5, 0, 5));
+        super.nicknameField.setEditable(false);
 
         this.levelField.setBorder(new Border(0, 5, 0, 5));
         this.levelField.setEditable(false);
@@ -86,45 +73,19 @@ public class UserPanel extends JPanel {
         // ---------------------------------------------------------------------
         leftPanel.add(usernameLabel);
         leftPanel.add(nicknameLabel);
+        leftPanel.add(levelLabel);
+        leftPanel.add(pointsLabel);
 
-        rightPanel.add(this.usernameField);
-        rightPanel.add(this.nicknameField);
-
-        if (this.getAccount() instanceof UserAccount) {
-            leftPanel.add(levelLabel);
-            leftPanel.add(pointsLabel);
-
-            rightPanel.add(this.levelField);
-            rightPanel.add(this.pointsField);
-        }
+        rightPanel.add(super.usernameField);
+        rightPanel.add(super.nicknameField);
+        rightPanel.add(this.levelField);
+        rightPanel.add(this.pointsField);
 
         this.add(leftPanel, BorderLayout.WEST);
         this.add(rightPanel, BorderLayout.CENTER);
     }
 
-    /* GETTERS ______________________________________________________________ */
-    public Account getAccount() {
-        return this.account;
-    }
-
     /* SETTERS ______________________________________________________________ */
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    /* ______________________________________________________________________ */
-    public void setUsername(String username) {
-        this.getAccount().setUsername(username);
-        this.usernameField.setText(username);
-    }
-
-    /* ______________________________________________________________________ */
-    public void setNickname(String nickname) {
-        this.getAccount().setNickname(nickname);
-        this.nicknameField.setText(nickname);
-    }
-
-    /* ______________________________________________________________________ */
     public void setLevel(int level) {
         ((UserAccount) this.getAccount()).setLevel(level);
         this.levelField.setText(level + "");
