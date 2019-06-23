@@ -7,11 +7,8 @@ NOTES:
 - Manage dialog interfaces with panels
 - Change the hide password in PasswordPanels
 - Documentate code
-- Divide /interfaces/showaccount/UserPanel in two classes, one for users and
-  other for admins
 - Output text by console with tools.output function
 - Dark mode option
 - Add personalized exceptions
 
 - Statistics for Users in each Workshop
-- Sort imports in each class
