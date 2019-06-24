@@ -1,7 +1,5 @@
 package interfaces.accountstatistics;
 
-import interfaces.themestatistics.ThemesStatisticsDialog;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -27,7 +25,6 @@ public class AccountStatisticsDialog extends Dialog {
 
     private StatisticsGraph levelStatisticsGraph;
     private StatisticsGraph pointsStatisticsGraph;
-    private JButton themesStatisticsButton;
     private JButton backButton;
 
     /* CONSTRUCTORS__________________________________________________________ */
@@ -65,7 +62,6 @@ public class AccountStatisticsDialog extends Dialog {
         this.pointsStatisticsGraph = new StatisticsGraph();
 
         this.backButton = new JButton("Volver");
-        this.themesStatisticsButton = new JButton("Temas");
 
         centerPanel = new JPanel(new GridLayout(1, 3));
         southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -113,7 +109,6 @@ public class AccountStatisticsDialog extends Dialog {
         centerPanel.add(pointsPanel);
 
         southPanel.add(this.backButton);
-        southPanel.add(this.themesStatisticsButton);
 
         this.add(centerPanel, BorderLayout.CENTER);
         this.add(southPanel, BorderLayout.SOUTH);
@@ -121,12 +116,9 @@ public class AccountStatisticsDialog extends Dialog {
 
     /* ______________________________________________________________________ */
     private void initEvents() {
+        // Components Events ---------------------------------------------------
         this.backButton.addActionListener(ae -> {
             this.dispose();
-        });
-
-        this.themesStatisticsButton.addActionListener(ae -> {
-            new ThemesStatisticsDialog().showDialog();
         });
     }
 

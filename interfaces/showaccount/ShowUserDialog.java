@@ -3,32 +3,15 @@ package interfaces.showaccount;
 import interfaces.editaccount.EditAccountDialog;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import tools.Tools;
 import tools.components.Border;
-import tools.components.DialogPane;
 import tools.binaryfilemanager.BinaryFileManager;
 
-import worldclasses.accounts.Account;
 import worldclasses.accounts.UserAccount;
 
 public class ShowUserDialog extends ShowAccountDialog {
-
-    /* ATTRIBUTES ___________________________________________________________ */
-    protected Account account;
-
-    protected JLabel imageLabel;
-    private UserPanel userPanel;
-
-    protected JPanel buttonsPanel;
-
-    protected JButton removeButton;
-    protected JButton signoutButton;
-    protected JButton editButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public ShowUserDialog(UserAccount userAccount) {
@@ -40,60 +23,27 @@ public class ShowUserDialog extends ShowAccountDialog {
     protected void initComponents() {
         JPanel mainPanel;
 
-        // Set up Frame --------------------------------------------------------
-        this.setLayout(new BorderLayout());
-        this.setSize(480, 450);
-        this.setLocationRelativeTo(null);
-        this.setTitle("Datos Usuario");
-//        this.setResizable(false);
+        super.initComponents();
 
         // Set up Components ---------------------------------------------------
-        this.imageLabel = new JLabel(Tools.getImageIcon(this.getAccount().getImage(), 165, 165));
-
-        this.userPanel = new UserPanel((UserAccount) this.getAccount());
-
-        this.removeButton = new JButton("Eliminar");
-        this.signoutButton = new JButton("Cerrar sesion");
-        this.editButton = new JButton("Editar");
+        super.accountPanel = new UserPanel((UserAccount) this.getAccount());
 
         mainPanel = new JPanel(new BorderLayout());
-        this.buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         // ---------------------------------------------------------------------
-        this.imageLabel.setBorder(new Border(10, 20, 10, 20));
+        super.imageLabel.setBorder(new Border(10, 20, 10, 20));
 
         // ---------------------------------------------------------------------
-        mainPanel.add(this.imageLabel, BorderLayout.CENTER);
-        mainPanel.add(this.userPanel, BorderLayout.SOUTH);
+        mainPanel.add(super.imageLabel, BorderLayout.CENTER);
+        mainPanel.add(super.accountPanel, BorderLayout.SOUTH);
 
-        this.buttonsPanel.add(this.removeButton);
+        super.buttonsPanel.add(super.backButton);
+        super.buttonsPanel.add(super.removeButton);
+        super.buttonsPanel.add(super.signoutButton);
+        super.buttonsPanel.add(super.editButton);
 
-        this.buttonsPanel.add(this.signoutButton);
-        this.buttonsPanel.add(this.editButton);
-
-        this.add(mainPanel, BorderLayout.CENTER);
-        this.add(this.buttonsPanel, BorderLayout.SOUTH);
-    }
-
-    /* ______________________________________________________________________ */
-    @Override
-    protected void initEvents() {
-        // Components Events ---------------------------------------------------
-        this.removeButton.addActionListener(ae -> {
-            this.removeAction();
-        });
-
-        this.signoutButton.addActionListener(ae -> {
-            int option = DialogPane.yesNoOption("Cerrar Sesion?");
-            if (option == DialogPane.YES_OPTION) {
-                this.dispose();
-                this.okAction();
-            }
-        });
-
-        this.editButton.addActionListener(ae -> {
-            this.editAction();
-        });
+        super.add(mainPanel, BorderLayout.CENTER);
+        super.add(super.buttonsPanel, BorderLayout.SOUTH);
     }
 
     /* ______________________________________________________________________ */
@@ -115,14 +65,12 @@ public class ShowUserDialog extends ShowAccountDialog {
             this.setAccount(editAccountDialog.getAccount());
             System.out.println("Edited account: " + this.getAccount());
 
-            this.imageLabel.setIcon(Tools.getImageIcon(this.getAccount().getImage(), 165, 165));
-            this.userPanel.setUsername(this.getAccount().getUsername());
-            this.userPanel.setNickname(this.getAccount().getNickname());
+            super.imageLabel.setIcon(Tools.getImageIcon(this.getAccount().getImage(), 165, 165));
+            super.accountPanel.setUsername(this.getAccount().getUsername());
+            super.accountPanel.setNickname(this.getAccount().getNickname());
 
-            if (this.getAccount() instanceof UserAccount) {
-                this.userPanel.setLevel(((UserAccount) this.getAccount()).getLevel());
-                this.userPanel.setPoints(((UserAccount) this.getAccount()).getPoints());
-            }
+            ((UserPanel) super.accountPanel).setLevel(((UserAccount) this.getAccount()).getLevel());
+            ((UserPanel) super.accountPanel).setPoints(((UserAccount) this.getAccount()).getPoints());
 
             manager = new BinaryFileManager("accounts.dat");
             manager.add(this.getAccount());
@@ -136,7 +84,7 @@ public class ShowUserDialog extends ShowAccountDialog {
                 "Alejandro",
                 "Admin",
                 "password",
-                "/images/profile/image-31.png"
+                "profile/image-31"
         )).showTestDialog();
     }
 }

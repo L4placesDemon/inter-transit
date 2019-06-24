@@ -91,10 +91,9 @@ public class PasswordPanel extends interfaces.registeraccount.PasswordPanel {
 
     /* ______________________________________________________________________ */
     private void initEvents() {
-        char echoChar = this.passwordField.getEchoChar();
-
         this.changePasswordButton.addActionListener(ae -> {
             boolean selected = this.changePasswordButton.isSelected();
+            
             this.passwordLabel.setEnabled(selected);
             this.confirmPasswordLabel.setEnabled(selected);
             this.passwordField.setEnabled(selected);
@@ -105,9 +104,10 @@ public class PasswordPanel extends interfaces.registeraccount.PasswordPanel {
 
         this.showPasswordButton.addActionListener(ae -> {
             boolean selected = this.showPasswordButton.isSelected();
+            
             this.showPasswordButton.setIcon(selected ? PasswordPanel.SHOW_ICON : PasswordPanel.HIDE_ICON);
-            this.passwordField.setEchoChar(selected ? 0 : echoChar);
-            this.confirmPasswordField.setEchoChar(selected ? 0 : echoChar);
+            this.passwordField.setPasswordVisible(selected);
+            this.confirmPasswordField.setPasswordVisible(selected);
         });
 
         this.passwordField.addKeyListener(new KeyAdapter() {

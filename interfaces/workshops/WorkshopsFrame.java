@@ -84,6 +84,7 @@ public class WorkshopsFrame extends Dialog {
         labelsPanel.add(new JLabel("Descripcion", JLabel.CENTER));
         labelsPanel.add(new JLabel("Progreso", JLabel.CENTER));
         labelsPanel.add(new JLabel("Valor", JLabel.CENTER));
+        labelsPanel.add(new JLabel("Visitas", JLabel.CENTER));
 
         northPanel.add(userPanel, BorderLayout.NORTH);
         northPanel.add(labelsPanel, BorderLayout.CENTER);
@@ -237,7 +238,7 @@ public class WorkshopsFrame extends Dialog {
                 "Alejandro",
                 "413J0c",
                 "passwd",
-                "/images/profile/image-31.png"
+                "profile/image-31"
         )).showTestDialog();
     }
 }

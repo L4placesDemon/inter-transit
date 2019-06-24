@@ -31,22 +31,32 @@ public interface Tools {
 
     /* ______________________________________________________________________ */
     public static ImageIcon getIcon(String iconPath) { // /Package/Image.ext
-        return iconPath != null ? new ImageIcon(Tools.class.getResource(iconPath)) : null;
+        return iconPath != null
+                ? new ImageIcon(Tools.class.getResource(
+                        Tools.DEFAULT_IMAGE_PATH
+                        + iconPath
+                        + ".png"
+                ))
+                : null;
     }
 
     /* ______________________________________________________________________ */
-    public static Image getImage(String imagePath) { // /Package/Image.ext
-        return getIcon(imagePath).getImage();
+    public static Image getImage(String imagePath) {
+        return Tools.getIcon(imagePath).getImage();
     }
 
     /* ______________________________________________________________________ */
     public static Image getImage(String imagePath, int width, int height) {
-        return getImage(imagePath).getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return Tools.getImage(imagePath).getScaledInstance(
+                width,
+                height,
+                Image.SCALE_SMOOTH
+        );
     }
 
     /* ______________________________________________________________________ */
     public static ImageIcon getImageIcon(String imagePath, int width, int height) {
-        return new ImageIcon(getImage(imagePath, width, height));
+        return new ImageIcon(Tools.getImage(imagePath, width, height));
     }
 
     /* ______________________________________________________________________ */
@@ -102,7 +112,7 @@ public interface Tools {
         try {
             Runtime.getRuntime().exec(command);
         } catch (IOException ioe) {
-            System.out.println(ioe);
+            System.err.println(ioe);
         }
     }
 }

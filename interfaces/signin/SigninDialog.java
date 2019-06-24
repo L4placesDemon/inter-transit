@@ -53,7 +53,7 @@ public class SigninDialog extends Dialog {
         this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
-        this.imageLabel = new JLabel(Tools.getImageIcon("/images/logos/logo.png", 200, 200));
+        this.imageLabel = new JLabel(Tools.getImageIcon("logos/dark-logo", 200, 200));
         this.userPanel = new UserPanel();
 
         this.registerButton = new JButton("Registrar");

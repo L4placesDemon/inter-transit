@@ -8,11 +8,14 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import tools.components.Dialog;
 import tools.components.DialogPane;
 import tools.binaryfilemanager.BinaryFileManager;
+import tools.components.PasswordField;
 
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
@@ -28,6 +31,7 @@ public class RegisterAccountDialog extends Dialog {
     protected ImagePanel imagePanel;
     private UserPanel userPanel;
     private PasswordPanel passwordPanel;
+
     protected JButton cancelButton;
     protected JButton finishButton;
 
@@ -139,17 +143,27 @@ public class RegisterAccountDialog extends Dialog {
 
     /* ______________________________________________________________________ */
     public boolean verifyAdmin() {
-        String string = DialogPane.input(
+        JPanel panel = new JPanel(new GridLayout(2, 1));
+        PasswordField passwordField = new PasswordField();
+        panel.add(new JLabel("Contraseña de Administrador:"));
+        panel.add(passwordField);
+
+        int option = JOptionPane.showConfirmDialog(
+                null,
+                panel,
                 "Ingresar como Administrador",
-                "Contraseña de Administrador"
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
         );
 
-        if (string != null) {
-            if (string.equals(RegisterAccountDialog.ADMIN_PASSWORD)) {
-                return true;
+        if (option == DialogPane.OK_OPTION) {
+            String password = passwordField.getText();
+            if (!password.isEmpty()) {
+                if (password.equals(RegisterAccountDialog.ADMIN_PASSWORD)) {
+                    return true;
+                }
             }
         }
-
         return false;
     }
 

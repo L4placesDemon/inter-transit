@@ -18,6 +18,7 @@ public abstract class Dialog extends JDialog {
     /* CONSTRUCTORS _________________________________________________________ */
     public Dialog() {
         super(new JFrame(), true);
+        
         this.initEvents();
     }
 

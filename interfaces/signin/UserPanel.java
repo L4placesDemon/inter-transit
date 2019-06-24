@@ -20,8 +20,8 @@ import tools.components.TextField;
 public class UserPanel extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    private static final ImageIcon SHOW_ICON = Tools.getImageIcon("/images/show.png", 15, 15);
-    private static final ImageIcon HIDE_ICON = Tools.getImageIcon("/images/hide.png", 15, 15);
+    private static final ImageIcon SHOW_ICON = Tools.getImageIcon("show", 15, 15);
+    private static final ImageIcon HIDE_ICON = Tools.getImageIcon("hide", 15, 15);
 
     private TextField nicknameField;
     private PasswordField passwordField;
@@ -94,7 +94,7 @@ public class UserPanel extends JPanel {
             boolean selected = this.showPasswordButton.isSelected();
 
             this.showPasswordButton.setIcon(selected ? UserPanel.SHOW_ICON : UserPanel.HIDE_ICON);
-            this.passwordField.setEchoChar(selected ? 0 : echoChar);
+            this.passwordField.setPasswordVisible(selected);
         });
 
         this.nicknameField.addKeyListener(new KeyAdapter() {

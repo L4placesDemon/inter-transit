@@ -20,8 +20,8 @@ import tools.components.PasswordField;
 public class PasswordPanel extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    protected static final ImageIcon SHOW_ICON = Tools.getImageIcon("/images/show.png", 15, 15);
-    protected static final ImageIcon HIDE_ICON = Tools.getImageIcon("/images/hide.png", 15, 15);
+    protected static final ImageIcon SHOW_ICON = Tools.getImageIcon("show", 15, 15);
+    protected static final ImageIcon HIDE_ICON = Tools.getImageIcon("hide", 15, 15);
 
     protected PasswordField passwordField;
     protected PasswordField confirmPasswordField;
@@ -85,13 +85,13 @@ public class PasswordPanel extends JPanel {
     /* ______________________________________________________________________ */
     private void initEvents() {
         // Components Events ---------------------------------------------------
-        char echoChar = this.passwordField.getEchoChar();
 
         this.showPasswordButton.addActionListener(ae -> {
             boolean selected = this.showPasswordButton.isSelected();
+            
             this.showPasswordButton.setIcon(selected ? SHOW_ICON : HIDE_ICON);
-            this.passwordField.setEchoChar(selected ? 0 : echoChar);
-            this.confirmPasswordField.setEchoChar(selected ? 0 : echoChar);
+            this.passwordField.setPasswordVisible(selected);
+            this.confirmPasswordField.setPasswordVisible(selected);
         });
 
         this.passwordField.addKeyListener(new KeyAdapter() {

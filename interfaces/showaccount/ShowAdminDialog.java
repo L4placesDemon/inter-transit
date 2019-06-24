@@ -4,15 +4,12 @@ import interfaces.accountsmanagement.AccountsManagementDialog;
 import interfaces.editaccount.EditAccountDialog;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import tools.Tools;
 import tools.binaryfilemanager.BinaryFileManager;
 import tools.components.Border;
-import tools.components.DialogPane;
 
 import worldclasses.accounts.AdminAccount;
 
@@ -35,33 +32,24 @@ public class ShowAdminDialog extends ShowAccountDialog {
         JPanel mainPanel;
 
         // Set up Frame --------------------------------------------------------
-        this.setLayout(new BorderLayout());
-        this.setSize(480, 450);
-        this.setLocationRelativeTo(null);
-        this.setTitle("Datos Usuario");
-//        this.setResizable(false);
+        this.setTitle("Datos Administrador");
+        super.initComponents();
 
         // Set up Components ---------------------------------------------------
-        super.imageLabel = new JLabel(Tools.getImageIcon(this.getAccount().getImage(), 165, 165));
-
-        this.adminPanel = new AdminPanel((AdminAccount) super.getAccount());
-
-        super.removeButton = new JButton("Eliminar");
+        super.accountPanel = new AdminPanel((AdminAccount) super.getAccount());
         this.themesManagementButton = new JButton("Temas");
         this.accountsManagementButton = new JButton("Cuentas");
-        super.signoutButton = new JButton("Cerrar sesion");
-        super.editButton = new JButton("Editar");
 
         mainPanel = new JPanel(new BorderLayout());
-        super.buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         // ---------------------------------------------------------------------
         super.imageLabel.setBorder(new Border(10, 20, 10, 20));
 
         // ---------------------------------------------------------------------
         mainPanel.add(super.imageLabel, BorderLayout.CENTER);
-        mainPanel.add(this.adminPanel, BorderLayout.SOUTH);
+        mainPanel.add(super.accountPanel, BorderLayout.SOUTH);
 
+        super.buttonsPanel.add(super.backButton);
         super.buttonsPanel.add(super.removeButton);
         super.buttonsPanel.add(this.themesManagementButton);
         super.buttonsPanel.add(this.accountsManagementButton);
@@ -76,25 +64,22 @@ public class ShowAdminDialog extends ShowAccountDialog {
     @Override
     protected void initEvents() {
         // Components Events ---------------------------------------------------
-        this.removeButton.addActionListener(ae -> {
-            this.removeAction();
+        super.initEvents();
+
+        this.themesManagementButton.addActionListener(ae -> {
+            this.themesManagementAction();
         });
 
         this.accountsManagementButton.addActionListener(ae -> {
             this.accountsManagementAction();
         });
+    }
 
-        this.signoutButton.addActionListener(ae -> {
-            int option = DialogPane.yesNoOption("Cerrar Sesion?");
-            if (option == DialogPane.YES_OPTION) {
-                this.dispose();
-                this.okAction();
-            }
-        });
-
-        this.editButton.addActionListener(ae -> {
-            this.editAction();
-        });
+    /* ______________________________________________________________________ */
+    public void themesManagementAction() {
+        this.setVisible(false);
+//        new ThemesManagementDialog((AdminAccount) getAccount()).showDialog();
+        this.setVisible(true);
     }
 
     /* ______________________________________________________________________ */
@@ -104,16 +89,7 @@ public class ShowAdminDialog extends ShowAccountDialog {
         this.setVisible(true);
     }
 
-    /* MAIN _________________________________________________________________ */
-    public static void main(String[] args) {
-        new ShowAdminDialog(new AdminAccount(
-                "Alejandro",
-                "Admin",
-                "password",
-                "/images/profile/image-31.png"
-        )).showTestDialog();
-    }
-
+    /* ______________________________________________________________________ */
     @Override
     public void editAction() {
         EditAccountDialog editAccountDialog;
@@ -131,7 +107,7 @@ public class ShowAdminDialog extends ShowAccountDialog {
             this.setAccount(editAccountDialog.getAccount());
             System.out.println("Edited account: " + this.getAccount());
 
-            this.imageLabel.setIcon(Tools.getImageIcon(this.getAccount().getImage(), 165, 165));
+            super.imageLabel.setIcon(Tools.getImageIcon(this.getAccount().getImage(), 165, 165));
             super.accountPanel.setUsername(this.getAccount().getUsername());
             super.accountPanel.setNickname(this.getAccount().getNickname());
 
@@ -139,5 +115,15 @@ public class ShowAdminDialog extends ShowAccountDialog {
             manager.add(this.getAccount());
         }
         this.setVisible(true);
+    }
+
+    /* MAIN _________________________________________________________________ */
+    public static void main(String[] args) {
+        new ShowAdminDialog(new AdminAccount(
+                "Alejandro",
+                "Admin",
+                "password",
+                "profile/image-31"
+        )).showTestDialog();
     }
 }

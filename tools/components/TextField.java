@@ -13,16 +13,24 @@ public class TextField extends JTextField {
     private UndoManager undoManager;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public TextField() {
-        initEvents();
+    public TextField(String string) {
+        super(string);
+
+        this.initComponents();
+        this.initEvents();
     }
 
     /* ______________________________________________________________________ */
-    public TextField(String string) {
-        super(string);
+    public TextField() {
+        this("");
     }
 
     /* METHODS ______________________________________________________________ */
+    private void initComponents() {
+//        this.setBorder(null);
+    }
+
+    /* _____________________________ _________________________________________ */
     private void initEvents() {
         this.undoManager = new UndoManager();
         this.getDocument().addUndoableEditListener(undoManager);

@@ -41,7 +41,7 @@ public abstract class Account implements Serializable {
         return "Account{" + this.getUsername() + ", "
                 + this.getNickname() + ", "
                 + this.getPassword() + ", "
-                + (this.getImage() != null ? this.image.substring(16, 24) : "") + "}";
+                + (this.getImage() != null ? this.getImage().substring(8, 16) : "") + "}";
     }
 
     /* ______________________________________________________________________ */
@@ -57,23 +57,13 @@ public abstract class Account implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
         final Account other = (Account) obj;
-        if (!Objects.equals(this.username, other.username)) {
-            return false;
-        }
-        if (!Objects.equals(this.nickname, other.nickname)) {
-            return false;
-        }
-        if (!Objects.equals(this.password, other.password)) {
-            return false;
-        }
-        if (!Objects.equals(this.image, other.image)) {
+        if (obj == null
+                || getClass() != obj.getClass()
+                || !Objects.equals(this.getUsername(), other.getUsername())
+                || !Objects.equals(this.getNickname(), other.getNickname())
+                || !Objects.equals(this.getPassword(), other.getPassword())
+                || !Objects.equals(this.getImage(), other.getImage())) {
             return false;
         }
         return true;

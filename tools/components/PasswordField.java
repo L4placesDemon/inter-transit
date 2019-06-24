@@ -11,20 +11,22 @@ public class PasswordField extends JPasswordField {
 
     /* ATTRIBUTES ___________________________________________________________ */
     private UndoManager undoManager;
-    private char echoChar;
+    private final char echoChar;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public PasswordField() {
-        echoChar = getEchoChar();
-        initEvents();
-    }
-
-    /* ______________________________________________________________________ */
-    public PasswordField(boolean visible) {
-        initEvents();
+        this.echoChar = getEchoChar();
+        
+        this.initComponents();
+        this.initEvents();
     }
 
     /* METHODS ______________________________________________________________ */
+    private void initComponents() {
+//        this.setBorder(null);
+    }
+
+    /* ______________________________________________________________________ */
     private void initEvents() {
         this.undoManager = new UndoManager();
         this.getDocument().addUndoableEditListener(undoManager);

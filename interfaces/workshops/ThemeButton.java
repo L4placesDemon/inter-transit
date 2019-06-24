@@ -16,13 +16,13 @@ public class ThemeButton extends JButton {
     private JLabel descriptionLabel;
     private JLabel progressLabel;
     private JLabel valueLabel;
+    private JLabel viewsLabel;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public ThemeButton(Theme theme) {
         this.theme = theme;
 
         this.initComponents();
-        this.initEvents();
     }
 
     /* METHODS ______________________________________________________________ */
@@ -38,17 +38,14 @@ public class ThemeButton extends JButton {
         this.descriptionLabel = new JLabel(this.getTheme().getDescription(), JLabel.CENTER);
         this.progressLabel = new JLabel(this.getTheme().getProgress() + "%", JLabel.CENTER);
         this.valueLabel = new JLabel("$" + this.getTheme().getValue(), JLabel.CENTER);
+        this.viewsLabel = new JLabel(this.getTheme().getViews() + "", JLabel.CENTER);
 
         this.add(imageLabel);
         this.add(titleLabel);
         this.add(descriptionLabel);
         this.add(progressLabel);
         this.add(valueLabel);
-    }
-
-    /* ______________________________________________________________________ */
-    private void initEvents() {
-
+        this.add(viewsLabel);
     }
 
     /* GETTERS ______________________________________________________________ */

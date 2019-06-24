@@ -49,8 +49,8 @@ public class AboutDialog extends Dialog {
         this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
-        logoLabel = new JLabel(Tools.getImageIcon("/images/logos/logo.png", 230, 230));
-        company_logoLabel = new JLabel(Tools.getImageIcon("/images/logos/company_logo.png", 180, 180));
+        logoLabel = new JLabel(Tools.getImageIcon("logos/dark-logo", 213, 213));
+        company_logoLabel = new JLabel(Tools.getImageIcon("logos/company_logo", 180, 180));
 
         descriptionPanel = new JPanel();
         creditsPanel = new JPanel();
