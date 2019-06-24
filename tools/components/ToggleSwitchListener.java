@@ -3,5 +3,8 @@ package tools.components;
 public interface ToggleSwitchListener {
 
     /* METHODS ______________________________________________________________ */
-    public void toggleSwitchAction();
+    public void activate();
+
+    /* ______________________________________________________________________ */
+    public void deactivate();
 }

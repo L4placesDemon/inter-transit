@@ -7,7 +7,6 @@ import interfaces.signin.SigninDialog;
 import interfaces.workshops.WorkshopsFrame;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -21,7 +20,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import tools.Tools;
@@ -37,11 +35,18 @@ public class MainMenuFrame extends JFrame {
 
     /* ATTRIBUTES ___________________________________________________________ */
     public static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
+    public static final String LIGHT_LOGO = "logos/light-logo";
+    public static final String DARK_LOGO = "logos/dark-logo";
 
     private Account account;
+
+    private JButton settingsButton;
     private JButton aboutButton;
+
+    private JLabel logoLabel;
+
     private JButton userButton;
-    private JButton worksopsButton;
+    private JButton workshopsButton;
     private JButton testButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
@@ -52,7 +57,7 @@ public class MainMenuFrame extends JFrame {
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
-        JLabel logoLabel;
+        new SettingsDialog().lightThemeAction(this);
 
         JPanel northPanel;
         JPanel southPanel;
@@ -60,55 +65,56 @@ public class MainMenuFrame extends JFrame {
         // Set up Frame --------------------------------------------------------
         this.setLayout(new BorderLayout());
         this.setSize(350, 537);
-        this.setIconImage(Tools.getImage("/images/logos/logo.png"));
+        this.setIconImage(Tools.getImage(MainMenuFrame.LIGHT_LOGO));
         this.setLocationRelativeTo(null);
         this.setTitle("Inter Transit");
         this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
+        this.settingsButton = new JButton();
         this.aboutButton = new JButton();
-        this.userButton = new JButton();
-        this.worksopsButton = new JButton();
-        this.testButton = new JButton();
 
-        logoLabel = new JLabel();
+        this.logoLabel = new JLabel();
+
+        this.userButton = new JButton();
+        this.workshopsButton = new JButton();
+        this.testButton = new JButton();
 
         northPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         southPanel = new JPanel(new GridLayout(1, 3, 20, 20));
 
         // ---------------------------------------------------------------------
+        this.settingsButton.setBorder(null);
+        this.settingsButton.setSelected(false);
+        this.settingsButton.setIcon(Tools.getImageIcon("settings", 30, 30));
+
         this.aboutButton.setBorder(null);
-        this.aboutButton.setIcon(Tools.getImageIcon("/images/about.png", 30, 30));
+        this.aboutButton.setIcon(Tools.getImageIcon("about", 30, 30));
+
+        this.logoLabel.setIcon(Tools.getImageIcon(MainMenuFrame.LIGHT_LOGO, 350, 350));
 
         this.userButton.setBorder(null);
-        this.userButton.setFocusable(false);
-        this.userButton.setIcon(Tools.getImageIcon("/images/profile/image-00.png", 80, 80));
+        this.userButton.setIcon(Tools.getImageIcon("profile/image-00", 80, 80));
 
-        this.worksopsButton.setBorder(null);
-        this.worksopsButton.setFocusable(false);
-        this.worksopsButton.setIcon(Tools.getImageIcon("/images/learn.png", 70, 70));
+        this.workshopsButton.setBorder(null);
+        this.workshopsButton.setIcon(Tools.getImageIcon("learn", 70, 70));
 
         this.testButton.setBorder(null);
-        this.testButton.setFocusable(false);
-        this.testButton.setIcon(Tools.getImageIcon("/images/test.png", 70, 70));
+        this.testButton.setIcon(Tools.getImageIcon("test", 70, 70));
 
-        logoLabel.setIcon(Tools.getImageIcon("/images/logos/logo.png", 350, 350));
-
-        northPanel.setBorder(new EmptyBorder(0, 0, 0, 10));
         southPanel.setPreferredSize(new Dimension(0, 100));
         southPanel.setBorder(new EmptyBorder(0, 40, 15, 40));
 
         // ---------------------------------------------------------------------
-        northPanel.add(new JLabel());
-        northPanel.add(new JLabel());
+        northPanel.add(this.settingsButton);
         northPanel.add(this.aboutButton);
 
         southPanel.add(this.userButton);
-        southPanel.add(this.worksopsButton);
+        southPanel.add(this.workshopsButton);
         southPanel.add(this.testButton);
 
         this.add(northPanel, BorderLayout.NORTH);
-        this.add(logoLabel, BorderLayout.CENTER);
+        this.add(this.logoLabel, BorderLayout.CENTER);
         this.add(southPanel, BorderLayout.SOUTH);
     }
 
@@ -118,6 +124,10 @@ public class MainMenuFrame extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // Components Events ---------------------------------------------------
+        this.settingsButton.addActionListener(ae -> {
+            new SettingsDialog().showDialog();
+        });
+
         this.aboutButton.addActionListener(ae -> {
             new AboutDialog().showDialog();
         });
@@ -127,7 +137,7 @@ public class MainMenuFrame extends JFrame {
             System.out.println(result);
         });
 
-        this.worksopsButton.addActionListener(ae -> {
+        this.workshopsButton.addActionListener(ae -> {
             this.workshopsSigninAction();
         });
 
@@ -147,7 +157,7 @@ public class MainMenuFrame extends JFrame {
                 : new ShowAdminDialog((AdminAccount) this.getAccount());
 
         int option = accountDialog.showDialog();
-        String imagePath = "/images/profile/image-00.png";
+        String imagePath = "profile/image-00";
 
         if (this.getAccount() == null) {
             if (option == SigninDialog.OK_OPTION) {
@@ -203,28 +213,6 @@ public class MainMenuFrame extends JFrame {
     }
 
     /* ______________________________________________________________________ */
-    private static void initUI() {
-        UIManager.put("OptionPane.background", Color.white);
-        UIManager.put("OptionPane.messageFont", MainMenuFrame.DEFAULT_FONT);
-        UIManager.put("OptionPane.buttonFont", MainMenuFrame.DEFAULT_FONT);
-
-        UIManager.put("Panel.background", Color.white);
-        UIManager.put("ToggleButton.background", Color.white);
-        UIManager.put("Label.font", MainMenuFrame.DEFAULT_FONT);
-
-        UIManager.put("Button.background", Color.white);
-        UIManager.put("Button.font", MainMenuFrame.DEFAULT_FONT);
-
-        UIManager.put("RadioButton.font", MainMenuFrame.DEFAULT_FONT);
-        UIManager.put("RadioButton.background", Color.white);
-
-        UIManager.put("ScrollPane.background", Color.white);
-        UIManager.put("ScrollBar.background", Color.white);
-
-        UIManager.put("TextField.background", Color.white);
-    }
-
-    /* ______________________________________________________________________ */
     private static void initTestAccounts() {
         BinaryFileManager manager = new BinaryFileManager("accounts.dat");
         Random random = new Random();
@@ -232,12 +220,12 @@ public class MainMenuFrame extends JFrame {
         if (manager.read().isEmpty()) {
             manager.add(new AdminAccount(
                     "Alejandro", "Admin1", "Passwd",
-                    "/images/profile/image-31.png"
+                    "profile/image-31"
             ));
             for (int i = 10; i < 20; i++) {
                 UserAccount userAccount = new UserAccount(
                         "test user", "nickname" + i, "passwd",
-                        "/images/profile/image-" + i + ".png");
+                        "profile/image-" + i);
                 userAccount.setLevel(random.nextInt(10) + 1);
                 userAccount.setPoints(random.nextInt(50) + 1);
                 manager.add(userAccount);
@@ -344,7 +332,6 @@ public class MainMenuFrame extends JFrame {
 
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
-        initUI();
         initTestAccounts();
         sortTestAccounts();
         showTestAccounts();
