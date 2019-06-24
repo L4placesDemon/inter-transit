@@ -23,7 +23,7 @@ public class BinaryFileManager {
     }
 
     /* METHODS ______________________________________________________________ */
-    private void write(Object object) {
+    public void write(Object object) {
         ObjectOutputStream objectOutputStream = null;
         FileOutputStream fileOutputStream = null;
 
