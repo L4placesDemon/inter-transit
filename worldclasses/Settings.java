@@ -3,7 +3,6 @@ package worldclasses;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.Serializable;
-import java.util.ArrayList;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -78,8 +77,6 @@ public class Settings implements Serializable {
         UIManager.put("PasswordField.border", border);
         UIManager.put("PasswordField.background", secondary);
         UIManager.put("PasswordField.foreground", foreground);
-        
-        var var = new ArrayList<>();
     }
 
     public static void lightTheme() {

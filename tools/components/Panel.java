@@ -38,7 +38,7 @@ public abstract class Panel extends JPanel {
         dialog.setSize(630, 500);
         dialog.setLocationRelativeTo(null);
         dialog.setMinimumSize(new Dimension(380, getHeight() / 2));
-        dialog.setTitle("Iniciar Sesion");
+//        dialog.setTitle();
         dialog.setResizable(false);
 
         dialog.add(this);

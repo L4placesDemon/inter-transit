@@ -23,7 +23,7 @@ public class SettingsDialog extends Dialog {
     public static final String DARL_THEME = "dark-theme";
 
     private String theme;
-    private boolean darkThemeSelected;
+    private final boolean darkThemeSelected;
     private Font selectedFont;
 
     private ToggleSwitch toggleSwitch;
@@ -59,7 +59,10 @@ public class SettingsDialog extends Dialog {
         this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
-        this.toggleSwitch = new ToggleSwitch(this.darkThemeSelected, new Color(24, 136, 255));
+        this.toggleSwitch = new ToggleSwitch(
+                this.darkThemeSelected,
+                new Color(24, 136, 255)
+        );
         if (this.darkThemeSelected) {
             Settings.darkTheme();
         } else {
