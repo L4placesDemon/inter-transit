@@ -12,11 +12,12 @@ import javax.swing.border.EtchedBorder;
 
 import tools.Tools;
 import tools.components.Border;
+import tools.components.Panel;
 
 import worldclasses.Settings;
 import worldclasses.accounts.Account;
 
-public class MenuPanel extends JPanel {
+public class MenuPanel extends Panel {
 
     /* ATTRIBUTES ___________________________________________________________ */
     public static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
@@ -116,6 +117,11 @@ public class MenuPanel extends JPanel {
         });
     }
 
+    @Override
+    public JButton getCloseButton() {
+        return null;
+    }
+    
     /* GETTERS ______________________________________________________________ */
     public Account getAccount() {
         return account;

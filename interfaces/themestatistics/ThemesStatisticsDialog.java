@@ -1,6 +1,6 @@
 package interfaces.themestatistics;
 
-import interfaces.workshops.WorkshopsFrame;
+import interfaces.workshops.WorkshopsPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -145,7 +145,7 @@ public class ThemesStatisticsDialog extends Dialog {
 
     /* ______________________________________________________________________ */
     private void initThemes() {
-        String themesDirectoryPath = WorkshopsFrame.class.getResource("/tools").toString().substring(5);
+        String themesDirectoryPath = WorkshopsPanel.class.getResource("/tools").toString().substring(5);
         File themesDirectory;
 
         Object[] description = null;

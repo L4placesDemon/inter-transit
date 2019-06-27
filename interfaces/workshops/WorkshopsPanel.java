@@ -1,7 +1,4 @@
-package interfaces.themesmanagement;
-
-import interfaces.themestatistics.ThemesStatisticsDialog;
-import interfaces.workshops.WorkshopsPanel;
+package interfaces.workshops;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -16,23 +13,26 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import tools.components.Panel;
 
-import tools.components.Dialog;
-
-import worldclasses.themes.Theme;
+//import tools.components.Dialog;
 import worldclasses.themes.Tip;
+import worldclasses.accounts.Account;
+import worldclasses.accounts.UserAccount;
+import worldclasses.themes.Theme;
 
-public class ThemesManagementDialog extends Dialog {
+public class WorkshopsPanel extends Panel {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private Account account;
     private ArrayList<Theme> themes;
 
     private JButton backButton;
-    private JButton themesStatisticsButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public ThemesManagementDialog() {
-        
+    public WorkshopsPanel(Account account) {
+
+        this.account = account;
         this.themes = new ArrayList<>();
 
         this.initThemes();
@@ -42,53 +42,57 @@ public class ThemesManagementDialog extends Dialog {
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
+        UserPanel userPanel;
+        JPanel labelsPanel;
+
+        JPanel northPanel;
         JPanel centerPanel;
         JPanel southPanel;
 
-        JPanel labelsPanel;
-        JPanel themesPanel;
-
-        JPanel leftPanel;
-
         // Set up Dialog -------------------------------------------------------
         this.setLayout(new BorderLayout());
-        this.setSize(500, 500);
-        this.setMinimumSize(new Dimension(250, 250));
-        this.setLocationRelativeTo(null);
-        this.setTitle("Administrador de Temas");
-        this.setResizable(true);
+//        this.setSize(700, 500);
+//        this.setLocationRelativeTo(null);
+//        this.setMinimumSize(new Dimension(300, 200));
+//        this.setTitle("Temas");
 
         // Set up Components ---------------------------------------------------
         this.backButton = new JButton("Volver");
-        this.themesStatisticsButton = new JButton("Temas");
 
+        userPanel = new UserPanel(this.account);
         centerPanel = new JPanel();
+        northPanel = new JPanel(new BorderLayout());
         southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-        labelsPanel = new JPanel(new GridLayout(1, 3));
-        themesPanel = new JPanel();
-
-        leftPanel = new JPanel(new BorderLayout());
+        labelsPanel = new JPanel(new GridLayout());
 
         // ---------------------------------------------------------------------
-        themesPanel.setLayout(new BoxLayout(themesPanel, BoxLayout.Y_AXIS));
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
         // ---------------------------------------------------------------------
-        labelsPanel.add(new JLabel("Imagen", JLabel.CENTER));
-        labelsPanel.add(new JLabel("Titulo", JLabel.CENTER));
-        labelsPanel.add(new JLabel("Vistas", JLabel.CENTER));
+        this.themes.forEach(i -> {
+            ThemeButton themeButton = new ThemeButton(i);
 
-        this.getThemes().forEach(i -> {
-            themesPanel.add(new ThemeButton(i));
+            themeButton.addActionListener(ae -> {
+                new ThemeDialog(i, this.account).showDialog();
+            });
+            centerPanel.add(themeButton);
         });
 
-        leftPanel.add(labelsPanel, BorderLayout.NORTH);
-        leftPanel.add(themesPanel, BorderLayout.CENTER);
+        labelsPanel.add(new JLabel("Imagen", JLabel.CENTER));
+        labelsPanel.add(new JLabel("Titulo", JLabel.CENTER));
+        labelsPanel.add(new JLabel("Descripcion", JLabel.CENTER));
+        labelsPanel.add(new JLabel("Progreso", JLabel.CENTER));
+        labelsPanel.add(new JLabel("Valor", JLabel.CENTER));
+        labelsPanel.add(new JLabel("Visitas", JLabel.CENTER));
+
+        northPanel.add(userPanel, BorderLayout.NORTH);
+        northPanel.add(labelsPanel, BorderLayout.CENTER);
 
         southPanel.add(this.backButton);
-        southPanel.add(this.themesStatisticsButton);
 
-        this.add(leftPanel, BorderLayout.WEST);
+        this.add(northPanel, BorderLayout.NORTH);
+        this.add(centerPanel, BorderLayout.CENTER);
         this.add(southPanel, BorderLayout.SOUTH);
     }
 
@@ -98,15 +102,12 @@ public class ThemesManagementDialog extends Dialog {
         this.backButton.addActionListener(ae -> {
             this.dispose();
         });
-
-        this.themesStatisticsButton.addActionListener(ae -> {
-            new ThemesStatisticsDialog().showDialog();
-        });
     }
 
     /* ______________________________________________________________________ */
     private void initThemes() {
         String themesDirectoryPath = WorkshopsPanel.class.getResource("/tools").toString().substring(5);
+
         File themesDirectory;
 
         Object[] description = null;
@@ -119,16 +120,15 @@ public class ThemesManagementDialog extends Dialog {
         if (themesDirectory.exists()) {
             for (File themeDirectory : themesDirectory.listFiles()) {
 
+                description = this.getDescription(
+                        themesDirectoryPath + "/"
+                        + themeDirectory.getName() + "/descripcion.txt");
+
                 tips = new ArrayList<>();
                 for (File themeFile : themeDirectory.listFiles()) {
-
                     fileName = themeFile.getName();
-                    if (fileName.contains("descripcion")) {
 
-                        description = this.getDescription(
-                                themesDirectoryPath + "/"
-                                + themeDirectory.getName() + "/descripcion.txt");
-                    } else {
+                    if (!fileName.contains("descripcion")) {
                         tips.add(new Tip(
                                 fileName.substring(0, fileName.indexOf(".txt")),
                                 this.getFileText(themeFile)
@@ -136,7 +136,7 @@ public class ThemesManagementDialog extends Dialog {
                     }
                 }
                 if (description != null) {
-                    this.getThemes().add(new Theme(
+                    this.themes.add(new Theme(
                             null,
                             themeDirectory.getName(),
                             description[0] + "",
@@ -148,6 +148,9 @@ public class ThemesManagementDialog extends Dialog {
                 }
             }
         }
+//        for (Theme theme : this.themes) {
+//            System.out.println(theme);
+//        }
     }
 
     /* ______________________________________________________________________ */
@@ -210,17 +213,37 @@ public class ThemesManagementDialog extends Dialog {
     }
 
     /* GETTERS ______________________________________________________________ */
+    public Account getAccount() {
+        return this.account;
+    }
+
+    /* ______________________________________________________________________ */
     public ArrayList<Theme> getThemes() {
         return this.themes;
     }
 
     /* SETTERS ______________________________________________________________ */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /* ______________________________________________________________________ */
     public void setThemes(ArrayList<Theme> themes) {
         this.themes = themes;
     }
 
-    /* MAIN _________________________________________________________________ */
+    @Override
+    public JButton getCloseButton() {
+        return this.backButton;
+    }
+
+    /*  MAIN ________________________________________________________________ */
     public static void main(String[] args) {
-        new ThemesManagementDialog().showTestDialog();
+        new WorkshopsPanel(new UserAccount(
+                "Alejandro",
+                "413J0c",
+                "passwd",
+                "profile/image-31"
+        )).showTestDialog();
     }
 }

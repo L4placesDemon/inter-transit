@@ -4,7 +4,7 @@ import interfaces.showaccount.ShowAccountDialog;
 import interfaces.showaccount.ShowAdminDialog;
 import interfaces.showaccount.ShowUserDialog;
 import interfaces.signin.SigninDialog;
-import interfaces.workshops.WorkshopsFrame;
+import interfaces.workshops.WorkshopsPanel;
 
 import java.awt.BorderLayout;
 import java.io.File;
@@ -18,6 +18,7 @@ import tools.Tools;
 import tools.binaryfilemanager.BinaryFileManager;
 import tools.components.Dialog;
 import tools.components.DialogPane;
+import tools.components.Panel;
 
 import worldclasses.Settings;
 import worldclasses.accounts.Account;
@@ -34,7 +35,7 @@ public class MainFrame extends JFrame {
     /* CONSTRUCTORS _________________________________________________________ */
     public MainFrame(Account account) {
         this.account = account;
-        
+
         this.initComponents();
         this.initEvents();
     }
@@ -84,8 +85,7 @@ public class MainFrame extends JFrame {
         });
 
         this.menuPanel.getUserButton().addActionListener(ae -> {
-            String result = this.userAction();
-            System.out.println(result);
+            this.userAction();
         });
 
         this.menuPanel.getWorkshopsButton().addActionListener(ae -> {
@@ -131,8 +131,8 @@ public class MainFrame extends JFrame {
     }
 
     /* ______________________________________________________________________ */
-    private String userAction() {
-        String result;
+    private boolean userAction() {
+//        String result;
         Dialog accountDialog;
 
         accountDialog = this.getAccount() == null
@@ -148,38 +148,37 @@ public class MainFrame extends JFrame {
             if (option == SigninDialog.OK_OPTION) {
                 this.setAccount(((SigninDialog) accountDialog).getAccount());
                 imagePath = this.getAccount().getImage();
-                result = "ok sign in";
-            } else {
-                result = "cancel sign in";
             }
         } else {
             if (option == ShowUserDialog.OK_OPTION) {
                 this.setAccount(null);
-                result = "ok show";
             } else {
                 this.setAccount(((ShowAccountDialog) accountDialog).getAccount());
                 imagePath = this.getAccount().getImage();
-                result = "cancel show";
             }
         }
         this.menuPanel.getUserButton().setIcon(Tools.getImageIcon(imagePath, 80, 80));
 
-        return result;
+        return this.getAccount() != null && option == ShowUserDialog.OK_OPTION;
     }
 
     /* ______________________________________________________________________ */
-    private void showWorkshopsDialog() {
-        WorkshopsFrame workshopsFrame = new WorkshopsFrame(this.getAccount());
+    private void showWorkshopsPanel() {
+        WorkshopsPanel workshopsPanel = new WorkshopsPanel(this.getAccount());
+        workshopsPanel.getCloseButton().addActionListener(ae -> {
+            this.remove(workshopsPanel);
+            this.add(this.menuPanel);
+            this.menuPanel.updateUI();
+        });
 
-        this.setVisible(false);
-        workshopsFrame.showDialog();
-        this.setAccount(workshopsFrame.getAccount());
-        this.setVisible(true);
+        this.remove(this.menuPanel);
+        this.add(workshopsPanel);
+        workshopsPanel.updateUI();
     }
 
     /* ______________________________________________________________________ */
     private void workshopsSigninAction() {
-        String result;
+        boolean result;
 
         if (getAccount() == null) {
             int option = DialogPane.yesNoCancelOption(
@@ -189,14 +188,14 @@ public class MainFrame extends JFrame {
 
             if (option == DialogPane.YES_OPTION) {
                 result = this.userAction();
-                if (result.equals("ok sign in")) {
-                    this.showWorkshopsDialog();
+                if (result) {
+                    this.showWorkshopsPanel();
                 }
             } else if (option == DialogPane.NO_OPTION) {
-                this.showWorkshopsDialog();
+                this.showWorkshopsPanel();
             }
         } else {
-            this.showWorkshopsDialog();
+            this.showWorkshopsPanel();
         }
     }
 
