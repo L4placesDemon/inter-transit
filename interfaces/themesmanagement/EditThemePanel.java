@@ -2,57 +2,85 @@ package interfaces.themesmanagement;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+
+import tools.components.TextArea;
 import tools.components.TextField;
 
 import worldclasses.themes.Theme;
+import worldclasses.themes.Tip;
 
 public class EditThemePanel extends JPanel {
 
     private Theme theme;
 
     private TextField themeNameField;
-    private JTextArea textArea;
-    
-    
-    private JButton cancelButton;
-    private JButton finishButton;
+    private TextArea themeDescriptionArea;
 
-    public EditThemePanel(Theme theme) {
-        this();
-        this.theme = theme;
-    }
+    private JPanel centerPanel;
+    private JButton cancelButton;
+    private JButton saveButton;
 
     public EditThemePanel() {
         this.initComponents();
         this.initEvents();
     }
 
+    public EditThemePanel(Theme theme) {
+        this();
+        this.theme = theme;
+    }
+
     private void initComponents() {
-        JPanel buttonsPanel;
+        JPanel northPanel;
+        JPanel southPanel;
 
         // Set up Panel --------------------------------------------------------
         this.setLayout(new BorderLayout());
 
         // Set up Components ---------------------------------------------------
-        this.cancelButton = new JButton();
-        this.finishButton = new JButton();
+        this.themeNameField = new TextField("campo");
+        this.themeDescriptionArea = new TextArea("area");
 
-        buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        this.centerPanel = new JPanel();
+        this.cancelButton = new JButton("Cancelar");
+        this.saveButton = new JButton("Guardar");
+
+        northPanel = new JPanel(new BorderLayout());
+        southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         // ---------------------------------------------------------------------
-        
-        
+        this.centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+
         // ---------------------------------------------------------------------
-        buttonsPanel.add(this.cancelButton);
-        buttonsPanel.add(this.finishButton);
-        
-        this.add(buttonsPanel, BorderLayout.SOUTH);
+        northPanel.add(this.themeNameField);
+        northPanel.add(this.themeDescriptionArea);
+
+        southPanel.add(this.cancelButton);
+        southPanel.add(this.saveButton);
+
+        this.add(northPanel, BorderLayout.NORTH);
+        this.add(centerPanel, BorderLayout.CENTER);
+        this.add(southPanel, BorderLayout.SOUTH);
     }
 
     private void initEvents() {
+        this.cancelButton.addActionListener(ae -> {
+            this.restore();
+        });
+
+        this.saveButton.addActionListener(ae -> {
+            this.save();
+        });
+    }
+
+    public void restore() {
+
+    }
+
+    public void save() {
 
     }
 
@@ -61,6 +89,22 @@ public class EditThemePanel extends JPanel {
     }
 
     public void setTheme(Theme theme) {
+        System.out.println("tema");
+
         this.theme = theme;
+        this.themeNameField.setText(this.getTheme().getTitle());
+        this.themeDescriptionArea.setText(this.getTheme().getDescription());
+
+        this.centerPanel.removeAll();
+        this.centerPanel.updateUI();
+
+        for (Tip tip : this.getTheme().getTips()) {
+            TipPanel tipPanel = new TipPanel(tip);
+
+            tipPanel.getTitleButton().addActionListener(ae -> {
+                this.centerPanel.updateUI();
+            });
+            this.centerPanel.add(tipPanel);
+        }
     }
 }

@@ -1,5 +1,6 @@
-package interfaces.showaccount;
+package interfaces.showaccount.showadminaccount;
 
+import interfaces.showaccount.AccountPanel;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import javax.swing.JLabel;

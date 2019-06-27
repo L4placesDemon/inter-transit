@@ -1,4 +1,4 @@
-package interfaces.workshops;
+package interfaces.themesmanagement;
 
 import java.awt.BorderLayout;
 import javax.swing.JButton;
@@ -20,7 +20,7 @@ public class TipPanel extends JPanel {
     /* CONSTRUCTORS _________________________________________________________ */
     public TipPanel(Tip tip) {
         this.tip = tip;
-        this.state = false;
+        this.state = true;
 
         this.initComponents();
         this.initEvents();

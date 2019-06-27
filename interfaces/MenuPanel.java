@@ -2,7 +2,6 @@ package interfaces;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,8 +19,6 @@ import worldclasses.accounts.Account;
 public class MenuPanel extends Panel {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    public static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
-
     private Account account;
 
     private JButton settingsButton;
@@ -67,7 +64,9 @@ public class MenuPanel extends Panel {
         this.workshopsButton = new JButton();
         this.testButton = new JButton();
 
-        logoLabel = new JLabel(Tools.getImageIcon(logo, 750, 750), JLabel.CENTER);
+        System.out.println(getParent());
+        int width = 750;
+        logoLabel = new JLabel(Tools.getImageIcon(logo, width, width), JLabel.CENTER);
         northPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         eastPanel = new JPanel(new GridLayout(4, 1));
 
@@ -117,11 +116,12 @@ public class MenuPanel extends Panel {
         });
     }
 
+    /* ______________________________________________________________________ */
     @Override
     public JButton getCloseButton() {
         return null;
     }
-    
+
     /* GETTERS ______________________________________________________________ */
     public Account getAccount() {
         return account;

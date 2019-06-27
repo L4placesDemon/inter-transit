@@ -3,7 +3,6 @@ package worldclasses;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.Serializable;
-import java.util.ArrayList;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -63,16 +62,34 @@ public class Settings implements Serializable {
         UIManager.put("Button.select", select);
 
         UIManager.put("RadioButton.background", primary);
-        UIManager.put("RadioButton.foreground", foreground);
         UIManager.put("RadioButton.font", _font);
+        UIManager.put("RadioButton.foreground", foreground);
 
+        UIManager.put("ScrollBar.thumbHighlight", secondary);
+        UIManager.put("ScrollBar.thumbLightHighlight", secondary);
+        UIManager.put("ScrollBar.thumbDarkHighlight", secondary);
+        UIManager.put("ScrollBar.thumb", secondary);
+        UIManager.put("ScrollBar.track", secondary);
+        UIManager.put("ScrollBar.trackHighlight", secondary);
+        UIManager.put("ScrollBar.darkShadow", secondary);
+        UIManager.put("ScrollBar.foreground", secondary);
+        UIManager.put("ScrollBar.highlight", secondary);
+        UIManager.put("ScrollBar.shadow", secondary);
+        UIManager.put("ScrollBar.thumbDarkShadow", secondary);
+        UIManager.put("ScrollBar.thumbShadow", secondary);
         UIManager.put("ScrollBar.background", primary);
+
         UIManager.put("ScrollPane.background", primary);
+        UIManager.put("ScrollPane.border", border);
 
         UIManager.put("TextField.caretForeground", foreground);
-        UIManager.put("TextField.border", border);
         UIManager.put("TextField.background", secondary);
+        UIManager.put("TextField.border", border);
         UIManager.put("TextField.foreground", foreground);
+
+        UIManager.put("TextArea.background", secondary);
+        UIManager.put("TextArea.border", border);
+        UIManager.put("TextArea.foreground", foreground);
 
         UIManager.put("PasswordField.caretForeground", foreground);
         UIManager.put("PasswordField.border", border);

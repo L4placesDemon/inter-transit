@@ -1,8 +1,8 @@
 package interfaces;
 
 import interfaces.showaccount.ShowAccountDialog;
-import interfaces.showaccount.ShowAdminDialog;
-import interfaces.showaccount.ShowUserDialog;
+import interfaces.showaccount.showadminaccount.ShowAdminDialog;
+import interfaces.showaccount.showuseraccount.ShowUserDialog;
 import interfaces.signin.SigninDialog;
 import interfaces.workshops.WorkshopsPanel;
 

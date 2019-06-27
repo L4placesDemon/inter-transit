@@ -36,7 +36,7 @@ public class SettingsDialog extends Dialog {
     public SettingsDialog(boolean darkThemeSelected) {
 
         this.darkThemeSelected = darkThemeSelected;
-        this.selectedFont = SettingsDialog.DEFAULT_FONT;
+        this.selectedFont = Settings.DEFAULT_FONT;
 
         this.initComponents();
         this.initEvents();

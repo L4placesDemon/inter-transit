@@ -7,7 +7,5 @@ NOTES:
 - Manage dialog interfaces with panels
 - Documentate code
 - Output text by console with tools.output function
-- Dark mode option
 - Add personalized exceptions
-
 - Statistics for Users in each Workshop

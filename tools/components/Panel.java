@@ -2,14 +2,12 @@ package tools.components;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public abstract class Panel extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    public static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
     public static final int OK_OPTION = 0;
     public static final int CANCEL_OPTION = 1;
 

@@ -1,7 +1,7 @@
 package interfaces.workshops;
 
-import interfaces.showaccount.ShowAdminDialog;
-import interfaces.showaccount.ShowUserDialog;
+import interfaces.showaccount.showadminaccount.ShowAdminDialog;
+import interfaces.showaccount.showuseraccount.ShowUserDialog;
 import interfaces.signin.SigninDialog;
 
 import java.awt.FlowLayout;

@@ -19,7 +19,6 @@ public abstract class ShowAccountDialog extends Dialog {
     protected AccountPanel accountPanel;
 
     protected JButton backButton;
-    protected JButton showReportButton;
     protected JButton removeButton;
     protected JButton signoutButton;
     protected JButton editButton;
@@ -38,11 +37,9 @@ public abstract class ShowAccountDialog extends Dialog {
 
         // Set up Frame --------------------------------------------------------
         this.setLayout(new BorderLayout());
-        this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
         this.backButton = new JButton("Volver");
-        this.showReportButton = new JButton("Reporte");
         this.removeButton = new JButton("Eliminar");
         this.signoutButton = new JButton("Cerrar sesion");
         this.editButton = new JButton("Editar");
@@ -84,7 +81,7 @@ public abstract class ShowAccountDialog extends Dialog {
     }
 
     /* ______________________________________________________________________ */
-    public abstract void editAction();
+    protected abstract void editAction();
 
     /* ______________________________________________________________________ */
     public void removeAccount(Account account) {

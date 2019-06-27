@@ -16,7 +16,6 @@ public class TextField extends JTextField {
     public TextField(String string) {
         super(string);
 
-        this.initComponents();
         this.initEvents();
     }
 
@@ -26,11 +25,6 @@ public class TextField extends JTextField {
     }
 
     /* METHODS ______________________________________________________________ */
-    private void initComponents() {
-//        this.setBorder(null);
-    }
-
-    /* _____________________________ _________________________________________ */
     private void initEvents() {
         this.undoManager = new UndoManager();
         this.getDocument().addUndoableEditListener(undoManager);

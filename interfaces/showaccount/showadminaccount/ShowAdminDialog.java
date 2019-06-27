@@ -1,7 +1,8 @@
-package interfaces.showaccount;
+package interfaces.showaccount.showadminaccount;
 
 import interfaces.accountsmanagement.AccountsManagementDialog;
 import interfaces.editaccount.EditAccountDialog;
+import interfaces.showaccount.ShowAccountDialog;
 import interfaces.themesmanagement.ThemesManagementDialog;
 
 import java.awt.BorderLayout;
@@ -18,8 +19,6 @@ import worldclasses.accounts.AdminAccount;
 public class ShowAdminDialog extends ShowAccountDialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    private AdminPanel adminPanel;
-
     private JButton themesManagementButton;
     private JButton accountsManagementButton;
 
@@ -36,6 +35,7 @@ public class ShowAdminDialog extends ShowAccountDialog {
 
         // Set up Frame --------------------------------------------------------
         super.initComponents();
+        
         this.setSize(535, 360);
         this.setLocationRelativeTo(null);
         this.setTitle("Datos Administrador");
@@ -96,7 +96,7 @@ public class ShowAdminDialog extends ShowAccountDialog {
 
     /* ______________________________________________________________________ */
     @Override
-    public void editAction() {
+    protected void editAction() {
         EditAccountDialog editAccountDialog;
         BinaryFileManager manager;
 

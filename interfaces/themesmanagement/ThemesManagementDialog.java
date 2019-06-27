@@ -27,6 +27,9 @@ public class ThemesManagementDialog extends Dialog {
     /* ATTRIBUTES ___________________________________________________________ */
     private ArrayList<Theme> themes;
 
+    private ArrayList<ThemeButton> themeButtons;
+
+    private EditThemePanel editThemePanel;
     private JButton backButton;
     private JButton themesStatisticsButton;
 
@@ -42,13 +45,12 @@ public class ThemesManagementDialog extends Dialog {
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
-        JPanel centerPanel;
         JPanel southPanel;
 
         JPanel labelsPanel;
         JPanel themesPanel;
 
-        JPanel leftPanel;
+        JPanel westPanel;
 
         // Set up Dialog -------------------------------------------------------
         this.setLayout(new BorderLayout());
@@ -59,19 +61,22 @@ public class ThemesManagementDialog extends Dialog {
         this.setResizable(true);
 
         // Set up Components ---------------------------------------------------
+        this.themeButtons = new ArrayList<>();
+
+        this.editThemePanel = new EditThemePanel();
         this.backButton = new JButton("Volver");
         this.themesStatisticsButton = new JButton("Temas");
 
-        centerPanel = new JPanel();
         southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         labelsPanel = new JPanel(new GridLayout(1, 3));
         themesPanel = new JPanel();
 
-        leftPanel = new JPanel(new BorderLayout());
+        westPanel = new JPanel(new BorderLayout());
 
         // ---------------------------------------------------------------------
         themesPanel.setLayout(new BoxLayout(themesPanel, BoxLayout.Y_AXIS));
+        this.editThemePanel.updateUI();
 
         // ---------------------------------------------------------------------
         labelsPanel.add(new JLabel("Imagen", JLabel.CENTER));
@@ -79,16 +84,19 @@ public class ThemesManagementDialog extends Dialog {
         labelsPanel.add(new JLabel("Vistas", JLabel.CENTER));
 
         this.getThemes().forEach(i -> {
-            themesPanel.add(new ThemeButton(i));
+            ThemeButton themeButton = new ThemeButton(i);
+            this.themeButtons.add(themeButton);
+            themesPanel.add(themeButton);
         });
 
-        leftPanel.add(labelsPanel, BorderLayout.NORTH);
-        leftPanel.add(themesPanel, BorderLayout.CENTER);
+        westPanel.add(labelsPanel, BorderLayout.NORTH);
+        westPanel.add(themesPanel, BorderLayout.CENTER);
 
         southPanel.add(this.backButton);
         southPanel.add(this.themesStatisticsButton);
 
-        this.add(leftPanel, BorderLayout.WEST);
+        this.add(westPanel, BorderLayout.WEST);
+        this.add(this.editThemePanel, BorderLayout.CENTER);
         this.add(southPanel, BorderLayout.SOUTH);
     }
 
@@ -102,6 +110,14 @@ public class ThemesManagementDialog extends Dialog {
         this.themesStatisticsButton.addActionListener(ae -> {
             new ThemesStatisticsDialog().showDialog();
         });
+
+        for (ThemeButton themeButton : this.themeButtons) {
+            themeButton.addActionListener(ae -> {
+                this.editThemePanel.setTheme(themeButton.getTheme());
+//                this.centerPanel.add(new EditThemePanel(themeButton.getTheme()), BorderLayout.CENTER);
+//                this.centerPanel.updateUI();
+            });
+        }
     }
 
     /* ______________________________________________________________________ */

@@ -1,6 +1,5 @@
 package tools.components;
 
-import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JDialog;
@@ -9,7 +8,6 @@ import javax.swing.JFrame;
 public class Dialog extends JDialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    public static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
     public static final int OK_OPTION = 0;
     public static final int CANCEL_OPTION = 1;
 

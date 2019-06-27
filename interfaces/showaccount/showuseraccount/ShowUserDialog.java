@@ -1,9 +1,11 @@
-package interfaces.showaccount;
+package interfaces.showaccount.showuseraccount;
 
 import interfaces.editaccount.EditAccountDialog;
+import interfaces.showaccount.ShowAccountDialog;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -14,6 +16,9 @@ import worldclasses.accounts.UserAccount;
 
 public class ShowUserDialog extends ShowAccountDialog {
 
+    /* ATTRIBUTES ___________________________________________________________ */
+    private JButton showReportButton;
+    
     /* CONSTRUCTORS _________________________________________________________ */
     public ShowUserDialog(UserAccount userAccount) {
         super(userAccount);
@@ -27,23 +32,27 @@ public class ShowUserDialog extends ShowAccountDialog {
 
         // Set up Dialog -------------------------------------------------------
         super.initComponents();
-        this.setSize(371, 360);
+        
+        this.setSize(451, 360);
         this.setLocationRelativeTo(null);
         this.setTitle("Datos Usuario");
+//        this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
         super.accountPanel = new UserPanel((UserAccount) this.getAccount());
         this.imageLabel = new JLabel(Tools.getImageIcon(this.getAccount().getImage(), 120, 120));
-
+        
+        this.showReportButton = new JButton("Reporte");
 
         mainPanel = new JPanel(new BorderLayout());
-        buttonsPanel  = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         // ---------------------------------------------------------------------
         mainPanel.add(super.imageLabel, BorderLayout.CENTER);
         mainPanel.add(super.accountPanel, BorderLayout.SOUTH);
 
         buttonsPanel.add(super.backButton);
+        buttonsPanel.add(this.showReportButton);
         buttonsPanel.add(super.removeButton);
         buttonsPanel.add(super.signoutButton);
         buttonsPanel.add(super.editButton);
@@ -54,7 +63,23 @@ public class ShowUserDialog extends ShowAccountDialog {
 
     /* ______________________________________________________________________ */
     @Override
-    public void editAction() {
+    protected void initEvents() {
+        // Components Events ---------------------------------------------------
+        super.initEvents();
+
+        this.showReportButton.addActionListener(ae -> {
+            this.showReportAction();
+        });
+    }
+
+    /* ______________________________________________________________________ */
+    private void showReportAction() {
+        
+    }
+    
+    /* ______________________________________________________________________ */
+    @Override
+    protected void editAction() {
         EditAccountDialog editAccountDialog;
         BinaryFileManager manager;
 

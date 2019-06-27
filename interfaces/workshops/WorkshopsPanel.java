@@ -12,6 +12,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import tools.components.Panel;
 
 import worldclasses.Settings;
@@ -50,10 +51,6 @@ public class WorkshopsPanel extends Panel {
 
         // Set up Dialog -------------------------------------------------------
         this.setLayout(new BorderLayout());
-//        this.setSize(700, 500);
-//        this.setLocationRelativeTo(null);
-//        this.setMinimumSize(new Dimension(300, 200));
-//        this.setTitle("Temas");
 
         // Set up Components ---------------------------------------------------
         this.backButton = new JButton("Volver");

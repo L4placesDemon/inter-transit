@@ -1,5 +1,7 @@
 package interfaces.workshops;
 
+import interfaces.themesmanagement.TipPanel;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
