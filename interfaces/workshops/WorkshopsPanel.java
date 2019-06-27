@@ -1,7 +1,6 @@
 package interfaces.workshops;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.io.BufferedReader;
@@ -15,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import tools.components.Panel;
 
-//import tools.components.Dialog;
+import worldclasses.Settings;
 import worldclasses.themes.Tip;
 import worldclasses.accounts.Account;
 import worldclasses.accounts.UserAccount;
@@ -106,7 +105,7 @@ public class WorkshopsPanel extends Panel {
 
     /* ______________________________________________________________________ */
     private void initThemes() {
-        String themesDirectoryPath = WorkshopsPanel.class.getResource("/tools").toString().substring(5);
+        String themesDirectoryPath = Settings.class.getResource("/tools").toString().substring(5);
 
         File themesDirectory;
 

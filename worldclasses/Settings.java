@@ -3,6 +3,7 @@ package worldclasses;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -96,7 +97,11 @@ public class Settings implements Serializable {
 
     /* ______________________________________________________________________ */
     public static Settings getCurrentSettings() {
-        return (Settings) new BinaryFileManager("settings.dat").read().get(0);
+        BinaryFileManager manager = new BinaryFileManager("settings.dat");
+        if (manager.read().isEmpty()) {
+            manager.write(new Settings());
+        }
+        return (Settings) manager.read().get(0);
     }
 
     /* ______________________________________________________________________ */

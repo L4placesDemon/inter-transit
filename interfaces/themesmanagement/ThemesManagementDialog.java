@@ -1,7 +1,6 @@
 package interfaces.themesmanagement;
 
 import interfaces.themestatistics.ThemesStatisticsDialog;
-import interfaces.workshops.WorkshopsPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -19,6 +18,7 @@ import javax.swing.JPanel;
 
 import tools.components.Dialog;
 
+import worldclasses.Settings;
 import worldclasses.themes.Theme;
 import worldclasses.themes.Tip;
 
@@ -32,7 +32,7 @@ public class ThemesManagementDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public ThemesManagementDialog() {
-        
+
         this.themes = new ArrayList<>();
 
         this.initThemes();
@@ -106,7 +106,7 @@ public class ThemesManagementDialog extends Dialog {
 
     /* ______________________________________________________________________ */
     private void initThemes() {
-        String themesDirectoryPath = WorkshopsPanel.class.getResource("/tools").toString().substring(5);
+        String themesDirectoryPath = Settings.class.getResource("/tools").toString().substring(5);
         File themesDirectory;
 
         Object[] description = null;

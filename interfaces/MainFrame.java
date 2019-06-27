@@ -18,7 +18,6 @@ import tools.Tools;
 import tools.binaryfilemanager.BinaryFileManager;
 import tools.components.Dialog;
 import tools.components.DialogPane;
-import tools.components.Panel;
 
 import worldclasses.Settings;
 import worldclasses.accounts.Account;
@@ -45,7 +44,6 @@ public class MainFrame extends JFrame {
         String logo = null;
         String theme;
 
-        initSettings();
         theme = Settings.getCurrentSettings().getTheme();
 
         if (theme.equals(Settings.LIGHT_THEME)) {
@@ -199,17 +197,6 @@ public class MainFrame extends JFrame {
         }
     }
 
-    /* ______________________________________________________________________ */
-    private void initSettings() {
-        BinaryFileManager manager = new BinaryFileManager("settings.dat");
-        ArrayList<Object> objects = manager.read();
-
-        System.out.println(objects);
-        if (objects.isEmpty()) {
-            manager.write(new Settings());
-        }
-    }
-
     /* GETTERS ______________________________________________________________ */
     public Account getAccount() {
         return this.account;
@@ -281,7 +268,7 @@ public class MainFrame extends JFrame {
             chars = 6;
         }
 
-        String pathFolder = MenuPanel.class.getResource("/tools").toString().substring(chars);
+        String pathFolder = Settings.class.getResource("/tools").toString().substring(chars);
         pathFolder = pathFolder.substring(0, pathFolder.indexOf("build")) + "src/files/";
 
         File foldersFolder = new File(pathFolder);

@@ -1,6 +1,7 @@
 package interfaces.accountstatistics;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -14,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 import tools.binaryfilemanager.BinaryFileManager;
 import tools.components.Dialog;
+import worldclasses.Settings;
 
 import worldclasses.accounts.Account;
 import worldclasses.accounts.UserAccount;
@@ -29,7 +31,7 @@ public class AccountStatisticsDialog extends Dialog {
 
     /* CONSTRUCTORS__________________________________________________________ */
     public AccountStatisticsDialog(ArrayList<Account> accounts) {
-        
+
         this.accounts = accounts;
 
         this.initComponents();
@@ -49,6 +51,14 @@ public class AccountStatisticsDialog extends Dialog {
         JPanel pointsPanel;
 
         JScrollPane scrollPane;
+
+        Color color = null;
+        String theme = Settings.getCurrentSettings().getTheme();
+        if (theme.equals(Settings.LIGHT_THEME)) {
+            color = Color.black;
+        } else if (theme.equals(Settings.DARK_THEME)) {
+            color = Color.white;
+        }
 
         // Set up Dialog -------------------------------------------------------
         this.setLayout(new BorderLayout());
