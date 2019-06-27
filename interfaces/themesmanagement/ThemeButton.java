@@ -1,9 +1,8 @@
-package interfaces.themesmanagement;
+package interfaces.themestatistics;
 
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-
 import worldclasses.themes.Theme;
 
 public class ThemeButton extends JButton {
@@ -11,46 +10,48 @@ public class ThemeButton extends JButton {
     /* ATTRIBUTES ___________________________________________________________ */
     private Theme theme;
 
-    private JLabel imageLabel;
-    private JLabel titleLabel;
-    private JLabel descriptionLabel;
-    private JLabel progressLabel;
-    private JLabel valueLabel;
-    private JLabel viewsLabel;
-
     /* CONSTRUCTORS _________________________________________________________ */
     public ThemeButton(Theme theme) {
         this.theme = theme;
 
         this.initComponents();
+        this.initEvents();
     }
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
+        JLabel imageLabel;
+        JLabel titleLabel;
+        JLabel viewsLabel;
+
+        // Set up Button -------------------------------------------------------
         this.setLayout(new GridLayout());
 
-        this.imageLabel = new JLabel();
-        if (this.getTheme().getImage() != null) {
-            this.imageLabel.setIcon(this.getTheme().getImage());
+        // Set up Components ---------------------------------------------------
+        imageLabel = new JLabel();
+
+        titleLabel = new JLabel(this.theme.getTitle(), JLabel.CENTER);
+        viewsLabel = new JLabel(this.theme.getViews() + " views", JLabel.CENTER);
+
+        // ---------------------------------------------------------------------
+        if (this.theme.getImage() != null) {
+            imageLabel.setIcon(this.theme.getImage());
         }
 
-        this.titleLabel = new JLabel(this.getTheme().getTitle(), JLabel.CENTER);
-        this.descriptionLabel = new JLabel(this.getTheme().getDescription(), JLabel.CENTER);
-        this.progressLabel = new JLabel(this.getTheme().getProgress() + "%", JLabel.CENTER);
-        this.valueLabel = new JLabel("$" + this.getTheme().getValue(), JLabel.CENTER);
-        this.viewsLabel = new JLabel(this.getTheme().getViews() + "", JLabel.CENTER);
-
+        // ---------------------------------------------------------------------
         this.add(imageLabel);
         this.add(titleLabel);
-        this.add(descriptionLabel);
-        this.add(progressLabel);
-        this.add(valueLabel);
         this.add(viewsLabel);
+    }
+
+    /* ______________________________________________________________________ */
+    private void initEvents() {
+
     }
 
     /* GETTERS ______________________________________________________________ */
     public Theme getTheme() {
-        return this.theme;
+        return theme;
     }
 
     /* SETTERS ______________________________________________________________ */
