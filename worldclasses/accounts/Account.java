@@ -19,7 +19,6 @@ public abstract class Account implements Serializable {
         this.image = image;
     }
 
-
     /* ______________________________________________________________________ */
     public Account(String username, String nickname, String password) {
         this(username, nickname, password, null);
@@ -45,28 +44,29 @@ public abstract class Account implements Serializable {
     }
 
     /* ______________________________________________________________________ */
-    @Override
+    @Override   
     public int hashCode() {
-        int hash = 5;
+        int hash = 7;
+        hash = 43 * hash + Objects.hashCode(this.getUsername());
+        hash = 43 * hash + Objects.hashCode(this.getNickname());
+        hash = 43 * hash + Objects.hashCode(this.getPassword());
+        hash = 43 * hash + Objects.hashCode(this.getImage());
         return hash;
     }
 
     /* ______________________________________________________________________ */
     @Override
     public boolean equals(Object obj) {
+        final Account other = (Account) obj;
         if (this == obj) {
             return true;
         }
-        final Account other = (Account) obj;
-        if (obj == null
-                || getClass() != obj.getClass()
+        return !(other == null
+                || getClass() != other.getClass()
                 || !Objects.equals(this.getUsername(), other.getUsername())
                 || !Objects.equals(this.getNickname(), other.getNickname())
                 || !Objects.equals(this.getPassword(), other.getPassword())
-                || !Objects.equals(this.getImage(), other.getImage())) {
-            return false;
-        }
-        return true;
+                || !Objects.equals(this.getImage(), other.getImage()));
     }
 
     /* GETTERS ______________________________________________________________ */

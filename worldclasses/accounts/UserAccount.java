@@ -51,8 +51,7 @@ public class UserAccount extends Account {
     @Override
     public String toString() {
         String superString = super.toString();
-        return "User"
-                + superString.substring(0, superString.length() - 1) + ", "
+        return "User" + superString.substring(0, superString.length() - 1) + ", "
                 + this.getLevel() + ", "
                 + this.getPoints() + "}";
     }
