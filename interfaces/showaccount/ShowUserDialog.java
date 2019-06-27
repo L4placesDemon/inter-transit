@@ -3,10 +3,11 @@ package interfaces.showaccount;
 import interfaces.editaccount.EditAccountDialog;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import tools.Tools;
-import tools.components.Border;
 import tools.binaryfilemanager.BinaryFileManager;
 
 import worldclasses.accounts.UserAccount;
@@ -22,28 +23,33 @@ public class ShowUserDialog extends ShowAccountDialog {
     @Override
     protected void initComponents() {
         JPanel mainPanel;
+        JPanel buttonsPanel;
 
+        // Set up Dialog -------------------------------------------------------
         super.initComponents();
+        this.setSize(371, 360);
+        this.setLocationRelativeTo(null);
+        this.setTitle("Datos Usuario");
 
         // Set up Components ---------------------------------------------------
         super.accountPanel = new UserPanel((UserAccount) this.getAccount());
+        this.imageLabel = new JLabel(Tools.getImageIcon(this.getAccount().getImage(), 120, 120));
+
 
         mainPanel = new JPanel(new BorderLayout());
-
-        // ---------------------------------------------------------------------
-        super.imageLabel.setBorder(new Border(10, 20, 10, 20));
+        buttonsPanel  = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         // ---------------------------------------------------------------------
         mainPanel.add(super.imageLabel, BorderLayout.CENTER);
         mainPanel.add(super.accountPanel, BorderLayout.SOUTH);
 
-        super.buttonsPanel.add(super.backButton);
-        super.buttonsPanel.add(super.removeButton);
-        super.buttonsPanel.add(super.signoutButton);
-        super.buttonsPanel.add(super.editButton);
+        buttonsPanel.add(super.backButton);
+        buttonsPanel.add(super.removeButton);
+        buttonsPanel.add(super.signoutButton);
+        buttonsPanel.add(super.editButton);
 
         super.add(mainPanel, BorderLayout.CENTER);
-        super.add(super.buttonsPanel, BorderLayout.SOUTH);
+        super.add(buttonsPanel, BorderLayout.SOUTH);
     }
 
     /* ______________________________________________________________________ */

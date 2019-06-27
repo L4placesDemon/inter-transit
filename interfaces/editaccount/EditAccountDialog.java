@@ -27,7 +27,7 @@ public final class EditAccountDialog extends RegisterAccountDialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public EditAccountDialog(Account account) {
-        super();
+        
 
         if (account instanceof AdminAccount) {
             this.setAccount(new AdminAccount(
@@ -65,7 +65,6 @@ public final class EditAccountDialog extends RegisterAccountDialog {
         this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
-        // ---------------------------------------------------------------------
         this.imagePanel = new ImagePanel(this.getAccount().getImage());
         this.userPanel = new UserPanel(
                 this.getAccount().getUsername(),
@@ -149,9 +148,16 @@ public final class EditAccountDialog extends RegisterAccountDialog {
             }
 
             if (bool) {
-                this.edit(_account);
-                this.dispose();
-                this.okAction();
+                int result = DialogPane.yesNoCancelOption("", "");
+
+                if (result == DialogPane.YES_OPTION) {
+                    this.edit(_account);
+                    this.dispose();
+                    this.okAction();
+                } else if (result == DialogPane.NO_OPTION) {
+                    this.dispose();
+                    this.cancelAction();
+                }
             }
         }
     }
@@ -292,7 +298,6 @@ public final class EditAccountDialog extends RegisterAccountDialog {
 
     /* ______________________________________________________________________ */
     public void edit(Account account) {
-
         this.getAccount().setImage(account.getImage());
 
         if (account instanceof AdminAccount) {

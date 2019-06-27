@@ -12,6 +12,7 @@ import javax.swing.border.EtchedBorder;
 
 import tools.Tools;
 import tools.components.Dialog;
+import worldclasses.Settings;
 
 public class AboutDialog extends Dialog {
 
@@ -20,7 +21,7 @@ public class AboutDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public AboutDialog() {
-        super();
+        
 
         this.initComponents();
         this.initEvents();
@@ -28,18 +29,23 @@ public class AboutDialog extends Dialog {
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
-        JLabel logoLabel;
-        JLabel company_logoLabel;
+        String theme;
+        String logo = null;
+
         JPanel descriptionPanel;
         JPanel creditsPanel;
 
-        JLabel programDescriptionLabel;
-        JLabel programCreditsLabel;
-
         JPanel logosPanel;
-        JPanel mainPanel;
+        JPanel centerPanel;
         JPanel labelsPanel;
-        JPanel buttonPanel;
+        JPanel buttonsPanel;
+
+        theme = Settings.getCurrentSettings().getTheme();
+        if (theme.equals(Settings.LIGHT_THEME)) {
+            logo = Settings.LIGHT_LOGO;
+        } else if (theme.equals(Settings.DARK_THEME)) {
+            logo = Settings.DARK_LOGO;
+        }
 
         // Set up Dialog -------------------------------------------------------
         this.setLayout(new BorderLayout());
@@ -49,24 +55,14 @@ public class AboutDialog extends Dialog {
         this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
-        logoLabel = new JLabel(Tools.getImageIcon("logos/dark-logo", 213, 213));
-        company_logoLabel = new JLabel(Tools.getImageIcon("logos/company_logo", 180, 180));
-
         descriptionPanel = new JPanel();
         creditsPanel = new JPanel();
         this.closeButton = new JButton("Cerrar");
 
-        programDescriptionLabel = new JLabel(
-                "InterTransit\n"
-                + "");
-        programCreditsLabel = new JLabel(
-                "Snow Gryphon Software\n"
-                + "");
-
         logosPanel = new JPanel(new GridLayout(1, 2));
-        mainPanel = new JPanel(new GridLayout(2, 1));
+        centerPanel = new JPanel(new GridLayout(2, 1));
         labelsPanel = new JPanel(new GridLayout(2, 1, 0, 5));
-        buttonPanel = new JPanel(new FlowLayout());
+        buttonsPanel = new JPanel(new FlowLayout());
 
         // ---------------------------------------------------------------------
         logosPanel.setBorder(new EmptyBorder(0, 13, 0, 0));
@@ -80,22 +76,28 @@ public class AboutDialog extends Dialog {
         labelsPanel.setBorder(new EmptyBorder(0, 20, 5, 20));
 
         // ---------------------------------------------------------------------
-        descriptionPanel.add(programDescriptionLabel);
-        creditsPanel.add(programCreditsLabel);
+        descriptionPanel.add(new JLabel(
+                "Inter-Transit\n"
+                + ""
+        ));
+        creditsPanel.add(new JLabel(
+                "Snow Gryphon Software\n"
+                + ""
+        ));
 
-        logosPanel.add(logoLabel);
-        logosPanel.add(company_logoLabel);
+        logosPanel.add(new JLabel(Tools.getImageIcon(logo, 213, 213)));
+        logosPanel.add(new JLabel(Tools.getImageIcon("logos/company_logo", 180, 180)));
 
         labelsPanel.add(descriptionPanel);
         labelsPanel.add(creditsPanel);
 
-        mainPanel.add(logosPanel);
-        mainPanel.add(labelsPanel);
+        centerPanel.add(logosPanel);
+        centerPanel.add(labelsPanel);
 
-        buttonPanel.add(this.closeButton);
+        buttonsPanel.add(this.closeButton);
 
-        this.add(mainPanel, BorderLayout.CENTER);
-        this.add(buttonPanel, BorderLayout.SOUTH);
+        this.add(centerPanel, BorderLayout.CENTER);
+        this.add(buttonsPanel, BorderLayout.SOUTH);
     }
 
     /* ______________________________________________________________________ */

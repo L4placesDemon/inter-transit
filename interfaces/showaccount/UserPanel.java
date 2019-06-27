@@ -25,56 +25,35 @@ public class UserPanel extends AccountPanel {
     /* METHODS ______________________________________________________________ */
     @Override
     protected void initComponents() {
-        JLabel usernameLabel;
-        JLabel nicknameLabel;
-        JLabel levelLabel;
-        JLabel pointsLabel;
-
         JPanel leftPanel;
         JPanel rightPanel;
 
         // Set up Panel --------------------------------------------------------
-        this.setBorder(new Border(new EmptyBorder(10, 20, 10, 20), new Border("Usuario")));
-        this.setLayout(new BorderLayout());
+        super.initComponents();
+        this.setBorder(new Border(new EmptyBorder(0, 20, 0, 20), new Border("Usuario")));
 
         // Set up Components ---------------------------------------------------
-        super.usernameField = new TextField(super.getAccount().getUsername());
-        super.nicknameField = new TextField(super.getAccount().getNickname());
-
         this.levelField = new TextField();
         this.pointsField = new TextField();
-        this.pointsField.setText(((UserAccount) super.getAccount()).getPoints() + "");
-        this.levelField.setText(((UserAccount) super.getAccount()).getLevel() + "");
-
-        usernameLabel = new JLabel("Nombre:", JLabel.RIGHT);
-        nicknameLabel = new JLabel("Apodo:", JLabel.RIGHT);
-        levelLabel = new JLabel("Nivel:", JLabel.RIGHT);
-        pointsLabel = new JLabel("Puntos:", JLabel.RIGHT);
 
         leftPanel = new JPanel(new GridLayout(4, 1, 10, 7));
         rightPanel = new JPanel(new GridLayout(4, 1, 10, 5));
 
         // ---------------------------------------------------------------------
-        super.usernameField.setBorder(new Border(0, 5, 0, 5));
-        super.usernameField.setEditable(false);
-
-        super.nicknameField.setBorder(new Border(0, 5, 0, 5));
-        super.nicknameField.setEditable(false);
-
-        this.levelField.setBorder(new Border(0, 5, 0, 5));
+        this.levelField.setText(((UserAccount) super.getAccount()).getLevel() + "");
         this.levelField.setEditable(false);
 
-        this.pointsField.setBorder(new Border(0, 5, 0, 5));
+        this.pointsField.setText(((UserAccount) super.getAccount()).getPoints() + "");
         this.pointsField.setEditable(false);
 
         leftPanel.setBorder(new EmptyBorder(10, 20, 20, 20));
         rightPanel.setBorder(new EmptyBorder(10, 0, 20, 20));
 
         // ---------------------------------------------------------------------
-        leftPanel.add(usernameLabel);
-        leftPanel.add(nicknameLabel);
-        leftPanel.add(levelLabel);
-        leftPanel.add(pointsLabel);
+        leftPanel.add(new JLabel("Nombre:", JLabel.RIGHT));
+        leftPanel.add(new JLabel("Apodo:", JLabel.RIGHT));
+        leftPanel.add(new JLabel("Nivel:", JLabel.RIGHT));
+        leftPanel.add(new JLabel("Puntos:", JLabel.RIGHT));
 
         rightPanel.add(super.usernameField);
         rightPanel.add(super.nicknameField);

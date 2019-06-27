@@ -2,22 +2,19 @@ package interfaces;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import tools.components.Dialog;
 import tools.components.FontChooser;
 import tools.components.ToggleSwitch;
 import tools.components.ToggleSwitchListener;
+import worldclasses.Settings;
 
 public class SettingsDialog extends Dialog {
 
@@ -26,15 +23,19 @@ public class SettingsDialog extends Dialog {
     public static final String DARL_THEME = "dark-theme";
 
     private String theme;
+    private boolean darkThemeSelected;
     private Font selectedFont;
 
     private ToggleSwitch toggleSwitch;
     private JButton fontButton;
-    private JButton backButton;
+
+    private JButton okButton;
+    private JButton cancelButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public SettingsDialog() {
-        super();
+    public SettingsDialog(boolean darkThemeSelected) {
+
+        this.darkThemeSelected = darkThemeSelected;
         this.selectedFont = SettingsDialog.DEFAULT_FONT;
 
         this.initComponents();
@@ -43,62 +44,74 @@ public class SettingsDialog extends Dialog {
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
+        String _theme;
+
         JPanel centerPanel;
         JPanel southPanel;
 
-        JPanel panel;
+        JPanel mainPanel;
 
         // Set up Dialog -------------------------------------------------------
         this.setLayout(new BorderLayout());
-        this.setSize(300, 300);
+        this.setSize(340, 200);
         this.setLocationRelativeTo(null);
-        this.setMinimumSize(new Dimension(250, 250));
         this.setTitle("Configuracion");
-        this.setResizable(true);
+        this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
-        this.toggleSwitch = new ToggleSwitch();
-        this.fontButton = new JButton("Fuente");
-        this.backButton = new JButton("Cerrar");
+        this.toggleSwitch = new ToggleSwitch(this.darkThemeSelected, new Color(24, 136, 255));
+        if (this.darkThemeSelected) {
+            Settings.darkTheme();
+        } else {
+            Settings.lightTheme();
+        }
 
-        centerPanel = new JPanel(new GridLayout(2, 2, 35, 20));
+        this.fontButton = new JButton("Cambiar Fuente");
+
+        this.okButton = new JButton("Aceptar");
+        this.cancelButton = new JButton("Cancelar");
+
+        centerPanel = new JPanel(new GridLayout(2, 2, 40, 25));
         southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        panel = new JPanel(new GridLayout());
+        mainPanel = new JPanel(new BorderLayout());
 
         // ---------------------------------------------------------------------
-        panel.setBorder(new EmptyBorder(10, 10, 0, 0));
-        panel.setBackground(Color.yellow);
+        centerPanel.setBorder(new EmptyBorder(20, 0, 20, 20));
 
         // ---------------------------------------------------------------------
-        panel.add(this.toggleSwitch);
-
         centerPanel.add(new JLabel("Tema Oscuro", JLabel.RIGHT));
         centerPanel.add(this.toggleSwitch);
         centerPanel.add(new JLabel("Fuente", JLabel.RIGHT));
         centerPanel.add(this.fontButton);
 
-        southPanel.add(this.backButton);
+        southPanel.add(this.okButton);
+        southPanel.add(this.cancelButton);
 
-        this.add(new JLabel("Configuracion", JLabel.CENTER), BorderLayout.NORTH);
-        this.add(centerPanel, BorderLayout.CENTER);
-        this.add(southPanel, BorderLayout.SOUTH);
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
+        mainPanel.add(southPanel, BorderLayout.SOUTH);
+
+        this.add(mainPanel, BorderLayout.CENTER);
     }
 
     /* ______________________________________________________________________ */
     private void initEvents() {
+
         // Components Events ---------------------------------------------------
         this.toggleSwitch.addToggleSwitchListener(new ToggleSwitchListener() {
             @Override
             public void activate() {
-                System.out.println("dark");
-                darkThemeAction(getContentPane());
+                setTheme(Settings.DARK_THEME);
+                dispose();
+                okAction();
+                setDialogResultValue(new SettingsDialog(true).showDialog());
             }
 
             @Override
             public void deactivate() {
-                System.out.println("light");
-                lightThemeAction(getContentPane());
+                setTheme(Settings.LIGHT_THEME);
+                dispose();
+                setDialogResultValue(new SettingsDialog(false).showDialog());
             }
         });
 
@@ -106,101 +119,25 @@ public class SettingsDialog extends Dialog {
             this.fontAction();
         });
 
-        this.backButton.addActionListener(ae -> {
+        this.okButton.addActionListener(ae -> {
+            if (this.darkThemeSelected) {
+                this.setTheme(Settings.DARK_THEME);
+            } else {
+                this.setTheme(Settings.LIGHT_THEME);
+            }
+            this.okAction();
             this.dispose();
         });
-    }
 
-    /* ______________________________________________________________________ */
-    public void lightThemeAction(Component component) {
-        Color background1 = Color.white;
-        Color background2 = Color.white;
-        Color background3 = new Color(45, 185, 255);
-        Color background4 = null;
-        Color foreground = Color.black;
-
-        UIManager.put("OptionPane.background", background1);
-        UIManager.put("OptionPane.messageFont", DEFAULT_FONT);
-        UIManager.put("OptionPane.buttonFont", DEFAULT_FONT);
-
-        UIManager.put("Panel.background", background1);
-
-        UIManager.put("ToggleButton.background", background2);
-        UIManager.put("ToggleButton.select", background3);
-        UIManager.put("ToggleButton.focus", new Color(0, 0, 0, 0));
-
-        UIManager.put("Label.foreground", foreground);
-        UIManager.put("Label.font", DEFAULT_FONT);
-
-        UIManager.put("Button.background", background1);
-        UIManager.put("Button.foreground", foreground);
-        UIManager.put("Button.font", DEFAULT_FONT);
-        UIManager.put("Button.focus", new Color(0, 0, 0, 0));
-        UIManager.put("Button.select", background3);
-
-        UIManager.put("RadioButton.font", DEFAULT_FONT);
-        UIManager.put("RadioButton.background", background1);
-
-        UIManager.put("ScrollPane.background", background1);
-        UIManager.put("ScrollBar.background", background1);
-
-        UIManager.put("TextField.caretForeground", foreground);
-        UIManager.put("TextField.background", background4);
-        UIManager.put("TextField.foreground", foreground);
-
-        UIManager.put("PasswordField.caretForeground", foreground);
-        UIManager.put("PasswordField.background", background4);
-        UIManager.put("PasswordField.foreground", foreground);
-
-        SwingUtilities.updateComponentTreeUI(component);
-        component.update(component.getGraphics());
-    }
-
-    /* ______________________________________________________________________ */
-    public void darkThemeAction(Component component) {
-        Color background1 = new Color(45, 45, 45);
-        Color background2 = new Color(72, 72, 72);
-        Color background3 = new Color(45, 185, 255);
-        Color background4 = new Color(72, 72, 72);
-        Color foreground = Color.white;
-
-        UIManager.put("OptionPane.background", background1);
-        UIManager.put("OptionPane.messageFont", DEFAULT_FONT);
-        UIManager.put("OptionPane.buttonFont", DEFAULT_FONT);
-
-        UIManager.put("Panel.background", background1);
-
-        UIManager.put("ToggleButton.background", background2);
-        UIManager.put("ToggleButton.select", background3);
-        UIManager.put("ToggleButton.focus", new Color(0, 0, 0, 0));
-
-        UIManager.put("Label.foreground", foreground);
-        UIManager.put("Label.font", DEFAULT_FONT);
-
-        UIManager.put("Button.background", background1);
-        UIManager.put("Button.foreground", foreground);
-        UIManager.put("Button.font", DEFAULT_FONT);
-        UIManager.put("Button.focus", new Color(0, 0, 0, 0));
-        UIManager.put("Button.select", background3);
-
-        UIManager.put("RadioButton.font", DEFAULT_FONT);
-        UIManager.put("RadioButton.background", background1);
-        
-        UIManager.put("ScrollPane.background", background1);
-        UIManager.put("ScrollBar.background", background1);
-
-        UIManager.put("TextField.border", new EmptyBorder(0, 0, 0, 0));
-        UIManager.put("TextField.caretForeground", foreground);
-        UIManager.put("TextField.background", background4);
-        UIManager.put("TextField.foreground", foreground);
-
-        UIManager.put("PasswordField.border", new EmptyBorder(0, 0, 0, 0));
-        UIManager.put("PasswordField.caretForeground", foreground);
-        UIManager.put("PasswordField.background", background4);
-        UIManager.put("PasswordField.foreground", foreground);
-
-        SwingUtilities.updateComponentTreeUI(component);
-        component.update(component.getGraphics());
+        this.cancelButton.addActionListener(ae -> {
+            if (this.darkThemeSelected) {
+                this.setTheme(Settings.DARK_THEME);
+            } else {
+                this.setTheme(Settings.LIGHT_THEME);
+            }
+            this.cancelAction();
+            this.dispose();
+        });
     }
 
     /* ______________________________________________________________________ */
@@ -217,9 +154,19 @@ public class SettingsDialog extends Dialog {
         }
     }
 
+    /* GETTERS ______________________________________________________________ */
+    public String getTheme() {
+        return theme;
+    }
+
     /* ______________________________________________________________________ */
     public Font getSelectedFont() {
         return this.selectedFont;
+    }
+
+    /* SETTERS ______________________________________________________________ */
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 
     /* ______________________________________________________________________ */
@@ -229,6 +176,6 @@ public class SettingsDialog extends Dialog {
 
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
-        new SettingsDialog().showTestDialog();
+        new SettingsDialog(true).showTestDialog();
     }
 }

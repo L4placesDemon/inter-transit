@@ -25,7 +25,7 @@ public class ImageChooserDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public ImageChooserDialog(String selectedIconPath) {
-        super();
+        
         this.selectedIconPath = selectedIconPath;
 
         this.initComponents();
@@ -62,7 +62,7 @@ public class ImageChooserDialog extends Dialog {
             if (i < 9) {
                 index = "0" + (i + 1);
             }
-            String image = "/images/profile/image-" + index + ".png";
+            String image = "profile/image-" + index;
             this.buttons[i] = this.setButton(image);
         }
         scrollPane.setBorder(new Border(new EmptyBorder(5, 5, 5, 5),
@@ -106,8 +106,8 @@ public class ImageChooserDialog extends Dialog {
         }
 
         int length = this.getSelectedIconPath().length();
-        char c1 = this.getSelectedIconPath().charAt(length - 5);
-        char c2 = this.getSelectedIconPath().charAt(length - 6);
+        char c1 = this.getSelectedIconPath().charAt(length - 1);
+        char c2 = this.getSelectedIconPath().charAt(length - 2);
         int pos = Integer.parseInt(c2 + "" + c1) - 1;
         this.buttons[pos].doClick();
 
@@ -133,6 +133,6 @@ public class ImageChooserDialog extends Dialog {
 
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
-        new ImageChooserDialog("/images/path/image-50.png").showTestDialog();
+        new ImageChooserDialog("profile/image-50").showTestDialog();
     }
 }

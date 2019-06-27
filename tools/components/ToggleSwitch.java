@@ -23,7 +23,7 @@ public class ToggleSwitch extends JPanel {
 
     /* CONSTRUCTOR __________________________________________________________ */
     public ToggleSwitch(boolean activated, Color inactiveColor, Color activeColor, Color buttonColor) {
-        super();
+        
         this.activated = activated;
 
         this.inactiveColor = inactiveColor;
@@ -57,23 +57,9 @@ public class ToggleSwitch extends JPanel {
 
     /* METHODS ______________________________________________________________ */
     @Override
-    public void paint(Graphics gr) {
+    public void paint(Graphics g) {
         int width = this.getWidth();
         int height = this.getHeight();
-
-        BufferedImage puffer = null;
-        Graphics2D g = null;
-
-        super.repaint();
-
-        if (g == null) {
-            puffer = (BufferedImage) createImage(getWidth(), getHeight());
-            g = (Graphics2D) puffer.getGraphics();
-            RenderingHints rh = new RenderingHints(
-                    RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
-            g.setRenderingHints(rh);
-        }
 
         // Fill color
         g.setColor(this.isActivated() ? this.getActiveColor() : this.getInactiveColor());
@@ -94,26 +80,31 @@ public class ToggleSwitch extends JPanel {
             g.setColor(Color.black);
             g.drawRoundRect(width / 2 - 20, height / 2 - 10, 20, 20, 5, 5);
         }
-
-        gr.drawImage(puffer, 0, 0, null);
     }
 
     /* ______________________________________________________________________ */
     private void initEvents() {
         this.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent arg0) {
+            public void mouseClicked(MouseEvent me) {
+                int width = getWidth();
+                int height = getHeight();
+                int x = me.getX();
+                int y = me.getY();
+
                 setActivated(!isActivated());
 
-                toggleSwitchListeners.forEach(i -> {
-                    if (isActivated()) {
-                        i.activate();
-                    } else {
-                        i.deactivate();
+                if (x >= width / 2 - 20 && x <= width / 2 + 20) {
+                    if (y >= height / 2 - 10 && y <= height / 2 + 10) {
+                        toggleSwitchListeners.forEach(i -> {
+                            if (isActivated()) {
+                                i.activate();
+                            } else {
+                                i.deactivate();
+                            }
+                        });
                     }
-                });
-
-//                repaint();
+                }
             }
         });
     }

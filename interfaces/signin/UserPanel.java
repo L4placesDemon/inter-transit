@@ -16,6 +16,7 @@ import tools.Tools;
 import tools.components.Border;
 import tools.components.PasswordField;
 import tools.components.TextField;
+import worldclasses.Settings;
 
 public class UserPanel extends JPanel {
 
@@ -37,6 +38,9 @@ public class UserPanel extends JPanel {
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
+        Color color = null;
+        String theme;
+        
         JLabel nicknameLabel;
         JLabel passwordLabel;
 
@@ -44,9 +48,19 @@ public class UserPanel extends JPanel {
         JPanel centerPanel;
         JPanel eastPanel;
 
+        theme = Settings.getCurrentSettings().getTheme();
+        if (theme.equals(Settings.LIGHT_THEME)) {
+            color = Color.red;
+        } else if (theme.equals(Settings.DARK_THEME)) {
+            color = new Color(69, 162, 255);
+        }
+
         // Set up Panel --------------------------------------------------------
-        this.setBorder(new Border(new EmptyBorder(20, 40, 15, 40),
-                new Border("Usuario"), new EmptyBorder(10, 15, 5, 15)));
+        this.setBorder(new Border(
+                new EmptyBorder(0, 10, 0, 10),
+                new Border("Usuario"),
+                new EmptyBorder(10, 10, 5, 10)
+        ));
         this.setLayout(new BorderLayout());
 
         // Set up Components ---------------------------------------------------
@@ -65,7 +79,7 @@ public class UserPanel extends JPanel {
 
         // ---------------------------------------------------------------------
         this.showPasswordButton.setPreferredSize(new Dimension(24, 16));
-        this.messageLabel.setForeground(Color.red);
+        this.messageLabel.setForeground(color);
 
         centerPanel.setBorder(new EmptyBorder(0, 20, 0, 10));
 

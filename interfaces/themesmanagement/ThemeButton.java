@@ -1,8 +1,9 @@
-package interfaces.themestatistics;
+package interfaces.themesmanagement;
 
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+
 import worldclasses.themes.Theme;
 
 public class ThemeButton extends JButton {

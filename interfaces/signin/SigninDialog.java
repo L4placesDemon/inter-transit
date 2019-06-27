@@ -13,9 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import tools.Tools;
-import tools.components.Border;
-import tools.components.Dialog;
 import tools.binaryfilemanager.BinaryFileManager;
+import tools.components.Dialog;
+import worldclasses.Settings;
 
 import worldclasses.accounts.Account;
 
@@ -33,7 +33,7 @@ public class SigninDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public SigninDialog() {
-        super();
+        
 
         this.initComponents();
         this.initEvents();
@@ -41,19 +41,29 @@ public class SigninDialog extends Dialog {
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
+        String logo = null;
+        String theme;
+        
         JPanel mainPanel;
         JPanel buttonsPanel;
 
+        theme = Settings.getCurrentSettings().getTheme();
+        if (theme.equals(Settings.LIGHT_THEME)) {
+            logo = Settings.LIGHT_LOGO;
+        } else if (theme.equals(Settings.DARK_THEME)) {
+            logo = Settings.DARK_LOGO;
+        }
+        
         // Set up Frame --------------------------------------------------------
         this.setLayout(new BorderLayout());
-        this.setSize(480, 390);
+        this.setSize(400, 300);
         this.setLocationRelativeTo(null);
         this.setMinimumSize(new Dimension(380, getHeight() / 2));
         this.setTitle("Iniciar Sesion");
         this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
-        this.imageLabel = new JLabel(Tools.getImageIcon("logos/dark-logo", 200, 200));
+        this.imageLabel = new JLabel(Tools.getImageIcon(logo, 130, 130));
         this.userPanel = new UserPanel();
 
         this.registerButton = new JButton("Registrar");
@@ -62,9 +72,6 @@ public class SigninDialog extends Dialog {
 
         mainPanel = new JPanel(new BorderLayout());
         buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-        // ---------------------------------------------------------------------
-        this.imageLabel.setBorder(new Border(10, 40, 10, 40));
 
         // ---------------------------------------------------------------------
         buttonsPanel.add(this.registerButton);

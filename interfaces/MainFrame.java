@@ -7,115 +7,70 @@ import interfaces.signin.SigninDialog;
 import interfaces.workshops.WorkshopsFrame;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import tools.Tools;
 import tools.binaryfilemanager.BinaryFileManager;
 import tools.components.Dialog;
 import tools.components.DialogPane;
 
+import worldclasses.Settings;
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
 import worldclasses.accounts.UserAccount;
 
-public class MainMenuFrame extends JFrame {
+public class MainFrame extends JFrame {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    public static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
-    public static final String LIGHT_LOGO = "logos/light-logo";
-    public static final String DARK_LOGO = "logos/dark-logo";
-
     private Account account;
 
-    private JButton settingsButton;
-    private JButton aboutButton;
-
-    private JLabel logoLabel;
-
-    private JButton userButton;
-    private JButton workshopsButton;
-    private JButton testButton;
+    private MenuPanel menuPanel;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public MainMenuFrame() {
+    public MainFrame(Account account) {
+        this.account = account;
+        
         this.initComponents();
         this.initEvents();
     }
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
-        new SettingsDialog().lightThemeAction(this);
+        String logo = null;
+        String theme;
 
-        JPanel northPanel;
-        JPanel southPanel;
+        initSettings();
+        theme = Settings.getCurrentSettings().getTheme();
+
+        if (theme.equals(Settings.LIGHT_THEME)) {
+            Settings.lightTheme();
+            logo = Settings.LIGHT_LOGO;
+        } else if (theme.equals(Settings.DARK_THEME)) {
+            Settings.darkTheme();
+            logo = Settings.DARK_LOGO;
+        } else {
+            System.out.println("Error");
+        }
+        System.out.println(logo);
 
         // Set up Frame --------------------------------------------------------
         this.setLayout(new BorderLayout());
-        this.setSize(350, 537);
-        this.setIconImage(Tools.getImage(MainMenuFrame.LIGHT_LOGO));
+        this.setSize(950, 750);
+        this.setIconImage(Tools.getImage(logo));
         this.setLocationRelativeTo(null);
         this.setTitle("Inter Transit");
         this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
-        this.settingsButton = new JButton();
-        this.aboutButton = new JButton();
-
-        this.logoLabel = new JLabel();
-
-        this.userButton = new JButton();
-        this.workshopsButton = new JButton();
-        this.testButton = new JButton();
-
-        northPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        southPanel = new JPanel(new GridLayout(1, 3, 20, 20));
+        this.menuPanel = new MenuPanel(this.getAccount());
 
         // ---------------------------------------------------------------------
-        this.settingsButton.setBorder(null);
-        this.settingsButton.setSelected(false);
-        this.settingsButton.setIcon(Tools.getImageIcon("settings", 30, 30));
-
-        this.aboutButton.setBorder(null);
-        this.aboutButton.setIcon(Tools.getImageIcon("about", 30, 30));
-
-        this.logoLabel.setIcon(Tools.getImageIcon(MainMenuFrame.LIGHT_LOGO, 350, 350));
-
-        this.userButton.setBorder(null);
-        this.userButton.setIcon(Tools.getImageIcon("profile/image-00", 80, 80));
-
-        this.workshopsButton.setBorder(null);
-        this.workshopsButton.setIcon(Tools.getImageIcon("learn", 70, 70));
-
-        this.testButton.setBorder(null);
-        this.testButton.setIcon(Tools.getImageIcon("test", 70, 70));
-
-        southPanel.setPreferredSize(new Dimension(0, 100));
-        southPanel.setBorder(new EmptyBorder(0, 40, 15, 40));
-
-        // ---------------------------------------------------------------------
-        northPanel.add(this.settingsButton);
-        northPanel.add(this.aboutButton);
-
-        southPanel.add(this.userButton);
-        southPanel.add(this.workshopsButton);
-        southPanel.add(this.testButton);
-
-        this.add(northPanel, BorderLayout.NORTH);
-        this.add(this.logoLabel, BorderLayout.CENTER);
-        this.add(southPanel, BorderLayout.SOUTH);
+        this.add(this.menuPanel);
     }
 
     /* ______________________________________________________________________ */
@@ -124,25 +79,55 @@ public class MainMenuFrame extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // Components Events ---------------------------------------------------
-        this.settingsButton.addActionListener(ae -> {
-            new SettingsDialog().showDialog();
+        this.menuPanel.getSettingsButton().addActionListener(ae -> {
+            this.settingsAction();
         });
 
-        this.aboutButton.addActionListener(ae -> {
-            new AboutDialog().showDialog();
-        });
-
-        this.userButton.addActionListener(ae -> {
+        this.menuPanel.getUserButton().addActionListener(ae -> {
             String result = this.userAction();
             System.out.println(result);
         });
 
-        this.workshopsButton.addActionListener(ae -> {
+        this.menuPanel.getWorkshopsButton().addActionListener(ae -> {
             this.workshopsSigninAction();
         });
 
-        this.testButton.addActionListener(ae -> {
+        this.menuPanel.getTestButton().addActionListener(ae -> {
         });
+    }
+
+    /* ______________________________________________________________________ */
+    private void settingsAction() {
+        String theme = Settings.getCurrentSettings().getTheme();
+        int result;
+        SettingsDialog settingsDialog = null;
+
+        System.out.println("theme: " + theme);
+
+        if (theme.equals(Settings.LIGHT_THEME)) {
+            settingsDialog = new SettingsDialog(false);
+        } else if (theme.equals(Settings.DARK_THEME)) {
+            settingsDialog = new SettingsDialog(true);
+        }
+
+        result = settingsDialog.showDialog();
+        System.out.println("result: " + result);
+        if (result == SettingsDialog.OK_OPTION) {
+
+            theme = settingsDialog.getTheme();
+            if (theme.equals(Settings.LIGHT_THEME)) {
+                Settings.lightTheme();
+            } else if (theme.equals(Settings.DARK_THEME)) {
+                Settings.darkTheme();
+            }
+            new BinaryFileManager("settings.dat").write(new Settings(
+                    theme,
+                    settingsDialog.getSelectedFont()
+            ));
+
+            new MainFrame(this.getAccount()).setVisible(true);
+            dispose();
+        }
     }
 
     /* ______________________________________________________________________ */
@@ -177,15 +162,18 @@ public class MainMenuFrame extends JFrame {
                 result = "cancel show";
             }
         }
-        this.userButton.setIcon(Tools.getImageIcon(imagePath, 80, 80));
+        this.menuPanel.getUserButton().setIcon(Tools.getImageIcon(imagePath, 80, 80));
 
         return result;
     }
 
     /* ______________________________________________________________________ */
     private void showWorkshopsDialog() {
+        WorkshopsFrame workshopsFrame = new WorkshopsFrame(this.getAccount());
+
         this.setVisible(false);
-        new WorkshopsFrame(this.getAccount()).showDialog();
+        workshopsFrame.showDialog();
+        this.setAccount(workshopsFrame.getAccount());
         this.setVisible(true);
     }
 
@@ -213,6 +201,27 @@ public class MainMenuFrame extends JFrame {
     }
 
     /* ______________________________________________________________________ */
+    private void initSettings() {
+        BinaryFileManager manager = new BinaryFileManager("settings.dat");
+        ArrayList<Object> objects = manager.read();
+
+        System.out.println(objects);
+        if (objects.isEmpty()) {
+            manager.write(new Settings());
+        }
+    }
+
+    /* GETTERS ______________________________________________________________ */
+    public Account getAccount() {
+        return this.account;
+    }
+
+    /* SETTERS ______________________________________________________________ */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /* TEST METHODS _________________________________________________________ */
     private static void initTestAccounts() {
         BinaryFileManager manager = new BinaryFileManager("accounts.dat");
         Random random = new Random();
@@ -258,6 +267,7 @@ public class MainMenuFrame extends JFrame {
     private static void showTestAccounts() {
         ArrayList<Object> objects = new BinaryFileManager("accounts.dat").read();
         System.out.println(objects.size());
+
         objects.forEach(i -> {
             System.out.println(i);
         });
@@ -272,7 +282,7 @@ public class MainMenuFrame extends JFrame {
             chars = 6;
         }
 
-        String pathFolder = MainMenuFrame.class.getResource("/tools").toString().substring(chars);
+        String pathFolder = MenuPanel.class.getResource("/tools").toString().substring(chars);
         pathFolder = pathFolder.substring(0, pathFolder.indexOf("build")) + "src/files/";
 
         File foldersFolder = new File(pathFolder);
@@ -320,22 +330,13 @@ public class MainMenuFrame extends JFrame {
         }
     }
 
-    /* GETTERS ______________________________________________________________ */
-    public Account getAccount() {
-        return account;
-    }
-
-    /* SETTERS ______________________________________________________________ */
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
         initTestAccounts();
         sortTestAccounts();
         showTestAccounts();
         initTestThemes();
-        new MainMenuFrame().setVisible(true);
+
+        new MainFrame(null).setVisible(true);
     }
 }

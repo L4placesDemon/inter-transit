@@ -6,7 +6,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
-public abstract class Dialog extends JDialog {
+public class Dialog extends JDialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
     public static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);

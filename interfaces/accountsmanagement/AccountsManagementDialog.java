@@ -41,7 +41,7 @@ public class AccountsManagementDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public AccountsManagementDialog(AdminAccount adminAccount) {
-        super();
+        
         this.adminAccount = adminAccount;
         this.accounts = new BinaryFileManager("accounts.dat").read();
 

@@ -29,7 +29,7 @@ public class AccountStatisticsDialog extends Dialog {
 
     /* CONSTRUCTORS__________________________________________________________ */
     public AccountStatisticsDialog(ArrayList<Account> accounts) {
-        super();
+        
         this.accounts = accounts;
 
         this.initComponents();

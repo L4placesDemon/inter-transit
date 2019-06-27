@@ -37,7 +37,7 @@ public class RegisterAccountDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public RegisterAccountDialog() {
-        super();
+        
 
         this.initComponents();
         this.initEvents();

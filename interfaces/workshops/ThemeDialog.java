@@ -26,7 +26,7 @@ public class ThemeDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public ThemeDialog(Theme theme, Account account) {
-        super();
+        
         this.theme = theme;
         this.account = account;
 

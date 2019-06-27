@@ -35,7 +35,7 @@ public class ThemesStatisticsDialog extends Dialog {
 
     /* CONSRUCTORS __________________________________________________________ */
     public ThemesStatisticsDialog() {
-        super();
+        
         this.themes = new ArrayList<>();
 
         this.initThemes();
@@ -46,8 +46,6 @@ public class ThemesStatisticsDialog extends Dialog {
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
         ArrayList<Integer> views;
-        ArrayList<String> names;
-        ArrayList<Color> colors;
 
         JPanel labelsPanel;
         JPanel themesPanel;

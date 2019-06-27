@@ -31,7 +31,7 @@ public class WorkshopsFrame extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public WorkshopsFrame(Account account) {
-        super();
+        
         this.account = account;
         this.themes = new ArrayList<>();
 

@@ -41,7 +41,7 @@ public class UserPanel extends JPanel {
             imagePath = this.getAccount().getImage();
             nickname = this.getAccount().getNickname();
         } else {
-            imagePath = "/images/profile/image-00.png";
+            imagePath = "profile/image-00";
             nickname = "Iniciar Sesion";
         }
         imageIcon = Tools.getImageIcon(imagePath, 40, 40);
@@ -79,7 +79,7 @@ public class UserPanel extends JPanel {
                 : new ShowAdminDialog((AdminAccount) this.getAccount());
 
         int option = accountDialog.showDialog();
-        String imagePath = "/images/profile/image-00.png";
+        String imagePath = "profile/image-00";
 
         if (this.getAccount() == null) {
             if (option == SigninDialog.OK_OPTION) {

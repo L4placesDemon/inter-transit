@@ -5,7 +5,6 @@ NOTES:
 - Add verification message when finish edit account
 - In PasswordPanel modify the object size
 - Manage dialog interfaces with panels
-- Change the hide password in PasswordPanels
 - Documentate code
 - Output text by console with tools.output function
 - Dark mode option
