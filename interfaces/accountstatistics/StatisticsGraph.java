@@ -1,5 +1,6 @@
 package interfaces.accountstatistics;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import javax.swing.JComponent;
@@ -8,15 +9,22 @@ public class StatisticsGraph extends JComponent {
 
     /* ATTRIBUTTES __________________________________________________________ */
     private ArrayList<Integer> values;
+    private Color color;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public StatisticsGraph(ArrayList<Integer> values) {
+    public StatisticsGraph(ArrayList<Integer> values, Color color) {
         this.values = values;
+        this.color = color;
+    }
+
+    /* ______________________________________________________________________ */
+    public StatisticsGraph(Color color) {
+        this(new ArrayList<>(), color);
     }
 
     /* ______________________________________________________________________ */
     public StatisticsGraph() {
-        this(new ArrayList<>());
+        this(Color.white);
     }
 
     /* METHODS ______________________________________________________________ */
@@ -31,6 +39,8 @@ public class StatisticsGraph extends JComponent {
         int x, y, h;
         int w = 18;
 
+        g.setColor(this.getColor());
+        
         // draw x and y axis ---------------------------------------------------
         g.drawLine(20, 20, 20, height - 20);
         g.drawLine(20, height - 20, width - 20, height - 20);
@@ -88,10 +98,18 @@ public class StatisticsGraph extends JComponent {
     public ArrayList<Integer> getValues() {
         return this.values;
     }
-
+    /* ______________________________________________________________________ */
+    public Color getColor() {
+        return this.color;
+    }
     /* SETTERS ______________________________________________________________ */
     public void setValues(ArrayList<Integer> values) {
         this.values = values;
         repaint();
+    }
+    
+    /* ______________________________________________________________________ */
+    public void setColor(Color color) {
+        this.color = color;
     }
 }
