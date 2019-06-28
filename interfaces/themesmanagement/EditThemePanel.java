@@ -55,14 +55,14 @@ public class EditThemePanel extends JPanel {
         this.centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
         // ---------------------------------------------------------------------
-        northPanel.add(this.themeNameField);
-        northPanel.add(this.themeDescriptionArea);
+        northPanel.add(this.themeNameField, BorderLayout.NORTH);
+        northPanel.add(this.themeDescriptionArea, BorderLayout.CENTER);
 
         southPanel.add(this.cancelButton);
         southPanel.add(this.saveButton);
 
-        this.add(northPanel, BorderLayout.NORTH);
-        this.add(centerPanel, BorderLayout.CENTER);
+//        this.add(northPanel, BorderLayout.NORTH);
+        this.add(this.centerPanel, BorderLayout.CENTER);
         this.add(southPanel, BorderLayout.SOUTH);
     }
 
