@@ -7,6 +7,9 @@ import interfaces.signin.SigninDialog;
 import interfaces.workshops.WorkshopsPanel;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -52,18 +55,17 @@ public class MainFrame extends JFrame {
         } else if (theme.equals(Settings.DARK_THEME)) {
             Settings.darkTheme();
             logo = Settings.DARK_LOGO;
-        } else {
-            System.out.println("Error");
         }
         System.out.println(logo);
 
         // Set up Frame --------------------------------------------------------
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setLayout(new BorderLayout());
-        this.setSize(950, 750);
+        this.setSize(1000, 700);
         this.setIconImage(Tools.getImage(logo));
+        this.setMinimumSize(new Dimension(460, 390));
         this.setLocationRelativeTo(null);
         this.setTitle("Inter Transit");
-        this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
         this.menuPanel = new MenuPanel(this.getAccount());
@@ -76,6 +78,26 @@ public class MainFrame extends JFrame {
     private void initEvents() {
         // Frame Events --------------------------------------------------------
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent ce) {
+                int less = getWidth();
+                if (getHeight() < getWidth()) {
+                    less = getHeight();
+                }
+                menuPanel.setLogo(less);
+            }
+
+            @Override
+            public void componentMoved(ComponentEvent ce) {
+                int less = getWidth();
+                if (getHeight() < getWidth()) {
+                    less = getHeight();
+                }
+                menuPanel.setLogo(less);
+            }
+        });
 
         // Components Events ---------------------------------------------------
         this.menuPanel.getSettingsButton().addActionListener(ae -> {
@@ -130,7 +152,6 @@ public class MainFrame extends JFrame {
 
     /* ______________________________________________________________________ */
     private boolean userAction() {
-//        String result;
         Dialog accountDialog;
 
         accountDialog = this.getAccount() == null
@@ -163,6 +184,7 @@ public class MainFrame extends JFrame {
     /* ______________________________________________________________________ */
     private void showWorkshopsPanel() {
         WorkshopsPanel workshopsPanel = new WorkshopsPanel(this.getAccount());
+
         workshopsPanel.getCloseButton().addActionListener(ae -> {
             this.remove(workshopsPanel);
             this.add(this.menuPanel);

@@ -58,6 +58,11 @@ public interface Tools {
     public static ImageIcon getImageIcon(String imagePath, int width, int height) {
         return new ImageIcon(Tools.getImage(imagePath, width, height));
     }
+    
+    /* ______________________________________________________________________ */
+    public static ImageIcon getImageIcon(String imagePath) {
+        return new ImageIcon(Tools.getImage(imagePath));
+    }
 
     /* ______________________________________________________________________ */
     public static void setClipboard(String string) {

@@ -21,6 +21,7 @@ public class MenuPanel extends Panel {
     /* ATTRIBUTES ___________________________________________________________ */
     private Account account;
 
+    private JLabel logoLabel;
     private JButton settingsButton;
     private JButton aboutButton;
 
@@ -40,8 +41,6 @@ public class MenuPanel extends Panel {
     private void initComponents() {
         String theme;
         String logo = null;
-
-        JLabel logoLabel;
 
         JPanel northPanel;
         JPanel eastPanel;
@@ -65,8 +64,7 @@ public class MenuPanel extends Panel {
         this.testButton = new JButton();
 
         System.out.println(getParent());
-        int width = 750;
-        logoLabel = new JLabel(Tools.getImageIcon(logo, width, width), JLabel.CENTER);
+        this.logoLabel = new JLabel(Tools.getImageIcon(logo), JLabel.CENTER);
         northPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         eastPanel = new JPanel(new GridLayout(4, 1));
 
@@ -104,7 +102,7 @@ public class MenuPanel extends Panel {
         eastPanel.add(this.workshopsButton);
         eastPanel.add(this.testButton);
 
-        this.add(logoLabel, BorderLayout.CENTER);
+        this.add(this.logoLabel, BorderLayout.CENTER);
         this.add(eastPanel, BorderLayout.EAST);
     }
 
@@ -125,6 +123,20 @@ public class MenuPanel extends Panel {
     /* GETTERS ______________________________________________________________ */
     public Account getAccount() {
         return account;
+    }
+
+    /* ______________________________________________________________________ */
+    public void setLogo(int width) {
+        String logo = null;
+        String theme = Settings.getCurrentSettings().getTheme();
+        
+        if (theme.equals(Settings.LIGHT_THEME)) {
+            logo = Settings.LIGHT_LOGO;
+        } else if (theme.equals(Settings.DARK_THEME)) {
+            logo = Settings.DARK_LOGO;
+        }
+
+        this.logoLabel.setIcon(Tools.getImageIcon(logo, width, width));
     }
 
     /* ______________________________________________________________________ */
