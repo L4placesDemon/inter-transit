@@ -44,6 +44,10 @@ public abstract class TipPanel extends JPanel {
 
         this.titleTipTextField = new TextField(this.getTip().getTitle());
         this.contentTipTextArea = new TextArea(this.getTip().getDescription());
+
+        // ---------------------------------------------------------------------
+        this.contentTipTextArea.setLineWrap(true);
+        this.contentTipTextArea.setWrapStyleWord(true);
     }
 
     /* GETTERS_______________________________________________________________ */
@@ -54,6 +58,31 @@ public abstract class TipPanel extends JPanel {
     /* ______________________________________________________________________ */
     public Theme getTheme() {
         return theme;
+    }
+
+    /* ______________________________________________________________________ */
+    public TextField getTitleThemeTextField() {
+        return this.titleThemeTextField;
+    }
+
+    /* ______________________________________________________________________ */
+    public TextArea getDescriptionThemeTextArea() {
+        return this.descriptionThemeTextArea;
+    }
+
+    /* ______________________________________________________________________ */
+    public TextField getValueThemeTextField() {
+        return this.valueThemeTextField;
+    }
+
+    /* ______________________________________________________________________ */
+    public TextField getTitleTipTextField() {
+        return this.titleTipTextField;
+    }
+
+    /* ______________________________________________________________________ */
+    public TextArea getContentTipTextArea() {
+        return this.contentTipTextArea;
     }
 
     /* SETTERS_______________________________________________________________ */

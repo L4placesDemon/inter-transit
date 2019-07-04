@@ -202,14 +202,22 @@ public class MainFrame extends JFrame {
         WorkshopsPanel workshopsPanel = new WorkshopsPanel(this.getAccount());
 
         workshopsPanel.getCloseButton().addActionListener(ae -> {
+            String imagePath = "profile/image-00";
+            this.setAccount(workshopsPanel.getAccount());
+            if (this.getAccount() != null) {
+                imagePath = this.getAccount().getImage();
+            }
+
             this.remove(workshopsPanel);
             this.add(this.menuPanel);
+            this.menuPanel.getUserButton().setIcon(Tools.getImageIcon(imagePath, 80, 80));
             this.menuPanel.updateUI();
         });
 
         this.remove(this.menuPanel);
         this.add(workshopsPanel);
         workshopsPanel.updateUI();
+
     }
 
     /* ______________________________________________________________________ */
@@ -355,7 +363,7 @@ public class MainFrame extends JFrame {
         initTestAccounts();
         sortTestAccounts();
         showTestAccounts();
-        initTestThemes();
+//        initTestThemes();
 
         new MainFrame(null).setVisible(true);
     }

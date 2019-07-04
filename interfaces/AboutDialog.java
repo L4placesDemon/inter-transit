@@ -18,7 +18,7 @@ public class AboutDialog extends Dialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
     private static final long serialVersionUID = 7731079211910018196L;
-    
+
     private JButton closeButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
@@ -79,11 +79,15 @@ public class AboutDialog extends Dialog {
         // ---------------------------------------------------------------------
         descriptionPanel.add(new JLabel(
                 "Inter-Transit\n"
-                + ""
+                + "El programa estara enfocado en brindarle informacion al\n"
+                + "usuario acerca de la cultura ciudadana en cuanto a\n"
+                + "movilidad vehicular.\n"
+                + "Ademas de realizar diferentes cuestionarios acerca de los\n"
+                + "temas vistos.\n"
         ));
         creditsPanel.add(new JLabel(
                 "Snow Gryphon Software\n"
-                + ""
+                + "\n"
         ));
 
         logosPanel.add(new JLabel(Tools.getImageIcon(logo, 213, 213)));

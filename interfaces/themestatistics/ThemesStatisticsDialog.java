@@ -5,16 +5,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import tools.Tools;
 import tools.components.Dialog;
 
 import worldclasses.Settings;
@@ -36,10 +35,8 @@ public class ThemesStatisticsDialog extends Dialog {
 
     /* CONSRUCTORS __________________________________________________________ */
     public ThemesStatisticsDialog() {
-
         this.themes = new ArrayList<>();
 
-        this.initThemes();
         this.initComponents();
         this.initEvents();
     }
@@ -83,10 +80,12 @@ public class ThemesStatisticsDialog extends Dialog {
         southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         // ---------------------------------------------------------------------
+        this.setThemes(this.initTheme(Settings.getResource() + "src/docs").getFiles());
+
         themesPanel.setLayout(new BoxLayout(themesPanel, BoxLayout.Y_AXIS));
 
-        for (int i = 0; i < getThemes().size(); i++) {
-            Theme theme = getThemes().get(i);
+        for (int i = 0; i < this.getThemes().size(); i++) {
+            Theme theme = this.getThemes().get(i);
             Integer view = theme.getViews();
             Color color = this.viewsPie.addValue(view);
             views.add(view);
@@ -145,57 +144,92 @@ public class ThemesStatisticsDialog extends Dialog {
     }
 
     /* ______________________________________________________________________ */
-    private void initThemes() {
-        String themesDirectoryPath = Settings.class.getResource("/tools").toString().substring(5);
-        File themesDirectory;
+    private Theme initTheme(String path) {
+        File file = new File(path);
+        Object[] themeData;
+        Theme theme;
 
-        Object[] description = null;
-        ArrayList<Tip> tips;
-        String fileName;
+        try {
+            themeData = this.getThemeData(path + "/descripcion.txt");
+            theme = new Theme(
+                    null,
+                    file.getName(),
+                    themeData[0] + "",
+                    Double.parseDouble(themeData[1] + ""),
+                    Integer.parseInt(themeData[2] + ""),
+                    new ArrayList<>()
+            );
+        } catch (FileNotFoundException | NumberFormatException e) {
+            if (file.isDirectory()) {
+                theme = new Theme(file.getName(), "");
+            } else {
+                theme = new Tip(file.getName(), Tools.getFileText(file));
+            }
+        }
 
-        themesDirectoryPath = themesDirectoryPath.substring(0, themesDirectoryPath.indexOf("build")) + "src/files";
-        themesDirectory = new File(themesDirectoryPath);
-
-        if (themesDirectory.exists()) {
-            for (File themeDirectory : themesDirectory.listFiles()) {
-
-                tips = new ArrayList<>();
-                for (File themeFile : themeDirectory.listFiles()) {
-
-                    fileName = themeFile.getName();
-                    if (fileName.contains("descripcion")) {
-
-                        description = this.getDescription(
-                                themesDirectoryPath + "/"
-                                + themeDirectory.getName() + "/descripcion.txt");
-                    } else {
-                        tips.add(new Tip(
-                                fileName.substring(0, fileName.indexOf(".txt")),
-                                this.getFileText(themeFile)
-                        ));
-                    }
+        if (file.isDirectory()) {
+            for (File listFile : file.listFiles()) {
+                if (!listFile.getName().equals("descripcion.txt")) {
+                    theme.getFiles().add(this.initTheme(
+                            listFile.getAbsolutePath()
+                    ));
                 }
-                if (description != null) {
+            }
+        }
+        return theme;
+    }
+
+    /* ______________________________________________________________________ */
+//    private void initThemes() {
+//        String themesDirectoryPath = Settings.class.getResource("/tools").toString().substring(5);
+//        File themesDirectory;
+//
+//        Object[] description = null;
+//        ArrayList<Theme> tips;
+//        String fileName;
+//
+//        themesDirectoryPath = themesDirectoryPath.substring(0, themesDirectoryPath.indexOf("build")) + "src/docs";
+//        themesDirectory = new File(themesDirectoryPath);
+//
+//        if (themesDirectory.exists()) {
+//            for (File themeDirectory : themesDirectory.listFiles()) {
+//
+//                tips = new ArrayList<>();
+//                for (File themeFile : themeDirectory.listFiles()) {
+//
+//                    fileName = themeFile.getName();
+//                    if (fileName.contains("descripcion")) {
+//
+//                        description = this.getDescription(
+//                                themesDirectoryPath + "/"
+//                                + themeDirectory.getName() + "/descripcion.txt");
+//                    } else {
+//                        tips.add(new Tip(
+//                                fileName.substring(0, fileName.indexOf(".txt")),
+//                                Tools.getFileText(themeFile)
+//                        ));
+//                    }
+//                }
+//                if (description != null) {
 //                    this.getThemes().add(new Theme(
 //                            null,
 //                            themeDirectory.getName(),
 //                            description[0] + "",
-//                            tips,
-//                            (int) description[1],
 //                            (double) description[2],
-//                            (int) description[3]
+//                            (int) description[3],
+//                            tips
 //                    ));
-                }
-            }
-        }
-    }
+//                }
+//            }
+//        }
+//    }
 
     /* ______________________________________________________________________ */
-    private Object[] getDescription(String themeDirectoryPath) {
+    private Object[] getThemeData(String themeDirectoryPath) throws FileNotFoundException {
         File descriptionFile = new File(themeDirectoryPath);
 
         if (descriptionFile.exists()) {
-            String text = this.getFileText(descriptionFile);
+            String text = Tools.getFileText(descriptionFile);
 
             int start = text.indexOf('=') + 1;
             int end = text.indexOf('\n');
@@ -207,47 +241,48 @@ public class ThemesStatisticsDialog extends Dialog {
 
             start = text.indexOf('=', start) + 1;
             end = text.indexOf('\n', end + 1);
-            String progress = text.substring(start, end);
-
-            start = text.indexOf('=', start) + 1;
-            end = text.indexOf('\n', end + 1);
             String views = text.substring(start, end);
 
             return new Object[]{
                 description,
-                Integer.parseInt(progress),
                 Double.parseDouble(value),
                 Integer.parseInt(views)
             };
         } else {
             System.out.println("description file do not exists");
+            throw new FileNotFoundException("description file do no exists");
         }
-        return null;
     }
 
     /* ______________________________________________________________________ */
-    private String getFileText(File file) {
-        String text = "";
-        String line;
-        BufferedReader bufferedReader;
-
-        try {
-            bufferedReader = new BufferedReader(new FileReader(file));
-            line = bufferedReader.readLine();
-
-            while (line != null) {
-                text += line;
-                line = bufferedReader.readLine();
-                if (line != null) {
-                    text += '\n';
-                }
-            }
-            bufferedReader.close();
-
-        } catch (IOException e) {
-        }
-        return text;
-    }
+//    private Object[] getDescription(String themeDirectoryPath) {
+//        File descriptionFile = new File(themeDirectoryPath);
+//
+//        if (descriptionFile.exists()) {
+//            String text = Tools.getFileText(descriptionFile);
+//
+//            int start = text.indexOf('=') + 1;
+//            int end = text.indexOf('\n');
+//            String description = text.substring(start, end);
+//
+//            start = text.indexOf('=', start) + 1;
+//            end = text.indexOf('\n', end + 1);
+//            String value = text.substring(start, end);
+//
+//            start = text.indexOf('=', start) + 1;
+//            end = text.indexOf('\n', end + 1);
+//            String views = text.substring(start, end);
+//
+//            return new Object[]{
+//                description,
+//                Double.parseDouble(value),
+//                Integer.parseInt(views)
+//            };
+//        } else {
+//            System.out.println("description file do not exists");
+//        }
+//        return null;
+//    }
 
     /* GETTERS ______________________________________________________________ */
     public ArrayList<Theme> getThemes() {

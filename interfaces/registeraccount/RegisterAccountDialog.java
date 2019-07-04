@@ -39,7 +39,6 @@ public class RegisterAccountDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public RegisterAccountDialog() {
-
         this.initComponents();
         this.initEvents();
     }
@@ -148,7 +147,7 @@ public class RegisterAccountDialog extends Dialog {
         PasswordField passwordField = new PasswordField();
         panel.add(new JLabel("Contraseña de Administrador:"));
         panel.add(passwordField);
-
+        
         int option = JOptionPane.showConfirmDialog(
                 null,
                 panel,

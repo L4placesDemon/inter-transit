@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,8 +17,9 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
-import tools.Tools;
+import javax.swing.tree.TreePath;
 
+import tools.Tools;
 import tools.components.Panel;
 
 import worldclasses.Settings;
@@ -35,8 +37,9 @@ public class WorkshopsPanel extends Panel {
     private Account account;
     private ArrayList<Theme> themes;
 
+    private AccountButton accountButton;
     private JTree themesTree;
-    private JPanel centerPanel = new JPanel();
+    private JPanel tipPanel;
 
     private JButton backButton;
     private JButton createButton;
@@ -53,7 +56,6 @@ public class WorkshopsPanel extends Panel {
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
-        AccountPanel accountPanel;
         JScrollPane treeScrollPane;
 
         JPanel westPanel;
@@ -63,14 +65,14 @@ public class WorkshopsPanel extends Panel {
         this.setLayout(new BorderLayout());
 
         // Set up Components ---------------------------------------------------
+        this.accountButton = new AccountButton(this.getAccount());
         this.themesTree = new JTree(this.initTree());
-        this.centerPanel = new JPanel();
+        this.tipPanel = new JPanel();
 
         this.backButton = new JButton("Volver");
         this.createButton = new JButton("Nuevo");
         this.removeButton = new JButton("Eliminar");
 
-        accountPanel = new AccountPanel(this.getAccount());
         treeScrollPane = new JScrollPane(this.themesTree);
 
         westPanel = new JPanel(new BorderLayout());
@@ -98,54 +100,51 @@ public class WorkshopsPanel extends Panel {
         });
 
         // ---------------------------------------------------------------------
-        westPanel.add(accountPanel, BorderLayout.NORTH);
+        westPanel.add(this.accountButton, BorderLayout.NORTH);
         westPanel.add(treeScrollPane, BorderLayout.CENTER);
         westPanel.add(new JSeparator(JSeparator.VERTICAL), BorderLayout.EAST);
 
         southPanel.add(this.backButton);
 
         this.add(westPanel, BorderLayout.WEST);
-        this.add(this.centerPanel, BorderLayout.CENTER);
+        this.add(this.tipPanel, BorderLayout.CENTER);
         this.add(southPanel, BorderLayout.SOUTH);
     }
 
     /* ______________________________________________________________________ */
     private void initEvents() {
+
         // Components Events ---------------------------------------------------
-        this.themesTree.addTreeSelectionListener((TreeSelectionEvent tse) -> {
+        this.accountButton.addActionListener(ae -> {
+            String themeTitle;
+            String tipTitle;
 
-            Object[] path = tse.getNewLeadSelectionPath().getPath();
-            System.out.println(path);
+            this.accountButton.accountAction();
+            this.setAccount(this.accountButton.getAccount());
 
-            Theme theme = this.searchTheme(path[path.length - 2] + "");
-            Theme tip = this.searchTheme(path[path.length - 1] + "");
+            if (this.tipPanel instanceof TipPanel) {
+                themeTitle = ((TipPanel) this.tipPanel).getTheme().getTitle();
+                tipTitle = ((TipPanel) this.tipPanel).getTip().getTitle();
 
-            System.out.println("Theme=" + theme);
-            System.out.println("Tip=" + tip);
-
-            if (theme != null && tip != null) {
-                if (tip instanceof Tip) {
-
-                    theme = this.searchTheme(path[path.length - 2] + "");
-                    this.remove(this.centerPanel);
-
-                    if (this.getAccount() instanceof AdminAccount) {
-                        this.centerPanel = new TipAdminPanel(theme, (Tip) tip);
-                    } else {
-                        this.centerPanel = new TipUserPanel(theme, (Tip) tip);
-                    }
-
-                    this.add(this.centerPanel, BorderLayout.CENTER);
-                    this.centerPanel.updateUI();
-                    this.updateUI();
-                }
+                this.showTip(themeTitle, tipTitle);
+                System.out.println(themeTitle + ", " + tipTitle);
             }
         });
 
-        this.createButton.addActionListener(ae -> {
-        });
+        this.themesTree.addTreeSelectionListener((TreeSelectionEvent tse) -> {
 
-        this.removeButton.addActionListener(ae -> {
+            TreePath treePath = tse.getNewLeadSelectionPath();
+            if (treePath != null) {
+
+                Object[] path = treePath.getPath();
+                if (path != null) {
+                    System.out.println(Arrays.toString(path));
+
+                    this.showTip(
+                            path[path.length - 2] + "", path[path.length - 1] + ""
+                    );
+                }
+            }
         });
     }
 
@@ -158,12 +157,12 @@ public class WorkshopsPanel extends Panel {
         File themesDirectory;
 
         // ---------------------------------------------------------------------
-        themesDirectoryPath = Settings.getResource() + "src/files";
+        themesDirectoryPath = Settings.getResource() + "src/docs";
 
         themesDirectory = new File(themesDirectoryPath);
 
         // ---------------------------------------------------------------------
-        root = new DefaultMutableTreeNode("Temas");
+        root = new DefaultMutableTreeNode("Documentos");
         defaultTreeModel = new DefaultTreeModel(root);
 
         // ---------------------------------------------------------------------
@@ -186,9 +185,11 @@ public class WorkshopsPanel extends Panel {
 
         if (file.isDirectory()) {
             for (File listFile : file.listFiles()) {
-                defaultMutableTreeNode.add(this.initFiles(
-                        listFile.getAbsolutePath()
-                ));
+                if (!listFile.getName().equals("descripcion.txt")) {
+                    defaultMutableTreeNode.add(this.initFiles(
+                            listFile.getAbsolutePath()
+                    ));
+                }
             }
         }
         return defaultMutableTreeNode;
@@ -261,12 +262,38 @@ public class WorkshopsPanel extends Panel {
     }
 
     /* ______________________________________________________________________ */
+    private void showTip(String themeTitle, String tipTitle) {
+
+        Theme theme = this.searchTheme(themeTitle);
+        Theme tip = this.searchTheme(tipTitle);
+
+        System.out.println("Theme=" + theme);
+        System.out.println("Tip=" + tip);
+
+        if (theme != null && tip != null) {
+            if (tip instanceof Tip) {
+                this.remove(this.tipPanel);
+
+                if (this.getAccount() instanceof AdminAccount) {
+                    this.tipPanel = new TipAdminPanel(theme, (Tip) tip);
+                } else {
+                    this.tipPanel = new TipUserPanel(theme, (Tip) tip);
+                }
+
+                this.add(this.tipPanel, BorderLayout.CENTER);
+                this.tipPanel.updateUI();
+            }
+        }
+    }
+
+    /* ______________________________________________________________________ */
     private Theme searchTheme(String nameTheme) {
-        Theme theme = new Theme("Temas", "");
+        Theme theme = new Theme("Documentos", "");
         theme.setFiles(this.getThemes());
         return this.searchTheme(theme, nameTheme);
     }
 
+    /* ______________________________________________________________________ */
     private Theme searchTheme(Theme theme, String nameTheme) {
         Theme _theme;
 

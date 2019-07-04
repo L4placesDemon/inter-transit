@@ -128,6 +128,12 @@ public class UserPanel extends JPanel {
             }
         });
     }
+    /* ______________________________________________________________________ */
+    public void clear() {
+        this.nicknameField.setText("");
+        this.passwordField.setText("");
+        this.updateUI();
+    }
 
     /* GETTERS ______________________________________________________________ */
     public String getNickname() {

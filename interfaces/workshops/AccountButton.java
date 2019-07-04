@@ -1,13 +1,12 @@
 package interfaces.workshops;
 
+import interfaces.showaccount.ShowAccountDialog;
 import interfaces.showaccount.showadminaccount.ShowAdminDialog;
 import interfaces.showaccount.showuseraccount.ShowUserDialog;
 import interfaces.signin.SigninDialog;
 
-import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 import tools.Tools;
 import tools.components.Dialog;
@@ -16,21 +15,18 @@ import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
 import worldclasses.accounts.UserAccount;
 
-public class AccountPanel extends JPanel {
+public class AccountButton extends JButton {
 
     /* ATTRIBUTES ___________________________________________________________ */
     private static final long serialVersionUID = 2748146415352358528L;
 
     private Account account;
 
-    private JButton userButton;
-
     /* CONSTRUCTORS _________________________________________________________ */
-    public AccountPanel(Account account) {
+    public AccountButton(Account account) {
         this.account = account;
 
         this.initComponents();
-        this.initEvents();
     }
 
     /* METHODS ______________________________________________________________ */
@@ -48,30 +44,12 @@ public class AccountPanel extends JPanel {
         }
         imageIcon = Tools.getImageIcon(imagePath, 40, 40);
 
-        // Set up Panel --------------------------------------------------------
-        this.setLayout(new FlowLayout());
-
-        // Set up Components ---------------------------------------------------
-        this.userButton = new JButton();
-
-        // ---------------------------------------------------------------------
-        this.userButton.setIcon(imageIcon);
-        this.userButton.setText(nickname);
-
-        // ---------------------------------------------------------------------
-        this.add(userButton);
+        this.setIcon(imageIcon);
+        this.setText(nickname);
     }
 
     /* METHODS ______________________________________________________________ */
-    private void initEvents() {
-        this.userButton.addActionListener(ae -> {
-            this.userAction();
-        });
-    }
-
-    /* ______________________________________________________________________ */
-    private String userAction() {
-        String result;
+    public boolean accountAction() {
         Dialog accountDialog;
 
         accountDialog = this.getAccount() == null
@@ -82,28 +60,27 @@ public class AccountPanel extends JPanel {
 
         int option = accountDialog.showDialog();
         String imagePath = "profile/image-00";
+        String nickname = "Iniciar Sesion";
 
         if (this.getAccount() == null) {
             if (option == SigninDialog.OK_OPTION) {
                 this.setAccount(((SigninDialog) accountDialog).getAccount());
                 imagePath = this.getAccount().getImage();
-                result = "ok sign in";
-            } else {
-                result = "cancel sign in";
+                nickname = this.getAccount().getNickname();
             }
         } else {
             if (option == ShowUserDialog.OK_OPTION) {
                 this.setAccount(null);
-                result = "ok show";
             } else {
-                this.setAccount(((ShowUserDialog) accountDialog).getAccount());
+                this.setAccount(((ShowAccountDialog) accountDialog).getAccount());
                 imagePath = this.getAccount().getImage();
-                result = "cancel show";
+                nickname = this.getAccount().getNickname();
             }
         }
-        this.userButton.setIcon(Tools.getImageIcon(imagePath, 40, 40));
+        this.setIcon(Tools.getImageIcon(imagePath, 40, 40));
+        this.setText(nickname);
 
-        return result;
+        return this.getAccount() != null;
     }
 
     /* GETTERS ______________________________________________________________ */

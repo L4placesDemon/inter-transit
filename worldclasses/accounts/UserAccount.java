@@ -1,35 +1,41 @@
 package worldclasses.accounts;
 
+import java.util.Random;
+
 public class UserAccount extends Account {
 
     /* ATTRIBUTTES __________________________________________________________ */
     private static final long serialVersionUID = -1121815081591018371L;
 
+    private final int ID;
     private Integer level;
     private Integer points;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public UserAccount(String username, String nickname, String password, String image, Integer level, Integer points) {
         super(username, nickname, password, image);
+        this.ID = new Random().nextInt(9999) + 1;
+
         this.level = level;
         this.points = points;
     }
 
     /* ______________________________________________________________________ */
     public UserAccount(String username, String nickname, String password, String image) {
-        super(username, nickname, password, image);
-        this.points = 0;
-        this.level = 1;
+        this(username, nickname, password, image, 1, 0);
     }
 
     /* ______________________________________________________________________ */
     public UserAccount(String username, String nickname, String password) {
-        super(username, nickname, password);
-        this.points = 0;
-        this.level = 1;
+        this(username, nickname, password, null);
     }
 
     /* GETTERS ______________________________________________________________ */
+    public int getID() {
+        return this.ID;
+    }
+
+    /* ______________________________________________________________________ */
     public Integer getLevel() {
         return level;
     }
@@ -52,8 +58,9 @@ public class UserAccount extends Account {
     /* METHODS ______________________________________________________________ */
     @Override
     public String toString() {
-        String superString = super.toString();
-        return "User" + superString.substring(0, superString.length() - 1) + ", "
+        String superString = super.toString().substring(8);
+        return "UserAccount{ID=" + this.getID() + ", "
+                + superString.substring(0, superString.length() - 1) + ", "
                 + this.getLevel() + ", "
                 + this.getPoints() + "}";
     }

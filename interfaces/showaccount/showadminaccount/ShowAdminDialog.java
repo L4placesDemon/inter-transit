@@ -100,7 +100,7 @@ public class ShowAdminDialog extends ShowAccountDialog {
             this.setAccount(editAccountDialog.getAccount());
             System.out.println("Edited account: " + this.getAccount());
 
-            super.imageLabel.setIcon(Tools.getImageIcon(this.getAccount().getImage(), 165, 165));
+            super.imageLabel.setIcon(Tools.getImageIcon(this.getAccount().getImage(), 180, 180));
             super.accountPanel.setUsername(this.getAccount().getUsername());
             super.accountPanel.setNickname(this.getAccount().getNickname());
 

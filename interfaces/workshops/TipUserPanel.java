@@ -2,6 +2,7 @@ package interfaces.workshops;
 
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import worldclasses.themes.Theme;
 import worldclasses.themes.Tip;
@@ -21,6 +22,7 @@ public class TipUserPanel extends TipPanel {
     protected void initComponents() {
         JPanel themePanel;
         JPanel tipPanel;
+        JScrollPane scrollPane;
 
         // Set up Panel --------------------------------------------------------
         super.initComponents();
@@ -28,6 +30,7 @@ public class TipUserPanel extends TipPanel {
         // Set up Components ---------------------------------------------------
         themePanel = new JPanel(new BorderLayout());
         tipPanel = new JPanel(new BorderLayout());
+        scrollPane = new JScrollPane(super.contentTipTextArea);
 
         // ---------------------------------------------------------------------
         super.titleThemeTextField.setEditable(false);

@@ -1,5 +1,7 @@
 package interfaces.workshops;
 
+import interfaces.themestatistics.ThemesStatisticsDialog;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
@@ -15,6 +17,7 @@ public class TipAdminPanel extends TipPanel {
 
     private JButton saveButton;
     private JButton restoreButton;
+    private JButton statisticsButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public TipAdminPanel(Theme theme, Tip tip) {
@@ -34,6 +37,10 @@ public class TipAdminPanel extends TipPanel {
         super.initComponents();
 
         // Set up Components ---------------------------------------------------
+        this.saveButton = new JButton("Guardar");
+        this.restoreButton = new JButton("Restaurar");
+        this.statisticsButton = new JButton("Estadisticas");
+
         themePanel = new JPanel(new BorderLayout());
         tipPanel = new JPanel(new BorderLayout());
         buttonsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -49,6 +56,7 @@ public class TipAdminPanel extends TipPanel {
 
         buttonsPanel.add(this.restoreButton);
         buttonsPanel.add(this.saveButton);
+        buttonsPanel.add(this.statisticsButton);
 
         this.add(themePanel, BorderLayout.NORTH);
         this.add(tipPanel, BorderLayout.CENTER);
@@ -59,9 +67,24 @@ public class TipAdminPanel extends TipPanel {
     private void initEvents() {
         // Components Events ---------------------------------------------------
         this.saveButton.addActionListener(ae -> {
+
         });
 
         this.restoreButton.addActionListener(ae -> {
         });
+
+        this.statisticsButton.addActionListener(ae -> {
+            new ThemesStatisticsDialog().showDialog();
+        });
+    }
+
+    /* ______________________________________________________________________ */
+    public JButton getSaveButton() {
+        return this.saveButton;
+    }
+
+    /* ______________________________________________________________________ */
+    public JButton getRestoreButton() {
+        return this.restoreButton;
     }
 }

@@ -115,6 +115,7 @@ public class SigninDialog extends Dialog {
     public void registerAction() {
         setVisible(false);
         new RegisterAccountDialog().showDialog();
+        this.userPanel.clear();
         setVisible(true);
     }
 

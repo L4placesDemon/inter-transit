@@ -18,6 +18,9 @@ public class UserPanel extends interfaces.registeraccount.UserPanel {
     /* ATTRIBUTES ___________________________________________________________ */
     private static final long serialVersionUID = 1382395428203115487L;
 
+    private final String username;
+    private final String nickname;
+
     private JLabel usernameLabel;
     private JLabel nicknameLabel;
 
@@ -25,8 +28,8 @@ public class UserPanel extends interfaces.registeraccount.UserPanel {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public UserPanel(String userName, String nickname) {
-        super.setUsername(userName);
-        super.setNickname(nickname);
+        this.username = userName;
+        this.nickname = nickname;
 
         this.initComponents();
         this.initEvents();
@@ -44,8 +47,8 @@ public class UserPanel extends interfaces.registeraccount.UserPanel {
         // Set up Components ---------------------------------------------------
         this.changePasswordButton = new JRadioButton("Cambiar datos usuario", false);
 
-        this.usernameField = new TextField();
-        this.nicknameField = new TextField();
+        this.usernameField = new TextField(this.username);
+        this.nicknameField = new TextField(this.nickname);
         this.messageLabel = new JLabel(" ", JLabel.RIGHT);
 
         this.usernameLabel = new JLabel("Nombres:", JLabel.RIGHT);

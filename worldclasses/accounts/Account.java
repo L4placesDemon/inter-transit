@@ -21,28 +21,13 @@ public abstract class Account implements Serializable {
         this.image = image;
     }
 
-    /* ______________________________________________________________________ */
-    public Account(String username, String nickname, String password) {
-        this(username, nickname, password, null);
-    }
-
-    /* ______________________________________________________________________ */
-    public Account(Account account) {
-        this(
-                account.getUsername(),
-                account.getNickname(),
-                account.getPassword(),
-                account.getImage()
-        );
-    }
-
     /* METHODS ______________________________________________________________ */
     @Override
     public String toString() {
-        return "Account{" + this.getUsername() + ", "
-                + this.getNickname() + ", "
-                + this.getPassword() + ", "
-                + (this.getImage() != null ? this.getImage().substring(8, 16) : "") + "}";
+        return "Account{username=" + this.getUsername()
+                + ", nickname=" + this.getNickname()
+                + ", password=" + this.getPassword()
+                + ", image=" + (this.getImage() != null ? this.getImage().substring(8, 16) : "") + '}';
     }
 
     /* ______________________________________________________________________ */

@@ -30,9 +30,9 @@ public final class EditAccountDialog extends RegisterAccountDialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public EditAccountDialog(Account account) {
-
         if (account instanceof AdminAccount) {
             this.setAccount(new AdminAccount(
+                    ((AdminAccount) account).getLevel(),
                     account.getUsername(),
                     account.getNickname(),
                     account.getPassword(),
@@ -137,47 +137,33 @@ public final class EditAccountDialog extends RegisterAccountDialog {
         boolean bool = true;
         String string = this.verifyAccount();
 
+        System.out.println(string);
         if (!string.equals("Error")) {
-            Account _account = this.initAccount();
 
-            if (string.equals("Admin")) {
-                if (verifyAdmin()) {
-                    _account = new AdminAccount(_account);
+            int result = DialogPane.yesNoCancelOption(
+                    "Editar la cuenta", "Guardar los cambios en la cuenta?"
+            );
+
+            if (result == DialogPane.YES_OPTION) {
+                if (string.equals("Admin")) {
+
+                    if (verifyAdmin()) {
+                        this.edit(this.initAccount());
+                        this.dispose();
+                        this.okAction();
+
+                    } else {
+                        userPanel.setMessage("No tiene permiso para ser Administrador");
+                    }
                 } else {
-                    userPanel.setMessage("No tiene permiso para ser Administrador");
-                    bool = false;
-                }
-            }
-
-            if (bool) {
-                int result = DialogPane.yesNoCancelOption("Editar la cuenta", "Guardar los cambios en la cuenta?");
-
-                if (result == DialogPane.YES_OPTION) {
-                    this.edit(_account);
                     this.dispose();
                     this.okAction();
-                } else if (result == DialogPane.NO_OPTION) {
-                    this.dispose();
-                    this.cancelAction();
                 }
+            } else if (result == DialogPane.NO_OPTION) {
+                this.dispose();
+                this.cancelAction();
             }
         }
-    }
-
-    /* ______________________________________________________________________ */
-    @Override
-    public boolean verifyAdmin() {
-        String string = DialogPane.input(
-                "Ingresar como Administrador",
-                "Contraseña de Administrador"
-        );
-
-        if (string != null) {
-            if (string.equals(RegisterAccountDialog.ADMIN_PASSWORD)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /* ______________________________________________________________________ */
@@ -185,19 +171,19 @@ public final class EditAccountDialog extends RegisterAccountDialog {
     public String verifyAccount() {
         String username = this.userPanel.getUsername();
         String nickname = this.getAccount().getNickname();
-        String _nickname = this.userPanel.getNickname();
+        String newNickname = this.userPanel.getNickname();
         String password = this.passwordPanel.getPassword();
         String confirmPassword = this.passwordPanel.getConfirmPassword();
 
         boolean verifiedUser = true;
         boolean verifiedPassword = true;
 
-        boolean admin = _nickname.toLowerCase().contains("admin");
+        boolean admin = nickname.toLowerCase().contains("admin");
 
         if (this.userPanel.isEditable()) {
 
             try {
-                this.verifyUser(username, nickname, _nickname);
+                this.verifyUser(username, nickname, newNickname);
                 this.userPanel.setMessage(" ");
 
             } catch (Exception e) {
@@ -287,7 +273,9 @@ public final class EditAccountDialog extends RegisterAccountDialog {
         String password = this.passwordPanel.getPassword();
 
         if (this.getAccount() instanceof AdminAccount) {
-            return new AdminAccount(name, username, password, image);
+            Integer level = ((AdminAccount) this.getAccount()).getLevel();
+
+            return new AdminAccount(level, name, username, password, image);
 
         } else if (this.getAccount() instanceof UserAccount) {
             Integer level = ((UserAccount) this.getAccount()).getLevel();
@@ -313,18 +301,6 @@ public final class EditAccountDialog extends RegisterAccountDialog {
         if (this.passwordPanel.isEditable()) {
             this.getAccount().setPassword(account.getPassword());
         }
-    }
-
-    /* GETTERS ______________________________________________________________ */
-    @Override
-    public Account getAccount() {
-        return this.account;
-    }
-
-    /* GETTERS ______________________________________________________________ */
-    @Override
-    public void setAccount(Account account) {
-        this.account = account;
     }
 
     /* MAIN _________________________________________________________________ */
