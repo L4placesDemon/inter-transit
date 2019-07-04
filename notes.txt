@@ -2,10 +2,13 @@ NOTES:
 - Implement a themes manager
 - In the accounts manager replace the buttons in the bottom for a popup menu in
   each AccountButton
-- Add verification message when finish edit account
+
 - In PasswordPanel modify the object size
 - Manage dialog interfaces with panels
 - Documentate code
 - Output text by console with tools.output function
 - Add personalized exceptions
 - Statistics for Users in each Workshop
+
+- Generate a id number for a UserAccount
+- Generate a range number for a UserAccount

@@ -13,6 +13,8 @@ import javax.swing.JComponent;
 public class Pie extends JComponent {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 7519239973971063029L;
+
     private ArrayList<Integer> values;
     private ArrayList<Color> colors;
 

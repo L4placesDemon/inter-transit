@@ -6,6 +6,8 @@ import java.util.Objects;
 public abstract class Account implements Serializable {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 1749487063968768937L;
+
     private String username;
     private String nickname;
     private String password;
@@ -44,7 +46,7 @@ public abstract class Account implements Serializable {
     }
 
     /* ______________________________________________________________________ */
-    @Override   
+    @Override
     public int hashCode() {
         int hash = 7;
         hash = 43 * hash + Objects.hashCode(this.getUsername());

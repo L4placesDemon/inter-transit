@@ -12,13 +12,16 @@ import javax.swing.JPanel;
 import tools.Tools;
 import tools.binaryfilemanager.BinaryFileManager;
 
+import worldclasses.Settings;
 import worldclasses.accounts.UserAccount;
 
 public class ShowUserDialog extends ShowAccountDialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = -1324033568735688963L;
+
     private JButton showReportButton;
-    
+
     /* CONSTRUCTORS _________________________________________________________ */
     public ShowUserDialog(UserAccount userAccount) {
         super(userAccount);
@@ -32,7 +35,7 @@ public class ShowUserDialog extends ShowAccountDialog {
 
         // Set up Dialog -------------------------------------------------------
         super.initComponents();
-        
+
         this.setSize(451, 360);
         this.setLocationRelativeTo(null);
         this.setTitle("Datos Usuario");
@@ -41,7 +44,7 @@ public class ShowUserDialog extends ShowAccountDialog {
         // Set up Components ---------------------------------------------------
         super.accountPanel = new UserPanel((UserAccount) this.getAccount());
         this.imageLabel = new JLabel(Tools.getImageIcon(this.getAccount().getImage(), 120, 120));
-        
+
         this.showReportButton = new JButton("Reporte");
 
         mainPanel = new JPanel(new BorderLayout());
@@ -74,9 +77,9 @@ public class ShowUserDialog extends ShowAccountDialog {
 
     /* ______________________________________________________________________ */
     private void showReportAction() {
-        
+
     }
-    
+
     /* ______________________________________________________________________ */
     @Override
     protected void editAction() {
@@ -103,7 +106,7 @@ public class ShowUserDialog extends ShowAccountDialog {
             ((UserPanel) super.accountPanel).setLevel(((UserAccount) this.getAccount()).getLevel());
             ((UserPanel) super.accountPanel).setPoints(((UserAccount) this.getAccount()).getPoints());
 
-            manager = new BinaryFileManager("accounts.dat");
+            manager = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE);
             manager.add(this.getAccount());
         }
         this.setVisible(true);

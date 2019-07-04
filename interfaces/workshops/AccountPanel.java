@@ -16,15 +16,17 @@ import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
 import worldclasses.accounts.UserAccount;
 
-public class UserPanel extends JPanel {
+public class AccountPanel extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 2748146415352358528L;
+
     private Account account;
 
     private JButton userButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public UserPanel(Account account) {
+    public AccountPanel(Account account) {
         this.account = account;
 
         this.initComponents();

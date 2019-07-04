@@ -13,6 +13,8 @@ import worldclasses.accounts.UserAccount;
 public class AccountPanel extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = -6737048296848829064L;
+
     private UserAccount userAccount;
     private Integer index;
 

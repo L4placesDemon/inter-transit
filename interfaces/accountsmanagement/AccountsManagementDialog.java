@@ -21,12 +21,15 @@ import tools.binaryfilemanager.BinaryFileManager;
 import tools.components.Dialog;
 import tools.components.DialogPane;
 
+import worldclasses.Settings;
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
 
 public class AccountsManagementDialog extends Dialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = -2193683787062161978L;
+
     private AdminAccount adminAccount;
     private ArrayList<Object> accounts;
 
@@ -41,9 +44,9 @@ public class AccountsManagementDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public AccountsManagementDialog(AdminAccount adminAccount) {
-        
+
         this.adminAccount = adminAccount;
-        this.accounts = new BinaryFileManager("accounts.dat").read();
+        this.accounts = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE).read();
 
         this.initComponents();
         this.initEvents();
@@ -153,7 +156,7 @@ public class AccountsManagementDialog extends Dialog {
                 System.out.println("Edited account: " + account);
 
                 this.selectedAccountButton.updateAccount(account);
-                new BinaryFileManager("accounts.dat").add(account);
+                new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE).add(account);
             }
 
             this.setVisible(true);
@@ -199,7 +202,7 @@ public class AccountsManagementDialog extends Dialog {
         c.gridy = 0;
         sortAccounts();
 
-        this.setAccounts(new BinaryFileManager("accounts.dat").read());
+        this.setAccounts(new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE).read());
 
         for (int i = 0; i < this.getAccounts().size(); i++) {
             Account account = (Account) this.getAccounts().get(i);
@@ -225,7 +228,7 @@ public class AccountsManagementDialog extends Dialog {
 
     /* ______________________________________________________________________ */
     public void removeAccount(Account account) {
-        BinaryFileManager manager = new BinaryFileManager("accounts.dat");
+        BinaryFileManager manager = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE);
         ArrayList<Object> objects = manager.read();
         manager.clear();
 
@@ -239,7 +242,7 @@ public class AccountsManagementDialog extends Dialog {
 
     /* ______________________________________________________________________ */
     private void sortAccounts() {
-        BinaryFileManager manager = new BinaryFileManager("accounts.dat");
+        BinaryFileManager manager = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE);
         ArrayList<Account> _accounts = new ArrayList<>();
 
         manager.read().forEach(i -> {
@@ -280,7 +283,7 @@ public class AccountsManagementDialog extends Dialog {
 
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
-        BinaryFileManager manager = new BinaryFileManager("accounts.dat");
+        BinaryFileManager manager = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE);
         new AccountsManagementDialog((AdminAccount) manager.read().get(0)).showTestDialog();
     }
 }

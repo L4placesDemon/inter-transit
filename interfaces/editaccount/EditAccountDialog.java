@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import tools.components.DialogPane;
 import tools.binaryfilemanager.BinaryFileManager;
 
+import worldclasses.Settings;
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
 import worldclasses.accounts.UserAccount;
@@ -22,12 +23,13 @@ import worldclasses.accounts.UserAccount;
 public final class EditAccountDialog extends RegisterAccountDialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 7871983401782547155L;
+
     private UserPanel userPanel;
     private PasswordPanel passwordPanel;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public EditAccountDialog(Account account) {
-        
 
         if (account instanceof AdminAccount) {
             this.setAccount(new AdminAccount(
@@ -148,7 +150,7 @@ public final class EditAccountDialog extends RegisterAccountDialog {
             }
 
             if (bool) {
-                int result = DialogPane.yesNoCancelOption("", "");
+                int result = DialogPane.yesNoCancelOption("Editar la cuenta", "Guardar los cambios en la cuenta?");
 
                 if (result == DialogPane.YES_OPTION) {
                     this.edit(_account);
@@ -263,7 +265,7 @@ public final class EditAccountDialog extends RegisterAccountDialog {
                 }
             }
 
-            binaryFileManager = new BinaryFileManager("accounts.dat");
+            binaryFileManager = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE);
             objects = binaryFileManager.read();
 
             for (Object object : objects) {

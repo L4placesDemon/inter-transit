@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 public class Dialog extends JDialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 763413934395919026L;
+
     public static final int OK_OPTION = 0;
     public static final int CANCEL_OPTION = 1;
 
@@ -16,7 +18,7 @@ public class Dialog extends JDialog {
     /* CONSTRUCTORS _________________________________________________________ */
     public Dialog() {
         super(new JFrame(), true);
-        
+
         this.initEvents();
     }
 
@@ -24,7 +26,7 @@ public class Dialog extends JDialog {
     private void initEvents() {
         // Dialog Events --------------------------------------------------------
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
+
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we) {
@@ -38,7 +40,7 @@ public class Dialog extends JDialog {
         this.setVisible(true);
         return this.getDialogResultValue();
     }
-    
+
     /* ______________________________________________________________________ */
     public int showTestDialog() {
         this.addWindowListener(new WindowAdapter() {

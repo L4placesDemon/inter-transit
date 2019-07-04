@@ -17,15 +17,17 @@ import tools.components.Dialog;
 public class ImageChooserDialog extends Dialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 7236526628398043759L;
+
     private String selectedIconPath;
-    
+
     private JToggleButton[] buttons;
     private JButton cancelButton;
     private JButton chooseButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public ImageChooserDialog(String selectedIconPath) {
-        
+
         this.selectedIconPath = selectedIconPath;
 
         this.initComponents();

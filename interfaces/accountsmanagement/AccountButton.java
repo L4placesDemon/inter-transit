@@ -12,6 +12,8 @@ import worldclasses.accounts.Account;
 public class AccountButton extends JToggleButton {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 6655939696146523981L;
+
     private Account account;
 
     private JLabel imageLabel;

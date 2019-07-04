@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 public abstract class Panel extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = -2018109515452980767L;
+
     public static final int OK_OPTION = 0;
     public static final int CANCEL_OPTION = 1;
 

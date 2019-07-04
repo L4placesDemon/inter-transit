@@ -2,9 +2,10 @@ package tools.components;
 
 import javax.swing.JOptionPane;
 
-public class DialogPane extends JOptionPane{
+public class DialogPane extends JOptionPane {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 286880484650781705L;
     public final static int PLAIN = JOptionPane.PLAIN_MESSAGE;
     public final static int ERROR = JOptionPane.ERROR_MESSAGE;
     public final static int INFORMATION = JOptionPane.INFORMATION_MESSAGE;

@@ -1,22 +1,28 @@
 package interfaces.showaccount.showadminaccount;
 
-import interfaces.showaccount.AccountPanel;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import interfaces.showaccount.AccountPanel;
+
 import tools.components.Border;
-import tools.components.TextField;
+
 import worldclasses.accounts.AdminAccount;
 
 public class AdminPanel extends AccountPanel {
+
+    /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 6022729394255065302L;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public AdminPanel(AdminAccount adminAccount) {
         super(adminAccount);
     }
-    
+
     /* METHODS ______________________________________________________________ */
     @Override
     protected void initComponents() {

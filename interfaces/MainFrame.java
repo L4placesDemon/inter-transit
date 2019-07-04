@@ -10,6 +10,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,6 +32,8 @@ import worldclasses.accounts.UserAccount;
 public class MainFrame extends JFrame {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 5008656210722811627L;
+
     private Account account;
 
     private MenuPanel menuPanel;
@@ -77,9 +81,10 @@ public class MainFrame extends JFrame {
     /* ______________________________________________________________________ */
     private void initEvents() {
         // Frame Events --------------------------------------------------------
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
         this.addComponentListener(new ComponentAdapter() {
+
             @Override
             public void componentResized(ComponentEvent ce) {
                 int less = getWidth();
@@ -99,13 +104,24 @@ public class MainFrame extends JFrame {
             }
         });
 
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we) {
+                int result = DialogPane.yesNoOption("Cerrar Aplicacion?");
+
+                if (result == DialogPane.OK_OPTION) {
+                    setDefaultCloseOperation(EXIT_ON_CLOSE);
+                }
+            }
+        });
+
         // Components Events ---------------------------------------------------
         this.menuPanel.getSettingsButton().addActionListener(ae -> {
             this.settingsAction();
         });
 
         this.menuPanel.getUserButton().addActionListener(ae -> {
-            this.userAction();
+            this.accountAction();
         });
 
         this.menuPanel.getWorkshopsButton().addActionListener(ae -> {
@@ -151,7 +167,7 @@ public class MainFrame extends JFrame {
     }
 
     /* ______________________________________________________________________ */
-    private boolean userAction() {
+    private boolean accountAction() {
         Dialog accountDialog;
 
         accountDialog = this.getAccount() == null
@@ -198,8 +214,6 @@ public class MainFrame extends JFrame {
 
     /* ______________________________________________________________________ */
     private void workshopsSigninAction() {
-        boolean result;
-
         if (getAccount() == null) {
             int option = DialogPane.yesNoCancelOption(
                     "Iniciar Sesion",
@@ -207,8 +221,7 @@ public class MainFrame extends JFrame {
             );
 
             if (option == DialogPane.YES_OPTION) {
-                result = this.userAction();
-                if (result) {
+                if (this.accountAction()) {
                     this.showWorkshopsPanel();
                 }
             } else if (option == DialogPane.NO_OPTION) {
@@ -231,7 +244,7 @@ public class MainFrame extends JFrame {
 
     /* TEST METHODS _________________________________________________________ */
     private static void initTestAccounts() {
-        BinaryFileManager manager = new BinaryFileManager("accounts.dat");
+        BinaryFileManager manager = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE);
         Random random = new Random();
 
         if (manager.read().isEmpty()) {
@@ -252,7 +265,7 @@ public class MainFrame extends JFrame {
 
     /* ______________________________________________________________________ */
     private static void sortTestAccounts() {
-        BinaryFileManager manager = new BinaryFileManager("accounts.dat");
+        BinaryFileManager manager = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE);
         ArrayList<Account> accounts = new ArrayList<>();
 
         manager.read().forEach(i -> {
@@ -273,7 +286,7 @@ public class MainFrame extends JFrame {
 
     /* ______________________________________________________________________ */
     private static void showTestAccounts() {
-        ArrayList<Object> objects = new BinaryFileManager("accounts.dat").read();
+        ArrayList<Object> objects = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE).read();
         System.out.println(objects.size());
 
         objects.forEach(i -> {
@@ -283,15 +296,14 @@ public class MainFrame extends JFrame {
 
     /* ______________________________________________________________________ */
     private static void initTestThemes() {
-        int chars = 5;
+//        int chars = 5;
         Random random = new Random();
-        String os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("win")) {
-            chars = 6;
-        }
+//        String os = System.getProperty("os.name").toLowerCase();
+//        if (os.contains("win")) {
+//            chars = 6;
+//        }
 
-        String pathFolder = Settings.class.getResource("/tools").toString().substring(chars);
-        pathFolder = pathFolder.substring(0, pathFolder.indexOf("build")) + "src/files/";
+        String pathFolder = Settings.getResource() + "src/files/";
 
         File foldersFolder = new File(pathFolder);
         if (!foldersFolder.exists()) {
@@ -314,10 +326,10 @@ public class MainFrame extends JFrame {
 
                 file = new File(pathFolder + name + " " + i + "/descripcion.txt");
                 file.createNewFile();
+
                 fileWriter = new FileWriter(file);
                 fileWriter.write("description=Descripcion del Tema " + i + '\n');
                 fileWriter.write("value=" + (random.nextInt(9999) + 1) + '\n');
-                fileWriter.write("progress=" + (random.nextInt(99) + 1) + '\n');
                 fileWriter.write("views=" + random.nextInt(19) + 1 + "\n\n");
                 fileWriter.close();
             } catch (IOException e) {

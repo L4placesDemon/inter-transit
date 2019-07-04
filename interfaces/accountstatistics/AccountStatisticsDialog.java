@@ -23,6 +23,8 @@ import worldclasses.accounts.UserAccount;
 public class AccountStatisticsDialog extends Dialog {
 
     /* ATTRIBUTTES __________________________________________________________ */
+    private static final long serialVersionUID = -877346624852504076L;
+
     private ArrayList<Account> accounts;
 
     private StatisticsGraph levelStatisticsGraph;
@@ -68,8 +70,8 @@ public class AccountStatisticsDialog extends Dialog {
         this.setTitle("Estadisticas");
 
         // Set up Components ---------------------------------------------------
-        this.levelStatisticsGraph = new StatisticsGraph();
-        this.pointsStatisticsGraph = new StatisticsGraph();
+        this.levelStatisticsGraph = new StatisticsGraph(color);
+        this.pointsStatisticsGraph = new StatisticsGraph(color);
 
         this.backButton = new JButton("Volver");
 
@@ -145,7 +147,7 @@ public class AccountStatisticsDialog extends Dialog {
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
         ArrayList<Account> accounts = new ArrayList<>();
-        new BinaryFileManager("accounts.dat").read().forEach(i -> {
+        new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE).read().forEach(i -> {
             accounts.add((Account) i);
         });
         new AccountStatisticsDialog(accounts).showTestDialog();

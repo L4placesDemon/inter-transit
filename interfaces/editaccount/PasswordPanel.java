@@ -19,6 +19,8 @@ import tools.components.PasswordField;
 public class PasswordPanel extends interfaces.registeraccount.PasswordPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 5980004488241915537L;
+
     private JLabel passwordLabel;
     private JLabel confirmPasswordLabel;
     private JRadioButton changePasswordButton;
@@ -37,8 +39,7 @@ public class PasswordPanel extends interfaces.registeraccount.PasswordPanel {
 
         // Set up Panel --------------------------------------------------------
         this.setLayout(new BorderLayout());
-        this.setBorder(new Border(new EmptyBorder(5, 5, 5, 5),
-                new Border("Constraseña")));
+        this.setBorder(new Border(new EmptyBorder(5, 5, 5, 5), new Border("Contraseña")));
 
         // Set up Components ---------------------------------------------------
         this.changePasswordButton = new JRadioButton("Cambiar contraseña", false);
@@ -71,8 +72,8 @@ public class PasswordPanel extends interfaces.registeraccount.PasswordPanel {
         this.messageLabel.setEnabled(false);
 
         westPanel.setBorder(new EmptyBorder(5, 10, 5, 10));
-
         centerPanel.setBorder(new EmptyBorder(5, 5, 5, 2));
+
         // ---------------------------------------------------------------------
         westPanel.add(passwordLabel);
         westPanel.add(confirmPasswordLabel);
@@ -93,7 +94,7 @@ public class PasswordPanel extends interfaces.registeraccount.PasswordPanel {
     private void initEvents() {
         this.changePasswordButton.addActionListener(ae -> {
             boolean selected = this.changePasswordButton.isSelected();
-            
+
             this.passwordLabel.setEnabled(selected);
             this.confirmPasswordLabel.setEnabled(selected);
             this.passwordField.setEnabled(selected);
@@ -104,7 +105,7 @@ public class PasswordPanel extends interfaces.registeraccount.PasswordPanel {
 
         this.showPasswordButton.addActionListener(ae -> {
             boolean selected = this.showPasswordButton.isSelected();
-            
+
             this.showPasswordButton.setIcon(selected ? PasswordPanel.SHOW_ICON : PasswordPanel.HIDE_ICON);
             this.passwordField.setPasswordVisible(selected);
             this.confirmPasswordField.setPasswordVisible(selected);

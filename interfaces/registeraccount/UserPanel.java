@@ -15,6 +15,8 @@ import tools.components.TextField;
 public class UserPanel extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 6372631086088811729L;
+
     protected TextField usernameField;
     protected TextField nicknameField;
     protected JLabel messageLabel;
@@ -42,7 +44,7 @@ public class UserPanel extends JPanel {
         this.nicknameField = new TextField();
         this.messageLabel = new JLabel(" ", JLabel.RIGHT);
 
-        usernameLabel = new JLabel("Nombre:", JLabel.RIGHT);
+        usernameLabel = new JLabel("Nombres:", JLabel.RIGHT);
         nicknameLabel = new JLabel("Apodo:", JLabel.RIGHT);
 
         leftPanel = new JPanel(new GridLayout(2, 1, 3, 3));

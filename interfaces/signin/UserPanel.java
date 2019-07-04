@@ -16,11 +16,13 @@ import tools.Tools;
 import tools.components.Border;
 import tools.components.PasswordField;
 import tools.components.TextField;
+
 import worldclasses.Settings;
 
 public class UserPanel extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 5040342533939752738L;
     private static final ImageIcon SHOW_ICON = Tools.getImageIcon("show", 15, 15);
     private static final ImageIcon HIDE_ICON = Tools.getImageIcon("hide", 15, 15);
 
@@ -40,7 +42,7 @@ public class UserPanel extends JPanel {
     private void initComponents() {
         Color color = null;
         String theme;
-        
+
         JLabel nicknameLabel;
         JLabel passwordLabel;
 
@@ -102,8 +104,6 @@ public class UserPanel extends JPanel {
     /* ______________________________________________________________________ */
     private void initEvents() {
         // Components Events ---------------------------------------------------
-        char echoChar = this.passwordField.getEchoChar();
-
         this.showPasswordButton.addActionListener(ae -> {
             boolean selected = this.showPasswordButton.isSelected();
 

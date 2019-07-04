@@ -3,11 +3,16 @@ package interfaces.themestatistics;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+
+import tools.Tools;
+
 import worldclasses.themes.Theme;
 
 public class ThemeButton extends JButton {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = -5958987373964342002L;
+
     private Theme theme;
 
     /* CONSTRUCTORS _________________________________________________________ */
@@ -35,7 +40,7 @@ public class ThemeButton extends JButton {
 
         // ---------------------------------------------------------------------
         if (this.theme.getImage() != null) {
-            imageLabel.setIcon(this.theme.getImage());
+            imageLabel.setIcon(Tools.getImageIcon(this.theme.getImage()));
         }
 
         // ---------------------------------------------------------------------

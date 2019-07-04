@@ -19,6 +19,8 @@ import worldclasses.Settings;
 public class SettingsDialog extends Dialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = -3025669317140773900L;
+
     public static final String LIGHT_THEME = "light-theme";
     public static final String DARL_THEME = "dark-theme";
 
@@ -44,8 +46,6 @@ public class SettingsDialog extends Dialog {
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
-        String _theme;
-
         JPanel centerPanel;
         JPanel southPanel;
 

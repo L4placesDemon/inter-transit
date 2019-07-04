@@ -10,13 +10,15 @@ import javax.swing.undo.UndoManager;
 public class PasswordField extends JPasswordField {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = -6569264252841602480L;
+
     private UndoManager undoManager;
     private final char echoChar;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public PasswordField() {
         this.echoChar = getEchoChar();
-        
+
         this.initComponents();
         this.initEvents();
     }

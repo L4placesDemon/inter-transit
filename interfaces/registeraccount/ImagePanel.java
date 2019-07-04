@@ -12,8 +12,10 @@ import tools.components.Border;
 public class ImagePanel extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    protected String imagePath = "profile/image-01";
+    private static final long serialVersionUID = 4728828023745046053L;
     
+    protected String imagePath = "profile/image-01";
+
     protected JLabel imageLabel;
     protected ImageChooserDialog imageChooserDialog;
     protected JButton chooseImageButton;

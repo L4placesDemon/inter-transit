@@ -1,61 +1,49 @@
 package worldclasses.themes;
 
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 
 public class Theme {
 
     /* ATRIBUTES ____________________________________________________________ */
-    private ImageIcon image;
-    private String title;
-    private String description;
-    private ArrayList<Tip> tips;
-    private Integer progress;
+    protected String image;
+    protected String title;
+    protected String description;
     private Double value;
     private Integer views;
+    private ArrayList<Theme> files;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public Theme(
-            ImageIcon image,
-            String title,
-            String description,
-            ArrayList<Tip> tips,
-            Integer progress,
-            Double value,
-            Integer views) {
+    public Theme(String image, String title, String description, Double value, Integer views, ArrayList<Theme> files) {
         this.image = image;
         this.title = title;
         this.description = description;
-        this.tips = tips;
-        this.progress = progress;
         this.value = value;
         this.views = views;
+        this.files = files;
     }
 
     /* ______________________________________________________________________ */
-//    public Theme(ImageIcon image,
-//            String title,
-//            String description,
-//            Integer progress,
-//            Double value,
-//            Integer views) {
-//        this(image, title, description, new ArrayList<>(), progress, value, views);
-//    }
+    public Theme(String title, String description) {
+        this.title = title;
+        this.description = description;
+        this.value = 0.0;
+        this.views = 0;
+        this.files = new ArrayList<>();
+    }
 
     /* METHODS ______________________________________________________________ */
     @Override
     public String toString() {
-        return "Theme{" + "image=" + getImage()
-                + ", "+ getTitle()
-                + ": " + getDescription()
-                + " -> " + getTips()
-                + ", " + getProgress() + '%'
-                + ", $" + getValue()
-                + ", " + getViews() + " views}";
+        return "Theme{image=" + (this.getImage() != null ? this.getImage().substring(8, 16) : "")
+                + ", title=" + this.getTitle()
+                + ", description:\n" + this.getDescription()
+                + "\n, $" + this.getValue()
+                + ", " + this.getViews() + " views"
+                + ", tips=\n" + this.getFiles() + "}";
     }
 
     /* GETTERS ______________________________________________________________ */
-    public ImageIcon getImage() {
+    public String getImage() {
         return this.image;
     }
 
@@ -70,16 +58,6 @@ public class Theme {
     }
 
     /* ______________________________________________________________________ */
-    public ArrayList<Tip> getTips() {
-        return this.tips;
-    }
-
-    /* ______________________________________________________________________ */
-    public Integer getProgress() {
-        return this.progress;
-    }
-
-    /* ______________________________________________________________________ */
     public Double getValue() {
         return this.value;
     }
@@ -89,8 +67,13 @@ public class Theme {
         return this.views;
     }
 
+    /* ______________________________________________________________________ */
+    public ArrayList<Theme> getFiles() {
+        return this.files;
+    }
+
     /* SETTERS ______________________________________________________________ */
-    public void setImage(ImageIcon image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -105,16 +88,6 @@ public class Theme {
     }
 
     /* ______________________________________________________________________ */
-    public void setTips(ArrayList<Tip> tips) {
-        this.tips = tips;
-    }
-
-    /* ______________________________________________________________________ */
-    public void setProgress(Integer progress) {
-        this.progress = progress;
-    }
-
-    /* ______________________________________________________________________ */
     public void setValue(Double value) {
         this.value = value;
     }
@@ -122,5 +95,10 @@ public class Theme {
     /* ______________________________________________________________________ */
     public void setViews(Integer views) {
         this.views = views;
+    }
+
+    /* ______________________________________________________________________ */
+    public void setFiles(ArrayList<Theme> files) {
+        this.files = files;
     }
 }

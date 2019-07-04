@@ -22,6 +22,8 @@ import worldclasses.accounts.Account;
 public class SigninDialog extends Dialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = -7318033861023063175L;
+
     private Account account;
 
     private JLabel imageLabel;
@@ -33,7 +35,6 @@ public class SigninDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public SigninDialog() {
-        
 
         this.initComponents();
         this.initEvents();
@@ -43,7 +44,7 @@ public class SigninDialog extends Dialog {
     private void initComponents() {
         String logo = null;
         String theme;
-        
+
         JPanel mainPanel;
         JPanel buttonsPanel;
 
@@ -53,7 +54,7 @@ public class SigninDialog extends Dialog {
         } else if (theme.equals(Settings.DARK_THEME)) {
             logo = Settings.DARK_LOGO;
         }
-        
+
         // Set up Frame --------------------------------------------------------
         this.setLayout(new BorderLayout());
         this.setSize(400, 300);
@@ -164,7 +165,7 @@ public class SigninDialog extends Dialog {
                 }
             }
 
-            binaryFileManager = new BinaryFileManager("accounts.dat");
+            binaryFileManager = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE);
             objects = binaryFileManager.read();
 
             boolean exists = false;
@@ -204,7 +205,7 @@ public class SigninDialog extends Dialog {
                 }
             }
 
-            binaryFileManager = new BinaryFileManager("accounts.dat");
+            binaryFileManager = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE);
             objects = binaryFileManager.read();
 
             match = false;
@@ -227,7 +228,7 @@ public class SigninDialog extends Dialog {
 
     /* ______________________________________________________________________ */
     public Account initAccount(String nickname) {
-        BinaryFileManager binaryFileManager = new BinaryFileManager("accounts.dat");
+        BinaryFileManager binaryFileManager = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE);
         ArrayList<Object> objects = binaryFileManager.read();
 
         for (Object object : objects) {

@@ -12,6 +12,9 @@ import worldclasses.Settings;
 
 public class Border extends CompoundBorder {
 
+    /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 5537357247919596735L;
+
     /* CONSTRUCTORS _________________________________________________________ */
     public Border(AbstractBorder outsideBorder, AbstractBorder insideBorder) {
         super(outsideBorder, insideBorder);

@@ -12,6 +12,8 @@ import javax.swing.border.EmptyBorder;
 public class PieInformation extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 5233709319697674166L;
+
     private ArrayList<String> names;
     private ArrayList<Color> colors;
 

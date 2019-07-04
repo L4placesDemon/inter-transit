@@ -2,17 +2,16 @@ package tools.components;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
 public class ToggleSwitch extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 763657825441549576L;
+
     private boolean activated;
 
     private Color inactiveColor;
@@ -23,7 +22,7 @@ public class ToggleSwitch extends JPanel {
 
     /* CONSTRUCTOR __________________________________________________________ */
     public ToggleSwitch(boolean activated, Color inactiveColor, Color activeColor, Color buttonColor) {
-        
+
         this.activated = activated;
 
         this.inactiveColor = inactiveColor;

@@ -3,7 +3,6 @@ package interfaces.showaccount.showadminaccount;
 import interfaces.accountsmanagement.AccountsManagementDialog;
 import interfaces.editaccount.EditAccountDialog;
 import interfaces.showaccount.ShowAccountDialog;
-import interfaces.themesmanagement.ThemesManagementDialog;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -14,12 +13,14 @@ import javax.swing.JPanel;
 import tools.Tools;
 import tools.binaryfilemanager.BinaryFileManager;
 
+import worldclasses.Settings;
 import worldclasses.accounts.AdminAccount;
 
 public class ShowAdminDialog extends ShowAccountDialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    private JButton themesManagementButton;
+    private static final long serialVersionUID = 1132574849542496759L;
+
     private JButton accountsManagementButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
@@ -35,7 +36,7 @@ public class ShowAdminDialog extends ShowAccountDialog {
 
         // Set up Frame --------------------------------------------------------
         super.initComponents();
-        
+
         this.setSize(535, 360);
         this.setLocationRelativeTo(null);
         this.setTitle("Datos Administrador");
@@ -44,11 +45,10 @@ public class ShowAdminDialog extends ShowAccountDialog {
         super.accountPanel = new AdminPanel((AdminAccount) super.getAccount());
         this.imageLabel = new JLabel(Tools.getImageIcon(this.getAccount().getImage(), 180, 180));
 
-        this.themesManagementButton = new JButton("Temas");
         this.accountsManagementButton = new JButton("Cuentas");
 
         mainPanel = new JPanel(new BorderLayout());
-        buttonsPanel  = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         // ---------------------------------------------------------------------
         mainPanel.add(super.imageLabel, BorderLayout.CENTER);
@@ -56,7 +56,6 @@ public class ShowAdminDialog extends ShowAccountDialog {
 
         buttonsPanel.add(super.backButton);
         buttonsPanel.add(super.removeButton);
-        buttonsPanel.add(this.themesManagementButton);
         buttonsPanel.add(this.accountsManagementButton);
         buttonsPanel.add(super.signoutButton);
         buttonsPanel.add(super.editButton);
@@ -71,20 +70,9 @@ public class ShowAdminDialog extends ShowAccountDialog {
         // Components Events ---------------------------------------------------
         super.initEvents();
 
-        this.themesManagementButton.addActionListener(ae -> {
-            this.themesManagementAction();
-        });
-
         this.accountsManagementButton.addActionListener(ae -> {
             this.accountsManagementAction();
         });
-    }
-
-    /* ______________________________________________________________________ */
-    public void themesManagementAction() {
-        this.setVisible(false);
-        new ThemesManagementDialog().showDialog();
-        this.setVisible(true);
     }
 
     /* ______________________________________________________________________ */
@@ -116,7 +104,7 @@ public class ShowAdminDialog extends ShowAccountDialog {
             super.accountPanel.setUsername(this.getAccount().getUsername());
             super.accountPanel.setNickname(this.getAccount().getNickname());
 
-            manager = new BinaryFileManager("accounts.dat");
+            manager = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE);
             manager.add(this.getAccount());
         }
         this.setVisible(true);

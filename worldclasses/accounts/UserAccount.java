@@ -3,6 +3,8 @@ package worldclasses.accounts;
 public class UserAccount extends Account {
 
     /* ATTRIBUTTES __________________________________________________________ */
+    private static final long serialVersionUID = -1121815081591018371L;
+
     private Integer level;
     private Integer points;
 

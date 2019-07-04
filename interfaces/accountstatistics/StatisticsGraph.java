@@ -8,6 +8,8 @@ import javax.swing.JComponent;
 public class StatisticsGraph extends JComponent {
 
     /* ATTRIBUTTES __________________________________________________________ */
+    private static final long serialVersionUID = -1771291544258237966L;
+
     private ArrayList<Integer> values;
     private Color color;
 
@@ -40,7 +42,7 @@ public class StatisticsGraph extends JComponent {
         int w = 18;
 
         g.setColor(this.getColor());
-        
+
         // draw x and y axis ---------------------------------------------------
         g.drawLine(20, 20, 20, height - 20);
         g.drawLine(20, height - 20, width - 20, height - 20);
@@ -98,16 +100,18 @@ public class StatisticsGraph extends JComponent {
     public ArrayList<Integer> getValues() {
         return this.values;
     }
+
     /* ______________________________________________________________________ */
     public Color getColor() {
         return this.color;
     }
+
     /* SETTERS ______________________________________________________________ */
     public void setValues(ArrayList<Integer> values) {
         this.values = values;
         repaint();
     }
-    
+
     /* ______________________________________________________________________ */
     public void setColor(Color color) {
         this.color = color;

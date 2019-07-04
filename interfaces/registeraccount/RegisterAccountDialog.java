@@ -17,6 +17,7 @@ import tools.components.DialogPane;
 import tools.binaryfilemanager.BinaryFileManager;
 import tools.components.PasswordField;
 
+import worldclasses.Settings;
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
 import worldclasses.accounts.UserAccount;
@@ -24,6 +25,7 @@ import worldclasses.accounts.UserAccount;
 public class RegisterAccountDialog extends Dialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = -9099980965689355398L;
     protected static final String ADMIN_PASSWORD = "4DM1N";
 
     protected Account account;
@@ -37,7 +39,6 @@ public class RegisterAccountDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public RegisterAccountDialog() {
-        
 
         this.initComponents();
         this.initEvents();
@@ -233,7 +234,7 @@ public class RegisterAccountDialog extends Dialog {
                 }
             }
 
-            binaryFileManager = new BinaryFileManager("accounts.dat");
+            binaryFileManager = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE);
             objects = binaryFileManager.read();
 
             for (Object object : objects) {
@@ -299,7 +300,7 @@ public class RegisterAccountDialog extends Dialog {
 
     /* ______________________________________________________________________ */
     public void register(Account account) {
-        BinaryFileManager binaryFileManager = new BinaryFileManager("accounts.dat");
+        BinaryFileManager binaryFileManager = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE);
 
         if (account instanceof AdminAccount) {
             this.setAccount((AdminAccount) account);

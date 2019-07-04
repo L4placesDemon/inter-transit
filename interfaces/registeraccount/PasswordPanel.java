@@ -20,6 +20,7 @@ import tools.components.PasswordField;
 public class PasswordPanel extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = -2821487694803869352L;
     protected static final ImageIcon SHOW_ICON = Tools.getImageIcon("show", 15, 15);
     protected static final ImageIcon HIDE_ICON = Tools.getImageIcon("hide", 15, 15);
 
@@ -45,11 +46,12 @@ public class PasswordPanel extends JPanel {
 
         // Set up Panel --------------------------------------------------------
         this.setLayout(new BorderLayout());
-        this.setBorder(new Border(new EmptyBorder(5, 5, 5, 5), new Border("Constraseña")));
+        this.setBorder(new Border(new EmptyBorder(5, 5, 5, 5), new Border("Contraseña")));
 
         // Set up Components ---------------------------------------------------
         this.passwordField = new PasswordField();
         this.confirmPasswordField = new PasswordField();
+
         this.showPasswordButton = new JToggleButton(HIDE_ICON);
         this.messageLabel = new JLabel(" ", JLabel.RIGHT);
 
@@ -88,7 +90,7 @@ public class PasswordPanel extends JPanel {
 
         this.showPasswordButton.addActionListener(ae -> {
             boolean selected = this.showPasswordButton.isSelected();
-            
+
             this.showPasswordButton.setIcon(selected ? SHOW_ICON : HIDE_ICON);
             this.passwordField.setPasswordVisible(selected);
             this.confirmPasswordField.setPasswordVisible(selected);

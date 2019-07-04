@@ -1,6 +1,9 @@
-    package worldclasses.accounts;
+package worldclasses.accounts;
 
 public class AdminAccount extends Account {
+
+    /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = -3552751394699439101L;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public AdminAccount(String username, String nickname, String password, String image) {
@@ -14,11 +17,7 @@ public class AdminAccount extends Account {
 
     /* ______________________________________________________________________ */
     public AdminAccount(Account account) {
-        this(account.getUsername(),
-                account.getNickname(),
-                account.getPassword(),
-                account.getImage()
-        );
+        this(account.getUsername(), account.getNickname(), account.getPassword(), account.getImage());
     }
 
     /* METHODS ______________________________________________________________ */

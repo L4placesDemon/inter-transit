@@ -17,11 +17,12 @@ import worldclasses.Settings;
 public class AboutDialog extends Dialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 7731079211910018196L;
+    
     private JButton closeButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public AboutDialog() {
-        
 
         this.initComponents();
         this.initEvents();

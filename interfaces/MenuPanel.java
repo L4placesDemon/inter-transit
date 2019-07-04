@@ -19,6 +19,8 @@ import worldclasses.accounts.Account;
 public class MenuPanel extends Panel {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = -9007803544585262467L;
+
     private Account account;
 
     private JLabel logoLabel;
@@ -129,7 +131,7 @@ public class MenuPanel extends Panel {
     public void setLogo(int width) {
         String logo = null;
         String theme = Settings.getCurrentSettings().getTheme();
-        
+
         if (theme.equals(Settings.LIGHT_THEME)) {
             logo = Settings.LIGHT_LOGO;
         } else if (theme.equals(Settings.DARK_THEME)) {

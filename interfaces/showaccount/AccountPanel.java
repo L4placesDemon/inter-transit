@@ -1,12 +1,8 @@
 package interfaces.showaccount;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
-import tools.components.Border;
 import tools.components.TextField;
 
 import worldclasses.accounts.Account;
@@ -14,6 +10,8 @@ import worldclasses.accounts.Account;
 public abstract class AccountPanel extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 5300459726918405095L;
+
     protected Account account;
 
     protected TextField usernameField;

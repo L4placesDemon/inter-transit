@@ -8,11 +8,14 @@ import tools.binaryfilemanager.BinaryFileManager;
 import tools.components.Dialog;
 import tools.components.DialogPane;
 
+import worldclasses.Settings;
 import worldclasses.accounts.Account;
 
 public abstract class ShowAccountDialog extends Dialog {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = -1320757065407549176L;
+
     private Account account;
 
     protected JLabel imageLabel;
@@ -25,7 +28,7 @@ public abstract class ShowAccountDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public ShowAccountDialog(Account account) {
-        
+
         this.account = account;
 
         this.initComponents();
@@ -85,7 +88,7 @@ public abstract class ShowAccountDialog extends Dialog {
 
     /* ______________________________________________________________________ */
     public void removeAccount(Account account) {
-        BinaryFileManager manager = new BinaryFileManager("accounts.dat");
+        BinaryFileManager manager = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE);
         ArrayList<Object> objects = manager.read();
         manager.clear();
 

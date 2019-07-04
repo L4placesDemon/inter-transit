@@ -58,7 +58,7 @@ public interface Tools {
     public static ImageIcon getImageIcon(String imagePath, int width, int height) {
         return new ImageIcon(Tools.getImage(imagePath, width, height));
     }
-    
+
     /* ______________________________________________________________________ */
     public static ImageIcon getImageIcon(String imagePath) {
         return new ImageIcon(Tools.getImage(imagePath));
@@ -100,13 +100,11 @@ public interface Tools {
             while (line != null) {
                 text += line;
                 line = bufferedReader.readLine();
-
                 if (line != null) {
-                    text += "\n";
+                    text += '\n';
                 }
             }
             bufferedReader.close();
-
         } catch (IOException e) {
         }
         return text;

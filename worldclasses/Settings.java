@@ -6,12 +6,16 @@ import java.io.Serializable;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
 import tools.binaryfilemanager.BinaryFileManager;
 
 public class Settings implements Serializable {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = -8572381626825274780L;
+
     public static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
+    public static final String ACCOUNTS_PATH_FILE = "accounts.dat";
     public static final String LIGHT_LOGO = "logos/light-logo";
     public static final String DARK_LOGO = "logos/dark-logo";
     public static final String LIGHT_THEME = "light-theme";
@@ -32,13 +36,7 @@ public class Settings implements Serializable {
     }
 
     /* METHODS ______________________________________________________________ */
-    private void theme(
-            Color primary,
-            Color secondary,
-            Color select,
-            Color foreground,
-            Border border
-    ) {
+    private void theme(Color primary, Color secondary, Color select, Color foreground, Border border) {
         Font _font = getFont();
 
         UIManager.put("OptionPane.background", primary);
@@ -95,21 +93,23 @@ public class Settings implements Serializable {
         UIManager.put("PasswordField.border", border);
         UIManager.put("PasswordField.background", secondary);
         UIManager.put("PasswordField.foreground", foreground);
+
+        UIManager.put("Tree.background", secondary);
+        UIManager.put("Tree.foreground", foreground);
+        UIManager.put("Tree.rendererFillBackground", false);
     }
 
+    /* ______________________________________________________________________ */
     public static void lightTheme() {
         new Settings().theme(Color.white, Color.white, null, Color.black, null);
+        UIManager.put("Separator.foreground", null);
     }
 
     /* ______________________________________________________________________ */
     public static void darkTheme() {
-        new Settings().theme(
-                new Color(45, 45, 45),
-                new Color(72, 72, 72),
-                new Color(24, 136, 255),
-                Color.white,
-                new EmptyBorder(0, 0, 0, 0)
-        );
+        new Settings().theme(new Color(45, 45, 45), new Color(72, 72, 72), new Color(24, 136, 255), Color.white,
+                new EmptyBorder(0, 0, 0, 0));
+        UIManager.put("Separator.foreground", Color.white);
     }
 
     /* ______________________________________________________________________ */
@@ -125,6 +125,19 @@ public class Settings implements Serializable {
     @Override
     public String toString() {
         return "Settings{" + "theme=" + this.getTheme() + ", font=" + this.getFont() + '}';
+    }
+
+    /* ______________________________________________________________________ */
+    public static String getResource() {
+        String resource = Settings.class.getResource("/tools") + "";
+        int index;
+        try {
+            index = resource.indexOf("build");
+            return resource.substring(5, index);
+        } catch (Exception e) {
+            index = resource.indexOf("bin");
+            return resource.substring(5, index);
+        }
     }
 
     /* GETTERS ______________________________________________________________ */

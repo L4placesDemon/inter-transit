@@ -1,40 +1,17 @@
 package worldclasses.themes;
 
-public class Tip {
-
-    /* ATRIBUTES ____________________________________________________________ */
-    private String title;
-    private String content;
+public class Tip extends Theme {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public Tip(String title, String content) {
-        this.title = title;
-        this.content = content;
+        super(title, content);
     }
 
     /* METHODS ______________________________________________________________ */
     @Override
     public String toString() {
-        return "Tip{" + getTitle() + ": " + getContent() + '}';
-    }
-
-    /* GETTERS ______________________________________________________________ */
-    public String getTitle() {
-        return this.title;
-    }
-
-    /* ______________________________________________________________________ */
-    public String getContent() {
-        return this.content;
-    }
-
-    /* SETTERS ______________________________________________________________ */
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    /* ______________________________________________________________________ */
-    public void setContent(String content) {
-        this.content = content;
+        return "Tip{image=" + (this.getImage() != null ? this.getImage().substring(8, 16) : "")
+                + ", title=" + super.getTitle()
+                + ", content=\n" + this.getDescription() + "\n}";
     }
 }

@@ -15,11 +15,11 @@ import java.util.logging.Logger;
 public class BinaryFileManager {
 
     /* ATTRIBUTTES __________________________________________________________ */
-    private final String filePath;
+    private final String pathFile;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public BinaryFileManager(String filePath) {
-        this.filePath = filePath;
+        this.pathFile = filePath;
     }
 
     /* METHODS ______________________________________________________________ */
@@ -28,13 +28,13 @@ public class BinaryFileManager {
         FileOutputStream fileOutputStream = null;
 
         try {
-            fileOutputStream = new FileOutputStream(this.filePath);
+            fileOutputStream = new FileOutputStream(this.pathFile);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
 
             objectOutputStream.writeObject(object);
 
         } catch (FileNotFoundException ex) {
-            System.err.println("Write Error: *File " + this.filePath + " don't found*");
+            System.err.println("Write Error: *File " + this.pathFile + " don't found*");
         } catch (IOException ex) {
             System.err.println("Write Error: *" + ex + "*");
         } finally {
@@ -54,7 +54,7 @@ public class BinaryFileManager {
     public void add(Object object) {
         ObjectAppendStream objectAppendStream = null;
         FileOutputStream fileOutputStream = null;
-        File file = new File(this.filePath);
+        File file = new File(this.pathFile);
 
         if (!file.exists()) {
             this.write(object);
@@ -62,13 +62,13 @@ public class BinaryFileManager {
         }
 
         try {
-            fileOutputStream = new FileOutputStream(this.filePath, true);
+            fileOutputStream = new FileOutputStream(this.pathFile, true);
             objectAppendStream = new ObjectAppendStream(fileOutputStream);
 
             objectAppendStream.writeObject(object);
 
         } catch (FileNotFoundException ex) {
-            System.err.println("Add Error: *File " + this.filePath + " don't found*");
+            System.err.println("Add Error: *File " + this.pathFile + " don't found*");
         } catch (IOException ex) {
             System.err.println("Add Error: *" + ex + "*");
         } finally {
@@ -93,7 +93,7 @@ public class BinaryFileManager {
         ArrayList<Object> objects = new ArrayList<>();
 
         try {
-            fileInputStream = new FileInputStream(this.filePath);
+            fileInputStream = new FileInputStream(this.pathFile);
             objectInputStream = new ObjectInputStream(fileInputStream);
 
             while (true) {
@@ -103,7 +103,7 @@ public class BinaryFileManager {
         } catch (EOFException ex) {
             //System.err.println("Read Error: *" + ex + "*");
         } catch (FileNotFoundException ex) {
-            System.err.println("Read Error: *File " + this.filePath + " don't found*");
+            System.err.println("Read Error: *File " + this.pathFile + " don't found*");
         } catch (IOException ex) {
             //System.err.println("Read Error: *" + ex + "*");
         } catch (ClassNotFoundException ex) {
@@ -124,7 +124,7 @@ public class BinaryFileManager {
     }
 
     public void clear() {
-        File file = new File("accounts.dat");
+        File file = new File(this.pathFile);
         file.delete();
     }
 }

@@ -16,6 +16,8 @@ import tools.components.TextField;
 public class UserPanel extends interfaces.registeraccount.UserPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 1382395428203115487L;
+
     private JLabel usernameLabel;
     private JLabel nicknameLabel;
 
@@ -81,7 +83,6 @@ public class UserPanel extends interfaces.registeraccount.UserPanel {
 
     /* ______________________________________________________________________ */
     private void initEvents() {
-
         this.changePasswordButton.addActionListener(ae -> {
             boolean selected = this.changePasswordButton.isSelected();
             this.usernameLabel.setEnabled(selected);

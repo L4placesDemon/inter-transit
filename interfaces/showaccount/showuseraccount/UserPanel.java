@@ -16,6 +16,8 @@ import worldclasses.accounts.UserAccount;
 public class UserPanel extends AccountPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = 3866442993474129223L;
+
     private TextField levelField;
     private TextField pointsField;
 

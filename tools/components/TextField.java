@@ -10,6 +10,8 @@ import javax.swing.undo.UndoManager;
 public class TextField extends JTextField {
 
     /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = -184964402771585973L;
+
     private UndoManager undoManager;
 
     /* CONSTRUCTORS _________________________________________________________ */

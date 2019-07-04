@@ -24,6 +24,8 @@ import worldclasses.themes.Tip;
 public class ThemesStatisticsDialog extends Dialog {
 
     /* ATRRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = -3222881567483637962L;
+
     private ArrayList<Theme> themes;
 
     private Pie viewsPie;
@@ -174,15 +176,15 @@ public class ThemesStatisticsDialog extends Dialog {
                     }
                 }
                 if (description != null) {
-                    this.getThemes().add(new Theme(
-                            null,
-                            themeDirectory.getName(),
-                            description[0] + "",
-                            tips,
-                            (int) description[1],
-                            (double) description[2],
-                            (int) description[3]
-                    ));
+//                    this.getThemes().add(new Theme(
+//                            null,
+//                            themeDirectory.getName(),
+//                            description[0] + "",
+//                            tips,
+//                            (int) description[1],
+//                            (double) description[2],
+//                            (int) description[3]
+//                    ));
                 }
             }
         }
