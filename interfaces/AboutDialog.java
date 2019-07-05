@@ -12,6 +12,8 @@ import javax.swing.border.EtchedBorder;
 
 import tools.Tools;
 import tools.components.Dialog;
+import tools.components.TextArea;
+
 import worldclasses.Settings;
 
 public class AboutDialog extends Dialog {
@@ -77,18 +79,16 @@ public class AboutDialog extends Dialog {
         labelsPanel.setBorder(new EmptyBorder(0, 20, 5, 20));
 
         // ---------------------------------------------------------------------
-        descriptionPanel.add(new JLabel(
-                "Inter-Transit\n"
-                + "El programa estara enfocado en brindarle informacion al\n"
-                + "usuario acerca de la cultura ciudadana en cuanto a\n"
-                + "movilidad vehicular.\n"
-                + "Ademas de realizar diferentes cuestionarios acerca de los\n"
-                + "temas vistos.\n"
-        ));
-        creditsPanel.add(new JLabel(
-                "Snow Gryphon Software\n"
-                + "\n"
-        ));
+        descriptionPanel.add(new TextArea("Inter-Transit\n"
+                + "El programa estara enfocado en brindarle informacion al usuario"
+                + " acerca de la cultura ciudadana en cuanto a movilidad vehicular."
+                + "Permite realizar diferentes cuestionarios acerca de los temas"
+                + " contenidos."));
+
+        creditsPanel.add(new TextArea("Snow Gryphon Software\n"
+                + "Version: 6.1.0\n"
+                + Tools.command("ver")
+                + (Tools.class.getResource("") + "").substring(5).replace("/tools/", "")));
 
         logosPanel.add(new JLabel(Tools.getImageIcon(logo, 213, 213)));
         logosPanel.add(new JLabel(Tools.getImageIcon("logos/company_logo", 180, 180)));

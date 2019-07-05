@@ -18,6 +18,7 @@ public class TextArea extends JTextArea {
     public TextArea(String text) {
         super(text);
 
+        this.initComponents();
         this.initEvents();
     }
 
@@ -27,6 +28,12 @@ public class TextArea extends JTextArea {
     }
 
     /* METHODS ______________________________________________________________ */
+    private void initComponents() {
+        this.setLineWrap(true);
+        this.setWrapStyleWord(true);
+    }
+    
+    /* ______________________________________________________________________ */
     private void initEvents() {
         this.undoManager = new UndoManager();
         this.getDocument().addUndoableEditListener(undoManager);

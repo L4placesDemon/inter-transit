@@ -44,10 +44,6 @@ public abstract class TipPanel extends JPanel {
 
         this.titleTipTextField = new TextField(this.getTip().getTitle());
         this.contentTipTextArea = new TextArea(this.getTip().getDescription());
-
-        // ---------------------------------------------------------------------
-        this.contentTipTextArea.setLineWrap(true);
-        this.contentTipTextArea.setWrapStyleWord(true);
     }
 
     /* GETTERS_______________________________________________________________ */

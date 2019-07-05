@@ -1,5 +1,6 @@
 package worldclasses.accounts;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class UserAccount extends Account {
@@ -11,17 +12,28 @@ public class UserAccount extends Account {
     private Integer level;
     private Integer points;
 
+    private ArrayList<String> viewedThemes;
+
     /* CONSTRUCTORS _________________________________________________________ */
-    public UserAccount(String username, String nickname, String password, String image, Integer level, Integer points) {
+    public UserAccount(String username, String nickname, String password,
+            String image, Integer level, Integer points, ArrayList<String> viewedThemes) {
         super(username, nickname, password, image);
         this.ID = new Random().nextInt(9999) + 1;
 
         this.level = level;
         this.points = points;
+        this.viewedThemes = viewedThemes;
     }
 
     /* ______________________________________________________________________ */
-    public UserAccount(String username, String nickname, String password, String image) {
+    public UserAccount(String username, String nickname, String password,
+            String image, Integer level, Integer points) {
+        this(username, nickname, password, image, level, points, new ArrayList<>());
+    }
+
+    /* ______________________________________________________________________ */
+    public UserAccount(String username, String nickname, String password,
+            String image) {
         this(username, nickname, password, image, 1, 0);
     }
 

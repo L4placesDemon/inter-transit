@@ -31,18 +31,19 @@ public class Border extends CompoundBorder {
 
     /* ______________________________________________________________________ */
     public Border(String string) {
-        String theme;
-        Color color = null;
+        Settings settings = Settings.getCurrentSettings();
+        Color color;
 
         this.insideBorder = new TitledBorder(string);
-        ((TitledBorder) this.insideBorder).setTitleFont(new Font("Dialog", Font.PLAIN, 12));
+        ((TitledBorder) this.insideBorder).setTitleFont(
+                Settings.getCurrentSettings().getFont()
+        );
         ((TitledBorder) this.insideBorder).setBorder(new EtchedBorder());
 
-        theme = Settings.getCurrentSettings().getTheme();
-        if (theme.equals(Settings.LIGHT_THEME)) {
-            color = Color.black;
-        } else if (theme.equals(Settings.DARK_THEME)) {
+        if (Settings.getCurrentSettings().getTheme().equals(Settings.DARK_THEME)) {
             color = Color.white;
+        } else {
+            color = Color.black;
         }
 
         ((TitledBorder) this.insideBorder).setTitleColor(color);

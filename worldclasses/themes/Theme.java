@@ -1,40 +1,60 @@
 package worldclasses.themes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
+import javafx.util.Pair;
 
-public class Theme {
+public class Theme implements Serializable {
 
     /* ATRIBUTES ____________________________________________________________ */
     protected String image;
     protected String title;
     protected String description;
+
+    private final Integer ID;
     private Double value;
     private Integer views;
     private ArrayList<Theme> files;
+    private ArrayList<Pair<Integer, Integer>> accounts;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public Theme(String image, String title, String description, Double value, Integer views, ArrayList<Theme> files) {
+    public Theme(String image, String title, String description, Double value,
+            Integer views, ArrayList<Theme> files, ArrayList<Pair<Integer, Integer>> accounts) {
+        this.ID = new Random().nextInt(9999) + 1;
+
         this.image = image;
         this.title = title;
         this.description = description;
+
         this.value = value;
         this.views = views;
         this.files = files;
+        this.accounts = accounts;
+    }
+
+    /* ______________________________________________________________________ */
+    public Theme(String image, String title, String description, Double value,
+            Integer views, ArrayList<Theme> files) {
+        this(image, title, description, value, views, files, new ArrayList<>());
+    }
+
+    /* ______________________________________________________________________ */
+    public Theme(String image, String title, String description, Double value,
+            Integer views) {
+        this(image, title, description, value, views, new ArrayList());
     }
 
     /* ______________________________________________________________________ */
     public Theme(String title, String description) {
-        this.title = title;
-        this.description = description;
-        this.value = 0.0;
-        this.views = 0;
-        this.files = new ArrayList<>();
+        this(null, title, description, 0.0, 0);
     }
 
     /* METHODS ______________________________________________________________ */
     @Override
     public String toString() {
-        return "Theme{image=" + (this.getImage() != null ? this.getImage().substring(8, 16) : "")
+        return "Theme{ID=" + this.getID()
+                + "image=" + (this.getImage() != null ? this.getImage().substring(8, 16) : "")
                 + ", title=" + this.getTitle()
                 + ", description:\n" + this.getDescription()
                 + "\n, $" + this.getValue()
@@ -43,6 +63,11 @@ public class Theme {
     }
 
     /* GETTERS ______________________________________________________________ */
+    public Integer getID() {
+        return this.ID;
+    }
+
+    /* ______________________________________________________________________ */
     public String getImage() {
         return this.image;
     }
@@ -70,6 +95,11 @@ public class Theme {
     /* ______________________________________________________________________ */
     public ArrayList<Theme> getFiles() {
         return this.files;
+    }
+
+    /* ______________________________________________________________________ */
+    public ArrayList<Pair<Integer, Integer>> getAccounts() {
+        return this.accounts;
     }
 
     /* SETTERS ______________________________________________________________ */
@@ -100,5 +130,10 @@ public class Theme {
     /* ______________________________________________________________________ */
     public void setFiles(ArrayList<Theme> files) {
         this.files = files;
+    }
+
+    /* ______________________________________________________________________ */
+    public void setAccount(ArrayList<Pair<Integer, Integer>> accounts) {
+        this.accounts = accounts;
     }
 }

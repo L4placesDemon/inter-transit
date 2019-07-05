@@ -3,12 +3,12 @@ package interfaces;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import tools.binaryfilemanager.BinaryFileManager;
 
 import tools.components.Dialog;
 import tools.components.FontChooser;
@@ -24,9 +24,7 @@ public class SettingsDialog extends Dialog {
     public static final String LIGHT_THEME = "light-theme";
     public static final String DARL_THEME = "dark-theme";
 
-    private String theme;
-    private final boolean darkThemeSelected;
-    private Font selectedFont;
+    private Settings settings;
 
     private ToggleSwitch toggleSwitch;
     private JButton fontButton;
@@ -35,10 +33,8 @@ public class SettingsDialog extends Dialog {
     private JButton cancelButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public SettingsDialog(boolean darkThemeSelected) {
-
-        this.darkThemeSelected = darkThemeSelected;
-        this.selectedFont = Settings.DEFAULT_FONT;
+    public SettingsDialog(Settings settings) {
+        this.settings = settings;
 
         this.initComponents();
         this.initEvents();
@@ -60,10 +56,10 @@ public class SettingsDialog extends Dialog {
 
         // Set up Components ---------------------------------------------------
         this.toggleSwitch = new ToggleSwitch(
-                this.darkThemeSelected,
+                this.getSettings().getTheme().equals(Settings.DARK_THEME),
                 new Color(24, 136, 255)
         );
-        if (this.darkThemeSelected) {
+        if (this.getSettings().getTheme().equals(Settings.DARK_THEME)) {
             Settings.darkTheme();
         } else {
             Settings.lightTheme();
@@ -104,17 +100,23 @@ public class SettingsDialog extends Dialog {
         this.toggleSwitch.addToggleSwitchListener(new ToggleSwitchListener() {
             @Override
             public void activate() {
-                setTheme(Settings.DARK_THEME);
+                getSettings().setTheme(Settings.DARK_THEME);
                 dispose();
                 okAction();
-                setDialogResultValue(new SettingsDialog(true).showDialog());
+                new BinaryFileManager(Settings.SETTINGS_PATH_FILE).write(
+                        getSettings()
+                );
+                setDialogResultValue(new SettingsDialog(getSettings()).showDialog());
             }
 
             @Override
             public void deactivate() {
-                setTheme(Settings.LIGHT_THEME);
+                getSettings().setTheme(Settings.LIGHT_THEME);
                 dispose();
-                setDialogResultValue(new SettingsDialog(false).showDialog());
+                new BinaryFileManager(Settings.SETTINGS_PATH_FILE).write(
+                        getSettings()
+                );
+                setDialogResultValue(new SettingsDialog(getSettings()).showDialog());
             }
         });
 
@@ -123,22 +125,11 @@ public class SettingsDialog extends Dialog {
         });
 
         this.okButton.addActionListener(ae -> {
-            if (this.darkThemeSelected) {
-                this.setTheme(Settings.DARK_THEME);
-            } else {
-                this.setTheme(Settings.LIGHT_THEME);
-            }
-            this.okAction();
             this.dispose();
+            this.okAction();
         });
 
         this.cancelButton.addActionListener(ae -> {
-            if (this.darkThemeSelected) {
-                this.setTheme(Settings.DARK_THEME);
-            } else {
-                this.setTheme(Settings.LIGHT_THEME);
-            }
-            this.cancelAction();
             this.dispose();
         });
     }
@@ -148,37 +139,37 @@ public class SettingsDialog extends Dialog {
         FontChooser fontChooser;
         int result;
 
-        fontChooser = new FontChooser();
-        fontChooser.setSelectedFont(this.getFont());
+        fontChooser = new FontChooser(new String[]{"10", "11", "12", "13", "14"});
+        fontChooser.setSelectedFont(this.getSettings().getFont());
         result = fontChooser.showDialog(null);
 
         if (result == FontChooser.OK_OPTION) {
-            this.setFont(fontChooser.getSelectedFont());
+            System.out.println(this.getSettings().getFont());
+            this.getSettings().setFont(fontChooser.getSelectedFont());
+            System.out.println(this.getSettings().getFont());
+            dispose();
+            okAction();
+
+            new BinaryFileManager(Settings.SETTINGS_PATH_FILE).write(
+                   this.getSettings()
+            );
+            setDialogResultValue(new SettingsDialog(this.getSettings()).showDialog());
         }
     }
 
     /* GETTERS ______________________________________________________________ */
-    public String getTheme() {
-        return theme;
-    }
-
-    /* ______________________________________________________________________ */
-    public Font getSelectedFont() {
-        return this.selectedFont;
+    public Settings getSettings() {
+        return this.settings;
     }
 
     /* SETTERS ______________________________________________________________ */
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-
-    /* ______________________________________________________________________ */
-    public void setSelectedFont(Font selectedFont) {
-        this.selectedFont = selectedFont;
+    public void setSettings(Settings settings) {
+        this.settings = settings;
     }
 
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
-        new SettingsDialog(true).showTestDialog();
+        Settings settings = Settings.getCurrentSettings();
+        new SettingsDialog(settings).showTestDialog();
     }
 }

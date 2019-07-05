@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Calendar;
 import javax.swing.ImageIcon;
 
@@ -111,11 +112,30 @@ public interface Tools {
     }
 
     /* ______________________________________________________________________ */
-    public static void command(String command) {
+    public static String command(String command) {
+        String text = "";
         try {
-            Runtime.getRuntime().exec(command);
-        } catch (IOException ioe) {
-            System.err.println(ioe);
+//            Runtime.getRuntime().exec("cmd /c && " + command);
+
+            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", command);
+            builder.redirectErrorStream(true);
+            Process p = builder.start();
+
+            BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line = r.readLine();
+
+            while (line != null) {
+                text += line;
+                line = r.readLine();
+
+                if (line != null) {
+                    line += '\n';
+                }
+            }
+
+        } catch (IOException ex) {
+            System.out.println(ex);
         }
+        return text;
     }
 }

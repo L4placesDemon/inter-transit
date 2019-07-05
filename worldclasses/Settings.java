@@ -14,10 +14,14 @@ public class Settings implements Serializable {
     /* ATTRIBUTES ___________________________________________________________ */
     private static final long serialVersionUID = -8572381626825274780L;
 
-    public static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
     public static final String ACCOUNTS_PATH_FILE = "accounts.dat";
+    public static final String SETTINGS_PATH_FILE = "settings.dat";
+    
+    public static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
+    
     public static final String LIGHT_LOGO = "logos/light-logo";
     public static final String DARK_LOGO = "logos/dark-logo";
+    
     public static final String LIGHT_THEME = "light-theme";
     public static final String DARK_THEME = "dark-theme";
 
@@ -37,7 +41,7 @@ public class Settings implements Serializable {
 
     /* METHODS ______________________________________________________________ */
     private void theme(Color primary, Color secondary, Color select, Color foreground, Border border) {
-        Font _font = getFont();
+        Font _font = this.getCurrentSettings().getFont();
 
         UIManager.put("OptionPane.background", primary);
         UIManager.put("OptionPane.buttonFont", _font);
@@ -83,20 +87,27 @@ public class Settings implements Serializable {
         UIManager.put("TextField.caretForeground", foreground);
         UIManager.put("TextField.background", secondary);
         UIManager.put("TextField.border", border);
+        UIManager.put("TextField.font", _font);
         UIManager.put("TextField.foreground", foreground);
 
         UIManager.put("TextArea.background", secondary);
         UIManager.put("TextArea.border", border);
+        UIManager.put("TextArea.font", _font);
         UIManager.put("TextArea.foreground", foreground);
 
         UIManager.put("PasswordField.caretForeground", foreground);
         UIManager.put("PasswordField.border", border);
         UIManager.put("PasswordField.background", secondary);
-        UIManager.put("PasswordField.foreground", foreground);
+        UIManager.put("TextArea.font", _font);
+        UIManager.put("TextArea.foreground", foreground);
 
         UIManager.put("Tree.background", secondary);
         UIManager.put("Tree.foreground", foreground);
+        UIManager.put("Tree.font", _font);
         UIManager.put("Tree.rendererFillBackground", false);
+        
+        UIManager.put("List.background", secondary);
+        UIManager.put("List.foreground", foreground);
     }
 
     /* ______________________________________________________________________ */
@@ -109,12 +120,12 @@ public class Settings implements Serializable {
     public static void darkTheme() {
         new Settings().theme(new Color(45, 45, 45), new Color(72, 72, 72), new Color(24, 136, 255), Color.white,
                 new EmptyBorder(0, 0, 0, 0));
-        UIManager.put("Separator.foreground", Color.white);
+        UIManager.put("Separator.foreground", null);
     }
 
     /* ______________________________________________________________________ */
     public static Settings getCurrentSettings() {
-        BinaryFileManager manager = new BinaryFileManager("settings.dat");
+        BinaryFileManager manager = new BinaryFileManager(Settings.SETTINGS_PATH_FILE);
         if (manager.read().isEmpty()) {
             manager.write(new Settings());
         }
@@ -142,12 +153,12 @@ public class Settings implements Serializable {
 
     /* GETTERS ______________________________________________________________ */
     public String getTheme() {
-        return theme;
+        return this.theme;
     }
 
     /* ______________________________________________________________________ */
     public Font getFont() {
-        return font;
+        return this.font;
     }
 
     /* SETTERS ______________________________________________________________ */

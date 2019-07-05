@@ -39,9 +39,7 @@ public class MainFrame extends JFrame {
     private MenuPanel menuPanel;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public MainFrame(Account account) {
-        this.account = account;
-
+    public MainFrame() {
         this.initComponents();
         this.initEvents();
     }
@@ -49,21 +47,17 @@ public class MainFrame extends JFrame {
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
         String logo = null;
-        String theme;
 
-        theme = Settings.getCurrentSettings().getTheme();
-
-        if (theme.equals(Settings.LIGHT_THEME)) {
-            Settings.lightTheme();
-            logo = Settings.LIGHT_LOGO;
-        } else if (theme.equals(Settings.DARK_THEME)) {
+        Settings settings = Settings.getCurrentSettings();
+        if (settings.getTheme().equals(Settings.DARK_THEME)) {
             Settings.darkTheme();
             logo = Settings.DARK_LOGO;
+        } else {
+            Settings.lightTheme();
+            logo = Settings.LIGHT_LOGO;
         }
-        System.out.println(logo);
 
         // Set up Frame --------------------------------------------------------
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setLayout(new BorderLayout());
         this.setSize(1000, 700);
         this.setIconImage(Tools.getImage(logo));
@@ -134,35 +128,33 @@ public class MainFrame extends JFrame {
 
     /* ______________________________________________________________________ */
     private void settingsAction() {
-        String theme = Settings.getCurrentSettings().getTheme();
+        Settings settings = Settings.getCurrentSettings();
         int result;
-        SettingsDialog settingsDialog = null;
+        SettingsDialog settingsDialog;
 
-        System.out.println("theme: " + theme);
-
-        if (theme.equals(Settings.LIGHT_THEME)) {
-            settingsDialog = new SettingsDialog(false);
-        } else if (theme.equals(Settings.DARK_THEME)) {
-            settingsDialog = new SettingsDialog(true);
-        }
-
+        settingsDialog = new SettingsDialog(new Settings(settings.getTheme(), settings.getFont()));
         result = settingsDialog.showDialog();
-        System.out.println("result: " + result);
+
         if (result == SettingsDialog.OK_OPTION) {
+            settings.setFont(settingsDialog.getSettings().getFont());
 
-            theme = settingsDialog.getTheme();
-            if (theme.equals(Settings.LIGHT_THEME)) {
-                Settings.lightTheme();
-            } else if (theme.equals(Settings.DARK_THEME)) {
-                Settings.darkTheme();
-            }
-            new BinaryFileManager("settings.dat").write(new Settings(
-                    theme,
-                    settingsDialog.getSelectedFont()
-            ));
+            System.out.println("yes " + settings);
 
-            new MainFrame(this.getAccount()).setVisible(true);
+            MainFrame mainFrame = new MainFrame();
+            mainFrame.setExtendedState(this.getExtendedState());
+            mainFrame.setVisible(true);
             dispose();
+        } else {
+            System.out.println("no " + settings);
+            new BinaryFileManager(Settings.SETTINGS_PATH_FILE).write(
+                    settings
+            );
+            settings = Settings.getCurrentSettings();
+            if (settings.getTheme().equals(Settings.DARK_THEME)) {
+                Settings.darkTheme();
+            } else {
+                Settings.lightTheme();
+            }
         }
     }
 
@@ -304,12 +296,7 @@ public class MainFrame extends JFrame {
 
     /* ______________________________________________________________________ */
     private static void initTestThemes() {
-//        int chars = 5;
         Random random = new Random();
-//        String os = System.getProperty("os.name").toLowerCase();
-//        if (os.contains("win")) {
-//            chars = 6;
-//        }
 
         String pathFolder = Settings.getResource() + "src/files/";
 
@@ -365,6 +352,9 @@ public class MainFrame extends JFrame {
         showTestAccounts();
 //        initTestThemes();
 
-        new MainFrame(null).setVisible(true);
+        System.out.println(Tools.command("ver"));;
+        MainFrame mainFrame = new MainFrame();
+        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        mainFrame.setVisible(true);
     }
 }
