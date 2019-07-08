@@ -1,6 +1,7 @@
 package worldclasses;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.io.Serializable;
 import javax.swing.UIManager;
@@ -16,16 +17,17 @@ public class Settings implements Serializable {
 
     public static final String ACCOUNTS_PATH_FILE = "accounts.dat";
     public static final String SETTINGS_PATH_FILE = "settings.dat";
-    
+
     public static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 12);
-    
+
     public static final String LIGHT_LOGO = "logos/light-logo";
     public static final String DARK_LOGO = "logos/dark-logo";
-    
+
     public static final String LIGHT_THEME = "light-theme";
     public static final String DARK_THEME = "dark-theme";
 
     private String theme;
+    private Dimension dimension;
     private Font font;
 
     /* CONSTRUCTORS _________________________________________________________ */
@@ -35,13 +37,20 @@ public class Settings implements Serializable {
     }
 
     /* ______________________________________________________________________ */
+    public Settings(String theme, Font font, Dimension dimension) {
+        this.theme = theme;
+        this.font = font;
+        this.dimension = dimension;
+    }
+
+    /* ______________________________________________________________________ */
     public Settings() {
         this(Settings.LIGHT_THEME, Settings.DEFAULT_FONT);
     }
 
     /* METHODS ______________________________________________________________ */
-    private void theme(Color primary, Color secondary, Color select, Color foreground, Border border) {
-        Font _font = this.getCurrentSettings().getFont();
+    private static void theme(Color primary, Color secondary, Color select, Color foreground, Border border) {
+        Font _font = Settings.getCurrentSettings().getFont();
 
         UIManager.put("OptionPane.background", primary);
         UIManager.put("OptionPane.buttonFont", _font);
@@ -82,7 +91,6 @@ public class Settings implements Serializable {
         UIManager.put("ScrollBar.background", primary);
 
         UIManager.put("ScrollPane.background", primary);
-        UIManager.put("ScrollPane.border", border);
 
         UIManager.put("TextField.caretForeground", foreground);
         UIManager.put("TextField.background", secondary);
@@ -90,6 +98,7 @@ public class Settings implements Serializable {
         UIManager.put("TextField.font", _font);
         UIManager.put("TextField.foreground", foreground);
 
+        UIManager.put("TextArea.caretForeground", foreground);
         UIManager.put("TextArea.background", secondary);
         UIManager.put("TextArea.border", border);
         UIManager.put("TextArea.font", _font);
@@ -98,29 +107,32 @@ public class Settings implements Serializable {
         UIManager.put("PasswordField.caretForeground", foreground);
         UIManager.put("PasswordField.border", border);
         UIManager.put("PasswordField.background", secondary);
-        UIManager.put("TextArea.font", _font);
-        UIManager.put("TextArea.foreground", foreground);
+        UIManager.put("PasswordField.font", _font);
+        UIManager.put("PasswordField.foreground", foreground);
 
         UIManager.put("Tree.background", secondary);
         UIManager.put("Tree.foreground", foreground);
         UIManager.put("Tree.font", _font);
         UIManager.put("Tree.rendererFillBackground", false);
-        
+
         UIManager.put("List.background", secondary);
         UIManager.put("List.foreground", foreground);
     }
 
     /* ______________________________________________________________________ */
     public static void lightTheme() {
-        new Settings().theme(Color.white, Color.white, null, Color.black, null);
-        UIManager.put("Separator.foreground", null);
+        Settings.theme(Color.white, Color.white, null, Color.black, null);
     }
 
     /* ______________________________________________________________________ */
     public static void darkTheme() {
-        new Settings().theme(new Color(45, 45, 45), new Color(72, 72, 72), new Color(24, 136, 255), Color.white,
-                new EmptyBorder(0, 0, 0, 0));
-        UIManager.put("Separator.foreground", null);
+        Settings.theme(
+                new Color(45, 45, 45),
+                new Color(60, 60, 60),
+                new Color(24, 136, 255),
+                Color.white,
+                new EmptyBorder(0, 0, 0, 0)
+        );
     }
 
     /* ______________________________________________________________________ */
@@ -144,16 +156,21 @@ public class Settings implements Serializable {
         int index;
         try {
             index = resource.indexOf("build");
-            return resource.substring(5, index);
         } catch (Exception e) {
             index = resource.indexOf("bin");
-            return resource.substring(5, index);
         }
+
+        return resource.substring(5, index);
     }
 
     /* GETTERS ______________________________________________________________ */
     public String getTheme() {
         return this.theme;
+    }
+
+    /* ______________________________________________________________________ */
+    public Dimension getDialog() {
+        return this.dimension;
     }
 
     /* ______________________________________________________________________ */
@@ -164,6 +181,11 @@ public class Settings implements Serializable {
     /* SETTERS ______________________________________________________________ */
     public void setTheme(String theme) {
         this.theme = theme;
+    }
+
+    /* ______________________________________________________________________ */
+    public void setDimension(Dimension dimension) {
+        this.dimension = dimension;
     }
 
     /* ______________________________________________________________________ */

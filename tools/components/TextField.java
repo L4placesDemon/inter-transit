@@ -1,18 +1,24 @@
 package tools.components;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JTextField;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
+import worldclasses.Settings;
 
-public class TextField extends JTextField {
+public class TextField extends JTextField implements FocusListener {
 
     /* ATTRIBUTES ___________________________________________________________ */
     private static final long serialVersionUID = -184964402771585973L;
 
     private UndoManager undoManager;
+    private String hint;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public TextField(String string) {
@@ -29,6 +35,7 @@ public class TextField extends JTextField {
     /* METHODS ______________________________________________________________ */
     private void initEvents() {
         this.undoManager = new UndoManager();
+        this.addFocusListener(this);
         this.getDocument().addUndoableEditListener(undoManager);
 
         this.addKeyListener(new KeyAdapter() {
@@ -46,5 +53,54 @@ public class TextField extends JTextField {
                 }
             }
         });
+    }
+
+    /* ______________________________________________________________________ */
+    @Override
+    public void focusGained(FocusEvent fe) {
+        Font font = Settings.getCurrentSettings().getFont();
+        if (getText().equals(getHint())) {
+            this.setText("");
+        }
+        this.setFont(new Font(font.getFamily(), Font.PLAIN, font.getSize()));
+
+        if (Settings.getCurrentSettings().getTheme().equals(Settings.DARK_THEME)) {
+            this.setForeground(Color.white);
+        } else {
+            this.setForeground(Color.black);
+        }
+    }
+
+    /* ______________________________________________________________________ */
+    @Override
+    public void focusLost(FocusEvent fe) {
+        Font font = Settings.getCurrentSettings().getFont();
+        if (this.getText().length() <= 0) {
+            this.setHint(this.getHint());
+            
+        } else {
+            this.setFont(new Font(font.getFamily(), Font.PLAIN, font.getSize()));
+
+            if (Settings.getCurrentSettings().getTheme().equals(Settings.DARK_THEME)) {
+                this.setForeground(Color.white);
+            } else {
+                this.setForeground(Color.black);
+            }
+        }
+    }
+
+    /* GETTERS ______________________________________________________________ */
+    public String getHint() {
+        return this.hint;
+    }
+
+    /* SETTERS ______________________________________________________________ */
+    public void setHint(String hint) {
+        Font font = Settings.getCurrentSettings().getFont();
+        this.hint = hint;
+
+        this.setForeground(Color.lightGray);
+        this.setFont(new Font(font.getFamily(), Font.ITALIC, font.getSize()));
+        this.setText(hint);
     }
 }

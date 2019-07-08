@@ -11,7 +11,6 @@ import java.util.Arrays;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -59,6 +58,7 @@ public class WorkshopsPanel extends Panel {
         JScrollPane treeScrollPane;
 
         JPanel westPanel;
+        JPanel buttonsPanel;
         JPanel southPanel;
 
         // Set up Panel --------------------------------------------------------
@@ -76,6 +76,7 @@ public class WorkshopsPanel extends Panel {
         treeScrollPane = new JScrollPane(this.themesTree);
 
         westPanel = new JPanel(new BorderLayout());
+        buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         // ---------------------------------------------------------------------
@@ -100,9 +101,15 @@ public class WorkshopsPanel extends Panel {
         });
 
         // ---------------------------------------------------------------------
+        buttonsPanel.add(this.removeButton);
+        buttonsPanel.add(this.createButton);
+
         westPanel.add(this.accountButton, BorderLayout.NORTH);
         westPanel.add(treeScrollPane, BorderLayout.CENTER);
-        westPanel.add(new JSeparator(JSeparator.VERTICAL), BorderLayout.EAST);
+
+        if (this.getAccount() instanceof AdminAccount) {
+            westPanel.add(buttonsPanel, BorderLayout.SOUTH);
+        }
 
         southPanel.add(this.backButton);
 
@@ -126,7 +133,7 @@ public class WorkshopsPanel extends Panel {
                 themeTitle = ((TipPanel) this.tipPanel).getTheme().getTitle();
                 tipTitle = ((TipPanel) this.tipPanel).getTip().getTitle();
 
-                this.showTip(themeTitle, tipTitle);
+                this.showTip(themeTitle, tipTitle + ".txt");
                 System.out.println(themeTitle + ", " + tipTitle);
             }
         });
@@ -140,9 +147,13 @@ public class WorkshopsPanel extends Panel {
                 if (path != null) {
                     System.out.println(Arrays.toString(path));
 
-                    this.showTip(
-                            path[path.length - 2] + "", path[path.length - 1] + ""
-                    );
+                    try {
+                        this.showTip(
+                                path[path.length - 2] + "",
+                                path[path.length - 1] + ".txt"
+                        );
+                    } catch (Exception e) {
+                    }
                 }
             }
         });
@@ -157,7 +168,9 @@ public class WorkshopsPanel extends Panel {
         File themesDirectory;
 
         // ---------------------------------------------------------------------
-        themesDirectoryPath = Settings.getResource() + "src/docs";
+//        themesDirectoryPath = Settings.getResource() + "/src/docs";
+        themesDirectoryPath = (Settings.class.getResource("/docs") + "").substring(5);
+        System.out.println(themesDirectoryPath);
 
         themesDirectory = new File(themesDirectoryPath);
 
@@ -181,7 +194,9 @@ public class WorkshopsPanel extends Panel {
     private DefaultMutableTreeNode initFiles(String path) {
         File file = new File(path);
         DefaultMutableTreeNode defaultMutableTreeNode;
-        defaultMutableTreeNode = new DefaultMutableTreeNode(file.getName());
+        defaultMutableTreeNode = new DefaultMutableTreeNode(
+                file.getName().replace(".txt", "")
+        );
 
         if (file.isDirectory()) {
             for (File listFile : file.listFiles()) {
@@ -205,7 +220,7 @@ public class WorkshopsPanel extends Panel {
             themeData = this.getThemeData(path + "/descripcion.txt");
             theme = new Theme(
                     null,
-                    file.getName(),
+                    file.getName().replace(".txt", ""),
                     themeData[0] + "",
                     Double.parseDouble(themeData[1] + ""),
                     Integer.parseInt(themeData[2] + ""),

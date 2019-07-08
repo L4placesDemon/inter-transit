@@ -138,17 +138,16 @@ public class MainFrame extends JFrame {
         if (result == SettingsDialog.OK_OPTION) {
             settings.setFont(settingsDialog.getSettings().getFont());
 
-            System.out.println("yes " + settings);
-
             MainFrame mainFrame = new MainFrame();
             mainFrame.setExtendedState(this.getExtendedState());
             mainFrame.setVisible(true);
             dispose();
         } else {
-            System.out.println("no " + settings);
+            
             new BinaryFileManager(Settings.SETTINGS_PATH_FILE).write(
                     settings
             );
+            
             settings = Settings.getCurrentSettings();
             if (settings.getTheme().equals(Settings.DARK_THEME)) {
                 Settings.darkTheme();

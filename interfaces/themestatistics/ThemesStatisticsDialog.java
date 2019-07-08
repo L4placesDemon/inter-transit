@@ -180,51 +180,6 @@ public class ThemesStatisticsDialog extends Dialog {
     }
 
     /* ______________________________________________________________________ */
-//    private void initThemes() {
-//        String themesDirectoryPath = Settings.class.getResource("/tools").toString().substring(5);
-//        File themesDirectory;
-//
-//        Object[] description = null;
-//        ArrayList<Theme> tips;
-//        String fileName;
-//
-//        themesDirectoryPath = themesDirectoryPath.substring(0, themesDirectoryPath.indexOf("build")) + "src/docs";
-//        themesDirectory = new File(themesDirectoryPath);
-//
-//        if (themesDirectory.exists()) {
-//            for (File themeDirectory : themesDirectory.listFiles()) {
-//
-//                tips = new ArrayList<>();
-//                for (File themeFile : themeDirectory.listFiles()) {
-//
-//                    fileName = themeFile.getName();
-//                    if (fileName.contains("descripcion")) {
-//
-//                        description = this.getDescription(
-//                                themesDirectoryPath + "/"
-//                                + themeDirectory.getName() + "/descripcion.txt");
-//                    } else {
-//                        tips.add(new Tip(
-//                                fileName.substring(0, fileName.indexOf(".txt")),
-//                                Tools.getFileText(themeFile)
-//                        ));
-//                    }
-//                }
-//                if (description != null) {
-//                    this.getThemes().add(new Theme(
-//                            null,
-//                            themeDirectory.getName(),
-//                            description[0] + "",
-//                            (double) description[2],
-//                            (int) description[3],
-//                            tips
-//                    ));
-//                }
-//            }
-//        }
-//    }
-
-    /* ______________________________________________________________________ */
     private Object[] getThemeData(String themeDirectoryPath) throws FileNotFoundException {
         File descriptionFile = new File(themeDirectoryPath);
 
@@ -253,36 +208,6 @@ public class ThemesStatisticsDialog extends Dialog {
             throw new FileNotFoundException("description file do no exists");
         }
     }
-
-    /* ______________________________________________________________________ */
-//    private Object[] getDescription(String themeDirectoryPath) {
-//        File descriptionFile = new File(themeDirectoryPath);
-//
-//        if (descriptionFile.exists()) {
-//            String text = Tools.getFileText(descriptionFile);
-//
-//            int start = text.indexOf('=') + 1;
-//            int end = text.indexOf('\n');
-//            String description = text.substring(start, end);
-//
-//            start = text.indexOf('=', start) + 1;
-//            end = text.indexOf('\n', end + 1);
-//            String value = text.substring(start, end);
-//
-//            start = text.indexOf('=', start) + 1;
-//            end = text.indexOf('\n', end + 1);
-//            String views = text.substring(start, end);
-//
-//            return new Object[]{
-//                description,
-//                Double.parseDouble(value),
-//                Integer.parseInt(views)
-//            };
-//        } else {
-//            System.out.println("description file do not exists");
-//        }
-//        return null;
-//    }
 
     /* GETTERS ______________________________________________________________ */
     public ArrayList<Theme> getThemes() {

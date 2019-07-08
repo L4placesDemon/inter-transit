@@ -13,6 +13,7 @@ public class TextArea extends JTextArea {
     private static final long serialVersionUID = -972007918977127487L;
 
     private UndoManager undoManager;
+    private String hint;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public TextArea(String text) {
@@ -32,7 +33,7 @@ public class TextArea extends JTextArea {
         this.setLineWrap(true);
         this.setWrapStyleWord(true);
     }
-    
+
     /* ______________________________________________________________________ */
     private void initEvents() {
         this.undoManager = new UndoManager();
