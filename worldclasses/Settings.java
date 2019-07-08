@@ -4,13 +4,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.io.Serializable;
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 
+import tools.Pair;
 import tools.binaryfilemanager.BinaryFileManager;
 
-public class Settings implements Serializable {
+public class Settings implements Serializable, Cloneable {
 
     /* ATTRIBUTES ___________________________________________________________ */
     private static final long serialVersionUID = -8572381626825274780L;
@@ -27,20 +29,21 @@ public class Settings implements Serializable {
     public static final String DARK_THEME = "dark-theme";
 
     private String theme;
-    private Dimension dimension;
     private Font font;
+    private Pair<Dimension, Integer> size;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public Settings(String theme, Font font) {
+    public Settings(String theme, Font font, Pair<Dimension, Integer> size) {
         this.theme = theme;
         this.font = font;
+        this.size = size;
     }
 
     /* ______________________________________________________________________ */
-    public Settings(String theme, Font font, Dimension dimension) {
-        this.theme = theme;
-        this.font = font;
-        this.dimension = dimension;
+    public Settings(String theme, Font font) {
+        this(theme, font, new Pair<>(
+                new Dimension(1000, 700), JFrame.MAXIMIZED_BOTH
+        ));
     }
 
     /* ______________________________________________________________________ */
@@ -49,7 +52,8 @@ public class Settings implements Serializable {
     }
 
     /* METHODS ______________________________________________________________ */
-    private static void theme(Color primary, Color secondary, Color select, Color foreground, Border border) {
+    private static void theme(Color primary, Color secondary, Color select,
+            Color foreground, Border border) {
         Font _font = Settings.getCurrentSettings().getFont();
 
         UIManager.put("OptionPane.background", primary);
@@ -131,7 +135,7 @@ public class Settings implements Serializable {
                 new Color(60, 60, 60),
                 new Color(24, 136, 255),
                 Color.white,
-                new EmptyBorder(0, 0, 0, 0)
+                new EtchedBorder(Color.black, Color.lightGray)
         );
     }
 
@@ -145,9 +149,9 @@ public class Settings implements Serializable {
     }
 
     /* ______________________________________________________________________ */
-    @Override
+    @Override    
     public String toString() {
-        return "Settings{" + "theme=" + this.getTheme() + ", font=" + this.getFont() + '}';
+        return "Settings{" + "theme=" + theme + ", font=" + font + ", size=" + size + '}';
     }
 
     /* ______________________________________________________________________ */
@@ -163,14 +167,20 @@ public class Settings implements Serializable {
         return resource.substring(5, index);
     }
 
+    /* ______________________________________________________________________ */
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return (Settings) super.clone();
+    }
+
     /* GETTERS ______________________________________________________________ */
     public String getTheme() {
         return this.theme;
     }
 
     /* ______________________________________________________________________ */
-    public Dimension getDialog() {
-        return this.dimension;
+    public Pair<Dimension, Integer> getSize() {
+        return this.size;
     }
 
     /* ______________________________________________________________________ */
@@ -184,8 +194,8 @@ public class Settings implements Serializable {
     }
 
     /* ______________________________________________________________________ */
-    public void setDimension(Dimension dimension) {
-        this.dimension = dimension;
+    public void setSize(Pair<Dimension, Integer> size) {
+        this.size = size;
     }
 
     /* ______________________________________________________________________ */

@@ -27,7 +27,7 @@ public class MenuPanel extends Panel {
     private JButton settingsButton;
     private JButton aboutButton;
 
-    private JButton userButton;
+    private JButton accountButton;
     private JButton workshopsButton;
     private JButton testButton;
 
@@ -61,7 +61,7 @@ public class MenuPanel extends Panel {
         this.settingsButton = new JButton();
         this.aboutButton = new JButton();
 
-        this.userButton = new JButton();
+        this.accountButton = new JButton();
         this.workshopsButton = new JButton();
         this.testButton = new JButton();
 
@@ -77,12 +77,12 @@ public class MenuPanel extends Panel {
         this.aboutButton.setBorder(new EmptyBorder(5, 5, 5, 5));
         this.aboutButton.setIcon(Tools.getImageIcon("about", 30, 30));
 
-        this.userButton.setBorder(new Border(new EtchedBorder(), new EmptyBorder(5, 5, 5, 5)));
+        this.accountButton.setBorder(new Border(new EtchedBorder(), new EmptyBorder(5, 5, 5, 5)));
 
         if (this.getAccount() != null) {
-            this.userButton.setIcon(Tools.getImageIcon(this.getAccount().getImage(), 80, 80));
+            this.accountButton.setIcon(Tools.getImageIcon(this.getAccount().getImage(), 80, 80));
         } else {
-            this.userButton.setIcon(Tools.getImageIcon("profile/image-00", 80, 80));
+            this.accountButton.setIcon(Tools.getImageIcon("profile/image-00", 80, 80));
         }
 
         this.workshopsButton.setBorder(new Border(new EtchedBorder(), new EmptyBorder(5, 5, 5, 5)));
@@ -100,7 +100,7 @@ public class MenuPanel extends Panel {
         northPanel.add(this.aboutButton);
 
         eastPanel.add(northPanel);
-        eastPanel.add(this.userButton);
+        eastPanel.add(this.accountButton);
         eastPanel.add(this.workshopsButton);
         eastPanel.add(this.testButton);
 
@@ -147,8 +147,8 @@ public class MenuPanel extends Panel {
     }
 
     /* ______________________________________________________________________ */
-    public JButton getUserButton() {
-        return this.userButton;
+    public JButton getAccountButton() {
+        return this.accountButton;
     }
 
     /* ______________________________________________________________________ */

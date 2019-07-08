@@ -58,11 +58,10 @@ public class TextField extends JTextField implements FocusListener {
     /* ______________________________________________________________________ */
     @Override
     public void focusGained(FocusEvent fe) {
-        Font font = Settings.getCurrentSettings().getFont();
         if (getText().equals(getHint())) {
             this.setText("");
         }
-        this.setFont(new Font(font.getFamily(), Font.PLAIN, font.getSize()));
+        this.setFont(Settings.getCurrentSettings().getFont());
 
         if (Settings.getCurrentSettings().getTheme().equals(Settings.DARK_THEME)) {
             this.setForeground(Color.white);
@@ -74,12 +73,11 @@ public class TextField extends JTextField implements FocusListener {
     /* ______________________________________________________________________ */
     @Override
     public void focusLost(FocusEvent fe) {
-        Font font = Settings.getCurrentSettings().getFont();
         if (this.getText().length() <= 0) {
             this.setHint(this.getHint());
             
         } else {
-            this.setFont(new Font(font.getFamily(), Font.PLAIN, font.getSize()));
+            this.setFont(Settings.getCurrentSettings().getFont());
 
             if (Settings.getCurrentSettings().getTheme().equals(Settings.DARK_THEME)) {
                 this.setForeground(Color.white);

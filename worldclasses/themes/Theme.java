@@ -3,7 +3,7 @@ package worldclasses.themes;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
-import javafx.util.Pair;
+import tools.Pair;
 
 public class Theme implements Serializable {
 

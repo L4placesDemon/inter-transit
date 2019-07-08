@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JFrame;
 
+import tools.Pair;
 import tools.Tools;
 import tools.binaryfilemanager.BinaryFileManager;
 import tools.components.Dialog;
@@ -49,6 +50,7 @@ public class MainFrame extends JFrame {
         String logo = null;
 
         Settings settings = Settings.getCurrentSettings();
+        System.out.println(settings);
         if (settings.getTheme().equals(Settings.DARK_THEME)) {
             Settings.darkTheme();
             logo = Settings.DARK_LOGO;
@@ -57,12 +59,15 @@ public class MainFrame extends JFrame {
             logo = Settings.LIGHT_LOGO;
         }
 
+        Pair<Dimension, Integer> size = settings.getSize();
+
         // Set up Frame --------------------------------------------------------
         this.setLayout(new BorderLayout());
-        this.setSize(1000, 700);
         this.setIconImage(Tools.getImage(logo));
-        this.setMinimumSize(new Dimension(460, 390));
+        this.setSize(size.getKey());
+        this.setExtendedState(size.getValue());
         this.setLocationRelativeTo(null);
+        this.setMinimumSize(new Dimension(650, 390));
         this.setTitle("Inter Transit");
 
         // Set up Components ---------------------------------------------------
@@ -102,19 +107,32 @@ public class MainFrame extends JFrame {
             @Override
             public void windowClosing(WindowEvent we) {
                 int result = DialogPane.yesNoOption("Cerrar Aplicacion?");
+                Settings settings;
 
                 if (result == DialogPane.OK_OPTION) {
                     setDefaultCloseOperation(EXIT_ON_CLOSE);
+                    settings = Settings.getCurrentSettings();
+                    settings.setSize(new Pair<>(
+                            getSize(),
+                            getExtendedState()
+                    ));
+
+                    new BinaryFileManager(Settings.SETTINGS_PATH_FILE).write(
+                            settings
+                    );
                 }
             }
         });
 
         // Components Events ---------------------------------------------------
         this.menuPanel.getSettingsButton().addActionListener(ae -> {
-            this.settingsAction();
+            try {
+                this.settingsAction();
+            } catch (CloneNotSupportedException ex) {
+            }
         });
 
-        this.menuPanel.getUserButton().addActionListener(ae -> {
+        this.menuPanel.getAccountButton().addActionListener(ae -> {
             this.accountAction();
         });
 
@@ -123,31 +141,31 @@ public class MainFrame extends JFrame {
         });
 
         this.menuPanel.getTestButton().addActionListener(ae -> {
+            System.out.println(this.menuPanel.getAccountButton().getSize());
         });
     }
 
     /* ______________________________________________________________________ */
-    private void settingsAction() {
+    private void settingsAction() throws CloneNotSupportedException {
         Settings settings = Settings.getCurrentSettings();
         int result;
         SettingsDialog settingsDialog;
 
-        settingsDialog = new SettingsDialog(new Settings(settings.getTheme(), settings.getFont()));
+        settingsDialog = new SettingsDialog((Settings) settings.clone());
         result = settingsDialog.showDialog();
 
         if (result == SettingsDialog.OK_OPTION) {
             settings.setFont(settingsDialog.getSettings().getFont());
 
             MainFrame mainFrame = new MainFrame();
-            mainFrame.setExtendedState(this.getExtendedState());
             mainFrame.setVisible(true);
             dispose();
         } else {
-            
+
             new BinaryFileManager(Settings.SETTINGS_PATH_FILE).write(
                     settings
             );
-            
+
             settings = Settings.getCurrentSettings();
             if (settings.getTheme().equals(Settings.DARK_THEME)) {
                 Settings.darkTheme();
@@ -183,7 +201,7 @@ public class MainFrame extends JFrame {
                 imagePath = this.getAccount().getImage();
             }
         }
-        this.menuPanel.getUserButton().setIcon(Tools.getImageIcon(imagePath, 80, 80));
+        this.menuPanel.getAccountButton().setIcon(Tools.getImageIcon(imagePath, 80, 80));
 
         return this.getAccount() != null && option == ShowUserDialog.OK_OPTION;
     }
@@ -201,7 +219,7 @@ public class MainFrame extends JFrame {
 
             this.remove(workshopsPanel);
             this.add(this.menuPanel);
-            this.menuPanel.getUserButton().setIcon(Tools.getImageIcon(imagePath, 80, 80));
+            this.menuPanel.getAccountButton().setIcon(Tools.getImageIcon(imagePath, 80, 80));
             this.menuPanel.updateUI();
         });
 
@@ -353,7 +371,6 @@ public class MainFrame extends JFrame {
 
         System.out.println(Tools.command("ver"));;
         MainFrame mainFrame = new MainFrame();
-        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainFrame.setVisible(true);
     }
 }
