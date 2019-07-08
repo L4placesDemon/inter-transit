@@ -1,5 +1,6 @@
 package interfaces.workshops;
 
+import interfaces.createtheme.CreateThemeDialog;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -61,12 +62,16 @@ public class WorkshopsPanel extends Panel {
         JPanel buttonsPanel;
         JPanel southPanel;
 
+        boolean isAdmin;
+
         // Set up Panel --------------------------------------------------------
         this.setLayout(new BorderLayout());
 
         // Set up Components ---------------------------------------------------
         this.accountButton = new AccountButton(this.getAccount());
         this.themesTree = new JTree(this.initTree());
+
+        westPanel = new JPanel(new BorderLayout());
         this.tipPanel = new JPanel();
 
         this.backButton = new JButton("Volver");
@@ -75,7 +80,6 @@ public class WorkshopsPanel extends Panel {
 
         treeScrollPane = new JScrollPane(this.themesTree);
 
-        westPanel = new JPanel(new BorderLayout());
         buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
@@ -100,16 +104,17 @@ public class WorkshopsPanel extends Panel {
             }
         });
 
+        isAdmin = this.getAccount() instanceof AdminAccount;
+        this.createButton.setVisible(isAdmin);
+        this.removeButton.setVisible(isAdmin);
+
         // ---------------------------------------------------------------------
         buttonsPanel.add(this.removeButton);
         buttonsPanel.add(this.createButton);
 
         westPanel.add(this.accountButton, BorderLayout.NORTH);
         westPanel.add(treeScrollPane, BorderLayout.CENTER);
-
-        if (this.getAccount() instanceof AdminAccount) {
-            westPanel.add(buttonsPanel, BorderLayout.SOUTH);
-        }
+        westPanel.add(buttonsPanel, BorderLayout.SOUTH);
 
         southPanel.add(this.backButton);
 
@@ -125,6 +130,7 @@ public class WorkshopsPanel extends Panel {
         this.accountButton.addActionListener(ae -> {
             String themeTitle;
             String tipTitle;
+            boolean isAdmin;
 
             this.accountButton.accountAction();
             this.setAccount(this.accountButton.getAccount());
@@ -136,6 +142,10 @@ public class WorkshopsPanel extends Panel {
                 this.showTip(themeTitle, tipTitle + ".txt");
                 System.out.println(themeTitle + ", " + tipTitle);
             }
+
+            isAdmin = this.getAccount() instanceof AdminAccount;
+            this.createButton.setVisible(isAdmin);
+            this.removeButton.setVisible(isAdmin);
         });
 
         this.themesTree.addTreeSelectionListener((TreeSelectionEvent tse) -> {
@@ -156,6 +166,10 @@ public class WorkshopsPanel extends Panel {
                     }
                 }
             }
+        });
+
+        this.createButton.addActionListener(ae -> {
+            new CreateThemeDialog().showDialog();
         });
     }
 

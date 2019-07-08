@@ -1,13 +1,18 @@
 package interfaces.createtheme;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 
+import tools.Tools;
 import tools.components.Dialog;
+import tools.components.DialogPane;
 import tools.components.TextArea;
 import tools.components.TextField;
 
@@ -18,6 +23,8 @@ public class CreateThemeDialog extends Dialog {
     /* ATTRIBUTES ___________________________________________________________ */
     private Theme theme;
 
+    private MenuBar menuBar;
+
     private JLabel themeImageLabel;
     private JButton setThemeImageButton;
 
@@ -25,40 +32,39 @@ public class CreateThemeDialog extends Dialog {
     private TextField themeValueField;
     private TextArea themeDescriptionArea;
 
-    private JLabel tipImageLabel;
-    private JButton setTipImageButton;
-
-    private TextField tipTitleField;
-    private TextArea tipContentArea;
+    private JTabbedPane tabbedPane;
+    private ArrayList<TipEditor> tipEditors;
 
     private JButton finishButton;
     private JButton cancelButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public CreateThemeDialog() {
+        tipEditors = new ArrayList<>();
+
         this.initComponents();
         this.initEvents();
     }
 
     /* ______________________________________________________________________ */
     private void initComponents() {
-        JPanel themeImagePanel;
-        JPanel themeSouthPanel;
+        JPanel westPanel;
         JPanel themePanel;
-        JPanel themeEastPanel;
+        JPanel northPanel;
+        JPanel buttonsPanel;
 
-        JPanel tipImagePanel;
-        JPanel tipSouthPanel;
-        JPanel tipPanel;
-        JPanel tipEastPanel;
+        JScrollPane scrollPane;
 
         // Set up Dialog -------------------------------------------------------
         this.setLayout(new BorderLayout());
-        this.setSize(500, 500);
+        this.setSize(700, 500);
         this.setLocationRelativeTo(null);
         this.setTitle("Crear Tema");
 
         // Set up Components ---------------------------------------------------
+        this.menuBar = new MenuBar();
+        this.setJMenuBar(this.menuBar);
+
         this.themeImageLabel = new JLabel();
         this.setThemeImageButton = new JButton("Elegir");
         this.themeValueField = new TextField();
@@ -66,61 +72,138 @@ public class CreateThemeDialog extends Dialog {
         this.themeTitleField = new TextField();
         this.themeDescriptionArea = new TextArea();
 
-        // ---------------------------------------------------------------------
-        this.tipImageLabel = new JLabel();
-        this.setTipImageButton = new JButton("Elegir");
+        this.tabbedPane = new JTabbedPane();
 
-        this.tipTitleField = new TextField();
-        this.tipContentArea = new TextArea();
-
-        this.finishButton = new JButton("Finalizar");
         this.cancelButton = new JButton("Cancelar");
+        this.finishButton = new JButton("Finalizar");
 
-        themeImagePanel = new JPanel(new BorderLayout());
-        themeSouthPanel = new JPanel(new GridLayout(2, 1));
         themePanel = new JPanel(new BorderLayout());
-        themeEastPanel = new JPanel(new BorderLayout());
+        northPanel = new JPanel(new BorderLayout());
+        westPanel = new JPanel(new BorderLayout());
+        scrollPane = new JScrollPane(this.themeDescriptionArea);
 
-        tipImagePanel = new JPanel(new BorderLayout());
-        tipPanel = new JPanel(new BorderLayout());
-        tipEastPanel = new JPanel(new BorderLayout());
+        buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         // ---------------------------------------------------------------------
+        this.themeImageLabel.setPreferredSize(new Dimension(120, 110));
+
         this.themeTitleField.setHint("Titulo del Tema");
         this.themeValueField.setHint("Valor del Tema");
 
-        this.tipTitleField.setHint("Titulo del Tip");
+        scrollPane.getVerticalScrollBar().setUnitIncrement(7);
 
         // ---------------------------------------------------------------------
-        themeSouthPanel.add(this.setThemeImageButton);
-        themeSouthPanel.add(this.themeValueField);
+        northPanel.add(this.themeTitleField, BorderLayout.CENTER);
+        northPanel.add(this.themeValueField, BorderLayout.EAST);
 
-        themeImagePanel.add(this.themeImageLabel, BorderLayout.CENTER);
-        themeImagePanel.add(themeSouthPanel, BorderLayout.SOUTH);
+        westPanel.add(this.themeImageLabel, BorderLayout.CENTER);
+        westPanel.add(this.setThemeImageButton, BorderLayout.SOUTH);
 
-        themeEastPanel.add(this.themeTitleField, BorderLayout.NORTH);
-        themeEastPanel.add(this.themeDescriptionArea, BorderLayout.CENTER);
+        themePanel.add(northPanel, BorderLayout.NORTH);
+        themePanel.add(westPanel, BorderLayout.WEST);
+        themePanel.add(scrollPane, BorderLayout.CENTER);
 
-        themePanel.add(themeImagePanel, BorderLayout.WEST);
-        themePanel.add(themeEastPanel, BorderLayout.CENTER);
-
-        // ---------------------------------------------------------------------
-        tipImagePanel.add(this.tipImageLabel, BorderLayout.CENTER);
-        tipImagePanel.add(this.setTipImageButton, BorderLayout.SOUTH);
-
-        tipEastPanel.add(this.tipTitleField, BorderLayout.NORTH);
-        tipEastPanel.add(this.tipContentArea, BorderLayout.CENTER);
-
-        tipPanel.add(tipImagePanel, BorderLayout.WEST);
-        tipPanel.add(tipEastPanel, BorderLayout.CENTER);
+        buttonsPanel.add(this.cancelButton);
+        buttonsPanel.add(this.finishButton);
 
         this.add(themePanel, BorderLayout.NORTH);
-        this.add(tipPanel, BorderLayout.CENTER);
+        this.add(this.tabbedPane, BorderLayout.CENTER);
+        this.add(buttonsPanel, BorderLayout.SOUTH);
     }
 
     /* ______________________________________________________________________ */
     private void initEvents() {
+        this.menuBar.getNewItem().addActionListener(ae -> {
+            this.addNewTab();
+        });
+    }
 
+    /* ______________________________________________________________________ */
+    public TipEditor addNewTab() {
+        Integer index;
+        TitleTab titleTab;
+        TipEditor tipEditor;
+        String name;
+
+        name = DialogPane.input("Nuevo Tip", "Nombre del nuevo Tip:");
+        if (name == null || name.isEmpty()) {
+            name = "nuevo tip " + generateTabNumber();
+        }
+
+        titleTab = new TitleTab(name);
+        tipEditor = new TipEditor();
+
+        this.tabbedPane.addTab(name, tipEditor);
+        index = this.tabbedPane.indexOfComponent(tipEditor);
+        this.tabbedPane.setTabComponentAt(index, titleTab);
+        this.tabbedPane.setSelectedIndex(index);
+
+        this.tipEditors.add(tipEditor);
+
+//        updateMenuBar();
+//        updateStatusBar();
+//        updatePopupMenus();
+        return tipEditor;
+    }
+
+    /* ______________________________________________________________________ */
+    public int generateTabNumber() {
+        int newTabNumber = 1;
+        Integer tabCount = this.tabbedPane.getTabCount();
+        String tabTitle;
+        Boolean exists;
+
+        do {
+            exists = false;
+            for (int i = 0; i < tabCount; i++) {
+                tabTitle = this.tabbedPane.getTitleAt(i);
+                if (tabTitle.equals("nuevo tip " + newTabNumber)) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (exists) {
+                newTabNumber++;
+            }
+        } while (exists);
+
+        return newTabNumber;
+    }
+
+    /* ______________________________________________________________________ */
+    public void closeTab(TipEditor tipEditor) {
+        String fileName;
+        Integer option;
+
+//        if (!tipEditor.isClosable()) {
+            fileName = tipEditor.getName();
+
+            option = DialogPane.yesNoCancelOption("Save file before close",
+                    "Save " + fileName + "?");
+
+            if (option == DialogPane.OK_OPTION) {
+//                tipEditor.saveTools();
+
+                Tools.output(fileName + " saved succesfully");
+                close(tipEditor);
+            } else if (option == DialogPane.NO_OPTION) {
+
+                Tools.output(fileName + " file didn't be saved");
+                close(tipEditor);
+            }
+//        } else {
+//            close(scrollPane);
+//        }
+
+//        updateMenuBar();
+//        updateStatusBar();
+    }
+
+    /* ______________________________________________________________________ */
+    public void close(TipEditor tipEditor) {
+        this.tabbedPane.remove(tipEditor);
+        this.tipEditors.remove(tipEditor);
+        Tools.output(tipEditor + " closed");
     }
 
     /* GETTERS ______________________________________________________________ */
