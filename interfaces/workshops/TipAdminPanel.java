@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import worldclasses.themes.Theme;
 import worldclasses.themes.Tip;
@@ -33,6 +34,8 @@ public class TipAdminPanel extends TipPanel {
         JPanel tipPanel;
         JPanel buttonsPanel;
 
+        JScrollPane scrollPane;
+
         // Set up Panel --------------------------------------------------------
         super.initComponents();
 
@@ -45,14 +48,18 @@ public class TipAdminPanel extends TipPanel {
         tipPanel = new JPanel(new BorderLayout());
         buttonsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        // ---------------------------------------------------------------------
-        // ---------------------------------------------------------------------
-        themePanel.add(super.titleThemeTextField, BorderLayout.NORTH);
-        themePanel.add(super.descriptionThemeTextArea, BorderLayout.CENTER);
-        themePanel.add(super.valueThemeTextField, BorderLayout.SOUTH);
+        scrollPane = new JScrollPane(this.tipContentTextArea);
 
-        tipPanel.add(super.titleTipTextField, BorderLayout.NORTH);
-        tipPanel.add(super.contentTipTextArea, BorderLayout.CENTER);
+        // ---------------------------------------------------------------------
+        scrollPane.getVerticalScrollBar().setUnitIncrement(7);
+
+        // ---------------------------------------------------------------------
+        themePanel.add(super.themeTitleTextField, BorderLayout.NORTH);
+        themePanel.add(super.themeDescriptionTextArea, BorderLayout.CENTER);
+        themePanel.add(super.themeValueTextField, BorderLayout.SOUTH);
+
+        tipPanel.add(super.tipTitleTextField, BorderLayout.NORTH);
+        tipPanel.add(scrollPane, BorderLayout.CENTER);
 
         buttonsPanel.add(this.restoreButton);
         buttonsPanel.add(this.saveButton);

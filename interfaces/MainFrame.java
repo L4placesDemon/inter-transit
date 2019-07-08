@@ -40,7 +40,9 @@ public class MainFrame extends JFrame {
     private MenuPanel menuPanel;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public MainFrame() {
+    public MainFrame(Account account) {
+        this.account = account;
+
         this.initComponents();
         this.initEvents();
     }
@@ -157,7 +159,7 @@ public class MainFrame extends JFrame {
         if (result == SettingsDialog.OK_OPTION) {
             settings.setFont(settingsDialog.getSettings().getFont());
 
-            MainFrame mainFrame = new MainFrame();
+            MainFrame mainFrame = new MainFrame(this.getAccount());
             mainFrame.setVisible(true);
             dispose();
         } else {
@@ -370,7 +372,7 @@ public class MainFrame extends JFrame {
 //        initTestThemes();
 
         System.out.println(Tools.command("ver"));;
-        MainFrame mainFrame = new MainFrame();
+        MainFrame mainFrame = new MainFrame(null);
         mainFrame.setVisible(true);
     }
 }

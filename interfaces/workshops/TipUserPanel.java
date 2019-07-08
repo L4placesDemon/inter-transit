@@ -22,6 +22,7 @@ public class TipUserPanel extends TipPanel {
     protected void initComponents() {
         JPanel themePanel;
         JPanel tipPanel;
+
         JScrollPane scrollPane;
 
         // Set up Panel --------------------------------------------------------
@@ -30,23 +31,24 @@ public class TipUserPanel extends TipPanel {
         // Set up Components ---------------------------------------------------
         themePanel = new JPanel(new BorderLayout());
         tipPanel = new JPanel(new BorderLayout());
-        scrollPane = new JScrollPane(super.contentTipTextArea);
+
+        scrollPane = new JScrollPane(super.tipContentTextArea);
 
         // ---------------------------------------------------------------------
-        super.titleThemeTextField.setEditable(false);
-        super.descriptionThemeTextArea.setEditable(false);
-        super.valueThemeTextField.setEditable(false);
+        super.themeTitleTextField.setEditable(false);
+        super.themeDescriptionTextArea.setEditable(false);
+        super.themeValueTextField.setEditable(false);
 
-        super.titleTipTextField.setEditable(false);
-        super.contentTipTextArea.setEditable(false);
+        super.tipTitleTextField.setEditable(false);
+        super.tipContentTextArea.setEditable(false);
 
         // ---------------------------------------------------------------------
-        themePanel.add(super.titleThemeTextField, BorderLayout.NORTH);
-        themePanel.add(super.descriptionThemeTextArea, BorderLayout.CENTER);
-        themePanel.add(super.valueThemeTextField, BorderLayout.SOUTH);
+        themePanel.add(super.themeTitleTextField, BorderLayout.NORTH);
+        themePanel.add(super.themeDescriptionTextArea, BorderLayout.CENTER);
+        themePanel.add(super.themeValueTextField, BorderLayout.SOUTH);
 
-        tipPanel.add(super.titleTipTextField, BorderLayout.NORTH);
-        tipPanel.add(super.contentTipTextArea, BorderLayout.CENTER);
+        tipPanel.add(super.tipTitleTextField, BorderLayout.NORTH);
+        tipPanel.add(scrollPane, BorderLayout.CENTER);
 
         this.add(themePanel, BorderLayout.NORTH);
         this.add(tipPanel, BorderLayout.CENTER);

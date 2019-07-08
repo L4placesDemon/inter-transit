@@ -1,4 +1,4 @@
 description=Es la persona apta física y mentalmente, capacitada técnica y teóricamente para operar un vehículo, la cual después de cumplir con los requisitos de ley se la autoriza y habilita ejercer la actividad de conducción de vehículos, según la categoría para la cual fue capacitado.  Igualmente hacen parte de este grupo las personas que conducen vehículos de tracción animal y humana.
 value=0
-views=0
+views=30
 

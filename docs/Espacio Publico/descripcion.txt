@@ -1,4 +1,4 @@
 description=Lugar donde cualquier persona tiene el derecho de circular, en oposición a los espacios privados, donde el paso puede ser restringido, generalmente por criterios de propiedad privada, reserva gubernamental u otros.  El espacio público abarca, por regla general, las vías de circulación abiertas: calles, plazas, carreteras, parques, así como ciertos edificios públicos, como estaciones, bibliotecas, escuelas, hospitales, ayuntamientos u otros, cuyo suelo es de propiedad pública.
 value=0
-views=0
+views=130
 

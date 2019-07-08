@@ -136,10 +136,12 @@ public class WorkshopsPanel extends Panel {
             this.setAccount(this.accountButton.getAccount());
 
             if (this.tipPanel instanceof TipPanel) {
+
                 themeTitle = ((TipPanel) this.tipPanel).getTheme().getTitle();
                 tipTitle = ((TipPanel) this.tipPanel).getTip().getTitle();
 
-                this.showTip(themeTitle, tipTitle + ".txt");
+                this.showTip(themeTitle, tipTitle);
+                this.showTip(themeTitle, tipTitle);
                 System.out.println(themeTitle + ", " + tipTitle);
             }
 

@@ -1,6 +1,7 @@
 package interfaces.workshops;
 
 import java.awt.BorderLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import tools.components.TextArea;
@@ -17,12 +18,14 @@ public abstract class TipPanel extends JPanel {
     protected Theme theme;
     protected Tip tip;
 
-    protected TextField titleThemeTextField;
-    protected TextArea descriptionThemeTextArea;
-    protected TextField valueThemeTextField;
-
-    protected TextField titleTipTextField;
-    protected TextArea contentTipTextArea;
+    protected JLabel themeImageLabel;
+    protected TextField themeTitleTextField;
+    protected TextField themeValueTextField;
+    protected TextArea themeDescriptionTextArea;
+            
+    protected JLabel tipImageLabel;
+    protected TextField tipTitleTextField;
+    protected TextArea tipContentTextArea;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public TipPanel(Theme theme, Tip tip) {
@@ -38,12 +41,12 @@ public abstract class TipPanel extends JPanel {
         this.setLayout(new BorderLayout());
 
         // Set up Components ---------------------------------------------------
-        this.titleThemeTextField = new TextField(this.getTheme().getTitle());
-        this.descriptionThemeTextArea = new TextArea(this.getTheme().getDescription());
-        this.valueThemeTextField = new TextField(this.getTheme().getValue() + "");
+        this.themeTitleTextField = new TextField(this.getTheme().getTitle());
+        this.themeDescriptionTextArea = new TextArea(this.getTheme().getDescription());
+        this.themeValueTextField = new TextField(this.getTheme().getValue() + "");
 
-        this.titleTipTextField = new TextField(this.getTip().getTitle());
-        this.contentTipTextArea = new TextArea(this.getTip().getDescription());
+        this.tipTitleTextField = new TextField(this.getTip().getTitle());
+        this.tipContentTextArea = new TextArea(this.getTip().getDescription());
     }
 
     /* GETTERS_______________________________________________________________ */
@@ -58,27 +61,27 @@ public abstract class TipPanel extends JPanel {
 
     /* ______________________________________________________________________ */
     public TextField getTitleThemeTextField() {
-        return this.titleThemeTextField;
+        return this.themeTitleTextField;
     }
 
     /* ______________________________________________________________________ */
     public TextArea getDescriptionThemeTextArea() {
-        return this.descriptionThemeTextArea;
+        return this.themeDescriptionTextArea;
     }
 
     /* ______________________________________________________________________ */
     public TextField getValueThemeTextField() {
-        return this.valueThemeTextField;
+        return this.themeValueTextField;
     }
 
     /* ______________________________________________________________________ */
     public TextField getTitleTipTextField() {
-        return this.titleTipTextField;
+        return this.tipTitleTextField;
     }
 
     /* ______________________________________________________________________ */
     public TextArea getContentTipTextArea() {
-        return this.contentTipTextArea;
+        return this.tipContentTextArea;
     }
 
     /* SETTERS_______________________________________________________________ */
