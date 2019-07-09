@@ -3,16 +3,13 @@ package interfaces.createtheme;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPopupMenu;
-
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class TitleTab extends JComponent {
 
@@ -44,14 +41,8 @@ public class TitleTab extends JComponent {
         textLabel = new JLabel("");
         closeButton = new JButton("X");
 
-        textLabel.setFont(new Font("Dialog", Font.BOLD, 11));
-        textLabel.setForeground(Color.black);
-
         closeButton.setBorder(null);
         closeButton.setContentAreaFilled(false);
-        closeButton.setFont(new Font("Dialog", Font.BOLD, 10));
-        closeButton.setBackground(Color.black);
-
         add(textLabel);
         add(closeButton);
 
@@ -62,7 +53,6 @@ public class TitleTab extends JComponent {
 //        closeAllTabsMenuItem = new MenuItem("Close All Tabs", 'A', 'W', ActionEvent.CTRL_MASK + ActionEvent.SHIFT_MASK);
 //        closeOtherTabsMenuItem = new MenuItem("Close Other Tabs", 'O');
 //        cloneTabMenuItem = new MenuItem("Clone Tab", 'T');
-
         // Set Up Popup Menu
 //        popupMenu = new JPopupMenu();
 //        popupMenu.add(shiftLeftMenuItem);
@@ -73,7 +63,6 @@ public class TitleTab extends JComponent {
 //        popupMenu.add(closeOtherTabsMenuItem);
 //        popupMenu.addSeparator();
 //        popupMenu.add(cloneTabMenuItem);
-
 //        setComponentPopupMenu(popupMenu);
     }
 

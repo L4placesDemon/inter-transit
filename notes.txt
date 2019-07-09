@@ -1,10 +1,14 @@
-NOTES:
-- Implement a themes manager
-- In the accounts manager replace the buttons in the bottom for a popup menu in
-  each AccountButton
++   Implementar un administrador de temas
++   Implementar un visualizador de estadisticas para usuarios en cada tema.
++   Implementar los talleres virtuales para cada tema.
 
-- Manage dialog interfaces with panels
-- Documentate code
-- Output text by console with tools.output function
-- Add personalized exceptions
-- Statistics for Users in each Workshop
+#   Implementar una funcion que permita agregar un titulo en el cuadro de
+    dialogo de opcion (si-no) o (si-no-cancelar) en DialogPane
+#   Implementar una funcion que permita definir opciones personalizadas en un 
+    DialogPane
+#   Convertir algunos cuadros de dialogo como paneles.
+#   Reemplazar botones por un menu desplegable en el administrador de cuentas.
+
+-   Salida de texto por consola con la funcion Tools.output.
+-   Documentar codigo.
+-   Agregar excepsiones personalizadas.

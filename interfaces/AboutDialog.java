@@ -3,6 +3,7 @@ package interfaces;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.io.IOException;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -85,10 +86,13 @@ public class AboutDialog extends Dialog {
                 + "Permite realizar diferentes cuestionarios acerca de los temas"
                 + " contenidos."));
 
-        creditsPanel.add(new TextArea("Snow Gryphon Software\n"
-                + "Version: 6.1.0\n"
-                + Tools.command("ver")
-                + (Tools.class.getResource("") + "").substring(5).replace("/tools/", "")));
+        try {
+            creditsPanel.add(new TextArea("Snow Gryphon Software\n"
+                    + "Version: 6.1.0\n"
+                    + Tools.command("ver")
+                    + (Tools.class.getResource("") + "").substring(5).replace("/tools/", "")));
+        } catch (IOException ex) {
+        }
 
         logosPanel.add(new JLabel(Tools.getImageIcon(logo, 213, 213)));
         logosPanel.add(new JLabel(Tools.getImageIcon("logos/company_logo", 180, 180)));

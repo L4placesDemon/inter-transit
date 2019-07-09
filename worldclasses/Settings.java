@@ -7,6 +7,7 @@ import java.io.Serializable;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import tools.Pair;
@@ -54,11 +55,11 @@ public class Settings implements Serializable, Cloneable {
     /* METHODS ______________________________________________________________ */
     private static void theme(Color primary, Color secondary, Color select,
             Color foreground, Border border) {
-        Font _font = Settings.getCurrentSettings().getFont();
+        Font font = Settings.getCurrentSettings().getFont();
 
         UIManager.put("OptionPane.background", primary);
-        UIManager.put("OptionPane.buttonFont", _font);
-        UIManager.put("OptionPane.messageFont", _font);
+        UIManager.put("OptionPane.buttonFont", font);
+        UIManager.put("OptionPane.messageFont", font);
         UIManager.put("OptionPane.messageForeground", foreground);
 
         UIManager.put("Panel.background", primary);
@@ -67,17 +68,17 @@ public class Settings implements Serializable, Cloneable {
         UIManager.put("ToggleButton.focus", new Color(0, 0, 0, 0));
         UIManager.put("ToggleButton.select", select);
 
-        UIManager.put("Label.font", _font);
+        UIManager.put("Label.font", font);
         UIManager.put("Label.foreground", foreground);
 
         UIManager.put("Button.background", primary);
         UIManager.put("Button.focus", new Color(0, 0, 0, 0));
-        UIManager.put("Button.font", _font);
+        UIManager.put("Button.font", font);
         UIManager.put("Button.foreground", foreground);
         UIManager.put("Button.select", select);
 
         UIManager.put("RadioButton.background", primary);
-        UIManager.put("RadioButton.font", _font);
+        UIManager.put("RadioButton.font", font);
         UIManager.put("RadioButton.foreground", foreground);
 
         UIManager.put("ScrollBar.thumbHighlight", secondary);
@@ -99,28 +100,61 @@ public class Settings implements Serializable, Cloneable {
         UIManager.put("TextField.caretForeground", foreground);
         UIManager.put("TextField.background", secondary);
         UIManager.put("TextField.border", border);
-        UIManager.put("TextField.font", _font);
+        UIManager.put("TextField.font", font);
         UIManager.put("TextField.foreground", foreground);
 
         UIManager.put("TextArea.caretForeground", foreground);
         UIManager.put("TextArea.background", secondary);
         UIManager.put("TextArea.border", border);
-        UIManager.put("TextArea.font", _font);
+        UIManager.put("TextArea.font", font);
         UIManager.put("TextArea.foreground", foreground);
 
         UIManager.put("PasswordField.caretForeground", foreground);
         UIManager.put("PasswordField.border", border);
         UIManager.put("PasswordField.background", secondary);
-        UIManager.put("PasswordField.font", _font);
+        UIManager.put("PasswordField.font", font);
         UIManager.put("PasswordField.foreground", foreground);
 
         UIManager.put("Tree.background", secondary);
         UIManager.put("Tree.foreground", foreground);
-        UIManager.put("Tree.font", _font);
+        UIManager.put("Tree.font", font);
         UIManager.put("Tree.rendererFillBackground", false);
 
         UIManager.put("List.background", secondary);
         UIManager.put("List.foreground", foreground);
+
+        UIManager.put("MenuBar.background", primary);
+        UIManager.put("MenuBar.border", border);
+
+        UIManager.put("Menu.foreground", foreground);
+        UIManager.put("Menu.font", font);
+
+        UIManager.put("PopupMenu.border", border);
+
+        UIManager.put("MenuItem.background", primary);
+        UIManager.put("MenuItem.border", new EmptyBorder(0, 0, 0, 0));
+        UIManager.put("MenuItem.foreground", foreground);
+        UIManager.put("MenuItem.font", font);
+
+        UIManager.put("Separator.background", primary);
+        UIManager.put("Separator.foreground", Color.gray);
+
+        UIManager.put("TabbedPane.background", primary);
+//        UIManager.put("TabbedPane.selected", select);
+//        UIManager.put("TabbedPane.light", primary);
+//        UIManager.put("TabbedPane.highlight", primary);
+//        UIManager.put("TabbedPane.shadow", primary);
+//        UIManager.put("TabbedPane.darkShadow", primary);
+//        
+//        UIManager.put("TabbedPane.foreground", primary);
+//        UIManager.put("TabbedPane.focus", primary);
+//        UIManager.put("TabbedPane.textIconGap", primary);
+//        UIManager.put("TabbedPane.tabInsets", primary);
+//        UIManager.put("TabbedPane.selectedTabPadInsets", primary);
+//        UIManager.put("TabbedPane.tabAreaInsets", primary);
+//        UIManager.put("TabbedPane.contentBorderInsets", primary);
+//        UIManager.put("TabbedPane.tabRunOverlay", primary);
+//        UIManager.put("TabbedPane.tabRunOverlay", primary);
     }
 
     /* ______________________________________________________________________ */
@@ -149,7 +183,7 @@ public class Settings implements Serializable, Cloneable {
     }
 
     /* ______________________________________________________________________ */
-    @Override    
+    @Override
     public String toString() {
         return "Settings{" + "theme=" + theme + ", font=" + font + ", size=" + size + '}';
     }

@@ -65,7 +65,6 @@ public class MenuPanel extends Panel {
         this.workshopsButton = new JButton();
         this.testButton = new JButton();
 
-        System.out.println(getParent());
         this.logoLabel = new JLabel(Tools.getImageIcon(logo), JLabel.CENTER);
         northPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         eastPanel = new JPanel(new GridLayout(4, 1));

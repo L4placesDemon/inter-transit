@@ -3,12 +3,15 @@ package interfaces.createtheme;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import tools.Tools;
 import tools.components.Dialog;
@@ -66,7 +69,7 @@ public class CreateThemeDialog extends Dialog {
         this.setJMenuBar(this.menuBar);
 
         this.themeImageLabel = new JLabel();
-        this.setThemeImageButton = new JButton("Elegir");
+        this.setThemeImageButton = new JButton("Elegir Imagen");
         this.themeValueField = new TextField();
 
         this.themeTitleField = new TextField();
@@ -114,40 +117,106 @@ public class CreateThemeDialog extends Dialog {
     /* ______________________________________________________________________ */
     private void initEvents() {
         this.menuBar.getNewItem().addActionListener(ae -> {
-            this.addNewTab();
+            this.addNewTabAction();
+        });
+
+        this.setThemeImageButton.addActionListener(ae -> {
+            this.setImageAction();
+        });
+
+        this.finishButton.addActionListener(ae -> {
+            int option = DialogPane.yesNoCancelOption("Crear Tema", "Guardar el tema?");
+
+            if (option == DialogPane.YES_OPTION) {
+                this.initTheme();
+                dispose();
+            } else if (option == DialogPane.NO_OPTION) {
+                dispose();
+            }
+        });
+
+        this.cancelButton.addActionListener(ae -> {
+            dispose();
         });
     }
 
     /* ______________________________________________________________________ */
-    public TipEditor addNewTab() {
-        Integer index;
+    private void addNewTabAction() {
+        int option = DialogPane.showOptionDialog(
+                null, "mensaje", "titulo", 0, DialogPane.QUESTION_MESSAGE,
+                null, new String[]{"Tema", "Tip"}, "Tip"
+        );
+
+        if (option == 0) {
+            System.out.println("theme");
+        } else if (option == 1) {
+            addNewTipAction();
+        }
+    }
+
+    /* ______________________________________________________________________ */
+    private void addNewTipAction() {
+        int index;
         TitleTab titleTab;
         TipEditor tipEditor;
         String name;
 
         name = DialogPane.input("Nuevo Tip", "Nombre del nuevo Tip:");
-        if (name == null || name.isEmpty()) {
-            name = "nuevo tip " + generateTabNumber();
+        if (name != null) {
+
+            if (name.isEmpty()) {
+                name = "nuevo tip " + generateTabNumber();
+            }
+            titleTab = new TitleTab(name);
+            tipEditor = new TipEditor(name);
+
+            this.tabbedPane.addTab(name, tipEditor);
+            tipEditor.getTipTitleField().requestFocus();
+            index = this.tabbedPane.indexOfComponent(tipEditor);
+            this.tabbedPane.setTabComponentAt(index, titleTab);
+            this.tabbedPane.setSelectedIndex(index);
+
+            this.tipEditors.add(tipEditor);
         }
-
-        titleTab = new TitleTab(name);
-        tipEditor = new TipEditor();
-
-        this.tabbedPane.addTab(name, tipEditor);
-        index = this.tabbedPane.indexOfComponent(tipEditor);
-        this.tabbedPane.setTabComponentAt(index, titleTab);
-        this.tabbedPane.setSelectedIndex(index);
-
-        this.tipEditors.add(tipEditor);
 
 //        updateMenuBar();
 //        updateStatusBar();
 //        updatePopupMenus();
-        return tipEditor;
     }
 
     /* ______________________________________________________________________ */
-    public int generateTabNumber() {
+    private void addNweThemeAction() {
+
+    }
+
+    /* ______________________________________________________________________ */
+    private void setImageAction() {
+        JFileChooser fileChooser = new JFileChooser();
+        int result;
+        File image;
+
+        fileChooser.setFileFilter(new FileNameExtensionFilter(
+                "JPG, PNG & GIF", "jpg", "png", "gif"
+        ));
+        result = fileChooser.showOpenDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            image = fileChooser.getSelectedFile();
+            this.themeImageLabel.setIcon(Tools.getAbsoluteImageIcon(
+                    image.getAbsolutePath(),
+                    this.themeImageLabel.getWidth(),
+                    this.themeImageLabel.getHeight())
+            );
+        }
+    }
+
+    /* ______________________________________________________________________ */
+    private void initTheme() {
+        
+    }
+
+    /* ______________________________________________________________________ */
+    private int generateTabNumber() {
         int newTabNumber = 1;
         Integer tabCount = this.tabbedPane.getTabCount();
         String tabTitle;
@@ -176,21 +245,21 @@ public class CreateThemeDialog extends Dialog {
         Integer option;
 
 //        if (!tipEditor.isClosable()) {
-            fileName = tipEditor.getName();
+        fileName = tipEditor.getName();
 
-            option = DialogPane.yesNoCancelOption("Save file before close",
-                    "Save " + fileName + "?");
+        option = DialogPane.yesNoCancelOption("Save file before close",
+                "Save " + fileName + "?");
 
-            if (option == DialogPane.OK_OPTION) {
+        if (option == DialogPane.OK_OPTION) {
 //                tipEditor.saveTools();
 
-                Tools.output(fileName + " saved succesfully");
-                close(tipEditor);
-            } else if (option == DialogPane.NO_OPTION) {
+            Tools.output(fileName + " saved succesfully");
+            close(tipEditor);
+        } else if (option == DialogPane.NO_OPTION) {
 
-                Tools.output(fileName + " file didn't be saved");
-                close(tipEditor);
-            }
+            Tools.output(fileName + " file didn't be saved");
+            close(tipEditor);
+        }
 //        } else {
 //            close(scrollPane);
 //        }

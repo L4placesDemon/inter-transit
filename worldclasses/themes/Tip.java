@@ -7,6 +7,11 @@ public class Tip extends Theme {
         super(title, content);
     }
 
+    /* ______________________________________________________________________ */
+    public Tip(String image, String title, String content) {
+        super(image, title, content);
+    }
+
     /* METHODS ______________________________________________________________ */
     @Override
     public String toString() {

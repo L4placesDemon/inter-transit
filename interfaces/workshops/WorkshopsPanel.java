@@ -125,53 +125,21 @@ public class WorkshopsPanel extends Panel {
 
     /* ______________________________________________________________________ */
     private void initEvents() {
-
         // Components Events ---------------------------------------------------
         this.accountButton.addActionListener(ae -> {
-            String themeTitle;
-            String tipTitle;
-            boolean isAdmin;
-
-            this.accountButton.accountAction();
-            this.setAccount(this.accountButton.getAccount());
-
-            if (this.tipPanel instanceof TipPanel) {
-
-                themeTitle = ((TipPanel) this.tipPanel).getTheme().getTitle();
-                tipTitle = ((TipPanel) this.tipPanel).getTip().getTitle();
-
-                this.showTip(themeTitle, tipTitle);
-                this.showTip(themeTitle, tipTitle);
-                System.out.println(themeTitle + ", " + tipTitle);
-            }
-
-            isAdmin = this.getAccount() instanceof AdminAccount;
-            this.createButton.setVisible(isAdmin);
-            this.removeButton.setVisible(isAdmin);
+            this.setAccountAction();
         });
 
         this.themesTree.addTreeSelectionListener((TreeSelectionEvent tse) -> {
-
-            TreePath treePath = tse.getNewLeadSelectionPath();
-            if (treePath != null) {
-
-                Object[] path = treePath.getPath();
-                if (path != null) {
-                    System.out.println(Arrays.toString(path));
-
-                    try {
-                        this.showTip(
-                                path[path.length - 2] + "",
-                                path[path.length - 1] + ".txt"
-                        );
-                    } catch (Exception e) {
-                    }
-                }
-            }
+            this.showTip(tse);
         });
 
         this.createButton.addActionListener(ae -> {
-            new CreateThemeDialog().showDialog();
+            this.createTheme();
+        });
+
+        this.removeButton.addActionListener(ae -> {
+            this.removeTheme();
         });
     }
 
@@ -293,6 +261,50 @@ public class WorkshopsPanel extends Panel {
     }
 
     /* ______________________________________________________________________ */
+    private void setAccountAction() {
+        String themeTitle;
+        String tipTitle;
+        boolean isAdmin;
+
+        this.accountButton.accountAction();
+        this.setAccount(this.accountButton.getAccount());
+
+        if (this.tipPanel instanceof TipPanel) {
+
+            themeTitle = ((TipPanel) this.tipPanel).getTheme().getTitle();
+            tipTitle = ((TipPanel) this.tipPanel).getTip().getTitle();
+
+            this.showTip(themeTitle, tipTitle);
+            this.showTip(themeTitle, tipTitle);
+            System.out.println(themeTitle + ", " + tipTitle);
+        }
+
+        isAdmin = this.getAccount() instanceof AdminAccount;
+        this.createButton.setVisible(isAdmin);
+        this.removeButton.setVisible(isAdmin);
+    }
+
+    /* ______________________________________________________________________ */
+    private void showTip(TreeSelectionEvent tse) {
+        TreePath treePath = tse.getNewLeadSelectionPath();
+        if (treePath != null) {
+
+            Object[] path = treePath.getPath();
+            if (path != null) {
+                System.out.println(Arrays.toString(path));
+
+                try {
+                    this.showTip(
+                            path[path.length - 2] + "",
+                            path[path.length - 1] + ".txt"
+                    );
+                } catch (Exception e) {
+                }
+            }
+        }
+    }
+
+    /* ______________________________________________________________________ */
     private void showTip(String themeTitle, String tipTitle) {
 
         Theme theme = this.searchTheme(themeTitle);
@@ -340,6 +352,16 @@ public class WorkshopsPanel extends Panel {
             }
         }
         return null;
+    }
+
+    /* ______________________________________________________________________ */
+    private void createTheme() {
+        new CreateThemeDialog().showDialog();
+    }
+
+    /* ______________________________________________________________________ */
+    private void removeTheme() {
+
     }
 
     /* GETTERS ______________________________________________________________ */

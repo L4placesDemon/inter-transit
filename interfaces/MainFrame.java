@@ -49,10 +49,10 @@ public class MainFrame extends JFrame {
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
-        String logo = null;
+        String logo;
 
         Settings settings = Settings.getCurrentSettings();
-        System.out.println(settings);
+
         if (settings.getTheme().equals(Settings.DARK_THEME)) {
             Settings.darkTheme();
             logo = Settings.DARK_LOGO;
@@ -143,7 +143,7 @@ public class MainFrame extends JFrame {
         });
 
         this.menuPanel.getTestButton().addActionListener(ae -> {
-            System.out.println(this.menuPanel.getAccountButton().getSize());
+//            System.out.println(this.menuPanel.getAccountButton().getSize());
         });
     }
 
@@ -157,11 +157,18 @@ public class MainFrame extends JFrame {
         result = settingsDialog.showDialog();
 
         if (result == SettingsDialog.OK_OPTION) {
-            settings.setFont(settingsDialog.getSettings().getFont());
+            settings = settingsDialog.getSettings();
 
-            MainFrame mainFrame = new MainFrame(this.getAccount());
-            mainFrame.setVisible(true);
             dispose();
+            settings.setSize(new Pair<>(
+                    getSize(),
+                    getExtendedState()
+            ));
+
+            new BinaryFileManager(Settings.SETTINGS_PATH_FILE).write(
+                    settings
+            );
+            new MainFrame(this.getAccount()).setVisible(true);
         } else {
 
             new BinaryFileManager(Settings.SETTINGS_PATH_FILE).write(
@@ -317,7 +324,7 @@ public class MainFrame extends JFrame {
     private static void initTestThemes() {
         Random random = new Random();
 
-        String pathFolder = Settings.getResource() + "src/files/";
+        String pathFolder = Settings.getResource() + "src/docs/";
 
         File foldersFolder = new File(pathFolder);
         if (!foldersFolder.exists()) {
@@ -365,13 +372,13 @@ public class MainFrame extends JFrame {
     }
 
     /* MAIN _________________________________________________________________ */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         initTestAccounts();
         sortTestAccounts();
         showTestAccounts();
 //        initTestThemes();
 
-        System.out.println(Tools.command("ver"));;
+        System.out.println(Tools.command("ver"));
         MainFrame mainFrame = new MainFrame(null);
         mainFrame.setVisible(true);
     }

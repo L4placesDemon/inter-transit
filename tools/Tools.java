@@ -41,9 +41,20 @@ public interface Tools {
                 : null;
     }
 
+    public static ImageIcon getAbsoluteIcon(String iconPath) { // /Package/Image.ext
+        return iconPath != null
+                ? new ImageIcon(iconPath)
+                : null;
+    }
+
     /* ______________________________________________________________________ */
     public static Image getImage(String imagePath) {
         return Tools.getIcon(imagePath).getImage();
+    }
+
+    /* ______________________________________________________________________ */
+    public static Image getAbsoluteImage(String imagePath) {
+        return Tools.getAbsoluteIcon(imagePath).getImage();
     }
 
     /* ______________________________________________________________________ */
@@ -56,8 +67,22 @@ public interface Tools {
     }
 
     /* ______________________________________________________________________ */
+    public static Image getAbsoluteImage(String imagePath, int width, int height) {
+        return Tools.getAbsoluteImage(imagePath).getScaledInstance(
+                width,
+                height,
+                Image.SCALE_SMOOTH
+        );
+    }
+
+    /* ______________________________________________________________________ */
     public static ImageIcon getImageIcon(String imagePath, int width, int height) {
         return new ImageIcon(Tools.getImage(imagePath, width, height));
+    }
+
+    /* ______________________________________________________________________ */
+    public static ImageIcon getAbsoluteImageIcon(String imagePath, int width, int height) {
+        return new ImageIcon(Tools.getAbsoluteImage(imagePath, width, height));
     }
 
     /* ______________________________________________________________________ */
@@ -112,29 +137,25 @@ public interface Tools {
     }
 
     /* ______________________________________________________________________ */
-    public static String command(String command) {
+    public static String command(String command) throws IOException {
         String text = "";
-        try {
 //            Runtime.getRuntime().exec("cmd /c && " + command);
+//        Runtime.getRuntime().exec(command);
 
-            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", command);
-            builder.redirectErrorStream(true);
-            Process p = builder.start();
+        ProcessBuilder builder = new ProcessBuilder("xterm", command);
+        builder.redirectErrorStream(true);
+        Process p = builder.start();
 
-            BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line = r.readLine();
+        BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        String line = r.readLine();
 
-            while (line != null) {
-                text += line;
-                line = r.readLine();
+        while (line != null) {
+            text += line;
+            line = r.readLine();
 
-                if (line != null) {
-                    line += '\n';
-                }
+            if (line != null) {
+                line += '\n';
             }
-
-        } catch (IOException ex) {
-            System.out.println(ex);
         }
         return text;
     }

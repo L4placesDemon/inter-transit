@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
+
 import worldclasses.Settings;
 
 public class TextField extends JTextField implements FocusListener {
@@ -75,7 +76,7 @@ public class TextField extends JTextField implements FocusListener {
     public void focusLost(FocusEvent fe) {
         if (this.getText().length() <= 0) {
             this.setHint(this.getHint());
-            
+
         } else {
             this.setFont(Settings.getCurrentSettings().getFont());
 

@@ -46,8 +46,13 @@ public class Theme implements Serializable {
     }
 
     /* ______________________________________________________________________ */
+    public Theme(String image, String title, String description) {
+        this(image, title, description, 0.0, 0);
+    }
+
+    /* ______________________________________________________________________ */
     public Theme(String title, String description) {
-        this(null, title, description, 0.0, 0);
+        this(null, title, description);
     }
 
     /* METHODS ______________________________________________________________ */

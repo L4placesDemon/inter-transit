@@ -144,9 +144,7 @@ public class SettingsDialog extends Dialog {
         result = fontChooser.showDialog(null);
 
         if (result == FontChooser.OK_OPTION) {
-            System.out.println(this.getSettings().getFont());
             this.getSettings().setFont(fontChooser.getSelectedFont());
-            System.out.println(this.getSettings().getFont());
             dispose();
             okAction();
 

@@ -15,7 +15,7 @@ public class ThemeEditor extends JPanel {
     }
 
     private void initComponents() {
-
+        
     }
 
     private void initEvents() {
