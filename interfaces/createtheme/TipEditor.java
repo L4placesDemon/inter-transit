@@ -2,6 +2,8 @@ package interfaces.createtheme;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -45,10 +47,10 @@ public class TipEditor extends JPanel {
         JPanel centerPanel;
         JPanel westPanel;
 
-        // ---------------------------------------------------------------------
+        // Set up Panel --------------------------------------------------------
         this.setLayout(new BorderLayout());
 
-        // ---------------------------------------------------------------------
+        // Set up Components ---------------------------------------------------
         this.tipImageLabel = new JLabel();
         this.setTipImageButton = new JButton(" Elegir Imagen ");
 
@@ -64,7 +66,6 @@ public class TipEditor extends JPanel {
 
         this.tipTitleField.setHint("Titulo");
         this.tipTitleField.setText(this.getTip().getTitle());
-//        this.tipTitleField.requestFocus();
 
         westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.Y_AXIS));
         westPanel.setBorder(new EtchedBorder());
@@ -84,6 +85,20 @@ public class TipEditor extends JPanel {
     private void initEvents() {
         this.setTipImageButton.addActionListener(ae -> {
             this.setImageAction();
+        });
+
+        this.tipTitleField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                getTip().setTitle(tipTitleField.getText());
+            }
+        });
+
+        this.tipContentArea.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent arg0) {
+                getTip().setDescription(tipContentArea.getText());
+            }
         });
     }
 
@@ -105,6 +120,7 @@ public class TipEditor extends JPanel {
                     this.tipImageLabel.getWidth(),
                     this.tipImageLabel.getHeight())
             );
+            this.getTip().setImage(image.getAbsolutePath());
         }
     }
 

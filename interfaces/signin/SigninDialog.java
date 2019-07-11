@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import tools.Tools;
-import tools.binaryfilemanager.BinaryFileManager;
+import tools.filemanager.BinaryFileManager;
 import tools.components.Dialog;
 import worldclasses.Settings;
 

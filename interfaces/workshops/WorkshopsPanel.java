@@ -7,6 +7,7 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JButton;
@@ -19,8 +20,12 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
+import tools.Pair;
 import tools.Tools;
+import tools.components.DialogPane;
 import tools.components.Panel;
+import tools.filemanager.BinaryFileManager;
+import tools.filemanager.PlainFileManager;
 
 import worldclasses.Settings;
 import worldclasses.themes.Tip;
@@ -153,8 +158,8 @@ public class WorkshopsPanel extends Panel {
 
         // ---------------------------------------------------------------------
 //        themesDirectoryPath = Settings.getResource() + "/src/docs";
-        themesDirectoryPath = (Settings.class.getResource("/docs") + "").substring(5);
-        System.out.println(themesDirectoryPath);
+        themesDirectoryPath = Tools.getResource("/docs");
+        System.out.println("ddd" + themesDirectoryPath);
 
         themesDirectory = new File(themesDirectoryPath);
 
@@ -356,7 +361,114 @@ public class WorkshopsPanel extends Panel {
 
     /* ______________________________________________________________________ */
     private void createTheme() {
-        new CreateThemeDialog().showDialog();
+        CreateThemeDialog createThemeDialog = new CreateThemeDialog();
+        int result;
+        Theme theme;
+
+        System.out.println("Creating theme");
+        result = createThemeDialog.showDialog();
+        if (result != DialogPane.OK_OPTION) {
+            return;
+        }
+        System.out.println("create process");
+
+        theme = createThemeDialog.getTheme();
+        if (theme == null) {
+            return;
+        }
+
+        this.themes.add(theme);
+        try {
+            System.out.println("all good");
+            this.createTheme(Tools.class.getResource("/docs")., theme);
+            System.out.println("finish");
+        } catch (IOException e) {
+            System.out.println("horror");
+        }
+    }
+
+    /* ______________________________________________________________________ */
+    private void createTheme(String path, Theme theme) throws IOException {
+
+        File directory;
+        PlainFileManager plainFileManager;
+        File imageFile;
+        File descriptionFile;
+        BinaryFileManager binaryFileManager;
+
+        String image = theme.getImage();
+        String title = theme.getTitle();
+        String description = theme.getDescription();
+        double value = theme.getValue();
+        ArrayList<Theme> files = theme.getFiles();
+        ArrayList<Pair<Integer, Integer>> accounts = theme.getAccounts();
+        System.out.println("theme created");
+
+        // Crear carpeta
+        directory = new File(path + "/" + title);
+        directory.mkdir();
+        System.out.println("folder created");
+
+        // Mover imagen
+        plainFileManager = new PlainFileManager(image);
+        imageFile = new File(image);
+
+        imageFile.renameTo(new File(directory.getAbsolutePath() + "/" + imageFile.getName()));
+//        plainFileManager.moveTo(directory.getAbsolutePath() + "/" + imageFile.getName());
+        theme.setImage(directory.getAbsolutePath() + "/" + imageFile.getName());
+        System.out.println("image moved");
+
+        // Escribir descripcion
+        descriptionFile = new File(directory.getAbsoluteFile() + "/descripcion.txt");
+        descriptionFile.createNewFile();
+
+        plainFileManager = new PlainFileManager(descriptionFile.getAbsolutePath());
+        plainFileManager.write(description);
+        System.out.println("description writed");
+
+        // Crear archivos
+        for (Theme file : files) {
+            if (file instanceof Theme) {
+                this.createTheme(path, file);
+            } else if (file instanceof Tip) {
+                this.createTip(path, (Tip) file);
+            }
+        }
+        System.out.println("created files");
+
+        // Crear archivo tema
+        binaryFileManager = new BinaryFileManager(
+                directory.getAbsolutePath() + "/" + title + ".dat"
+        );
+        binaryFileManager.write(theme);
+
+        System.out.println("created binary");
+    }
+
+    /* ______________________________________________________________________ */
+    private void createTip(String path, Tip tip) throws IOException {
+        PlainFileManager plainFileManager;
+        File imageFile;
+        File descriptionFile;
+
+        String image = tip.getImage();
+        String title = tip.getTitle();
+        String description = tip.getDescription();
+
+        // Mover Imagen
+        plainFileManager = new PlainFileManager(image);
+        imageFile = new File(image);
+        imageFile.renameTo(new File(path + "/" + imageFile.getName()));
+//        plainFileManager.moveTo(path + "/" + imageFile.getName());
+
+        // Escribir archivo
+        descriptionFile = new File(path + "/" + tip.getTitle() + ".txt");
+        descriptionFile.createNewFile();
+
+        plainFileManager = new PlainFileManager(descriptionFile.getAbsolutePath());
+        plainFileManager.write(description);
+
+        System.out.println("created file");
     }
 
     /* ______________________________________________________________________ */

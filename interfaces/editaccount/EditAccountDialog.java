@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import tools.components.DialogPane;
-import tools.binaryfilemanager.BinaryFileManager;
+import tools.filemanager.BinaryFileManager;
 
 import worldclasses.Settings;
 import worldclasses.accounts.Account;
@@ -140,8 +140,10 @@ public final class EditAccountDialog extends RegisterAccountDialog {
         System.out.println(string);
         if (!string.equals("Error")) {
 
-            int result = DialogPane.yesNoCancelOption(
-                    "Editar la cuenta", "Guardar los cambios en la cuenta?"
+            int result = DialogPane.showOption(
+                    "Editar la cuenta",
+                    "Guardar los cambios en la cuenta?",
+                    DialogPane.YES_NO_CANCEL_OPTION
             );
 
             if (result == DialogPane.YES_OPTION) {

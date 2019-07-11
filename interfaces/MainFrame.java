@@ -21,7 +21,7 @@ import javax.swing.JFrame;
 
 import tools.Pair;
 import tools.Tools;
-import tools.binaryfilemanager.BinaryFileManager;
+import tools.filemanager.BinaryFileManager;
 import tools.components.Dialog;
 import tools.components.DialogPane;
 
@@ -108,7 +108,9 @@ public class MainFrame extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we) {
-                int result = DialogPane.yesNoOption("Cerrar Aplicacion?");
+                int result = DialogPane.showOption(
+                        "Cerrar Aplicacion", "Desea cerrar el programa?"
+                );
                 Settings settings;
 
                 if (result == DialogPane.OK_OPTION) {
@@ -241,9 +243,10 @@ public class MainFrame extends JFrame {
     /* ______________________________________________________________________ */
     private void workshopsSigninAction() {
         if (getAccount() == null) {
-            int option = DialogPane.yesNoCancelOption(
+            int option = DialogPane.showOption(
                     "Iniciar Sesion",
-                    "Iniciar sesion para guardar el progreso?"
+                    "Iniciar sesion para guardar el progreso?",
+                    DialogPane.YES_NO_CANCEL_OPTION
             );
 
             if (option == DialogPane.YES_OPTION) {
@@ -324,7 +327,15 @@ public class MainFrame extends JFrame {
     private static void initTestThemes() {
         Random random = new Random();
 
-        String pathFolder = Settings.getResource() + "src/docs/";
+        String pathFolder = Settings.class.getResource("/tools") + "";
+        int index;
+        try {
+            index = pathFolder.indexOf("build");
+        } catch (Exception e) {
+            index = pathFolder.indexOf("bin");
+        }
+
+        pathFolder = pathFolder.substring(5, index) + "src/docs/";
 
         File foldersFolder = new File(pathFolder);
         if (!foldersFolder.exists()) {

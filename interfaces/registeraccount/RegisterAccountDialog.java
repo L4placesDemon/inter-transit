@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 import tools.components.Dialog;
 import tools.components.DialogPane;
-import tools.binaryfilemanager.BinaryFileManager;
+import tools.filemanager.BinaryFileManager;
 import tools.components.PasswordField;
 
 import worldclasses.Settings;
@@ -147,21 +147,17 @@ public class RegisterAccountDialog extends Dialog {
         PasswordField passwordField = new PasswordField();
         panel.add(new JLabel("Contraseña de Administrador:"));
         panel.add(passwordField);
-        
-        int option = JOptionPane.showConfirmDialog(
-                null,
+
+        int option = DialogPane.showConfirm(
                 panel,
                 "Ingresar como Administrador",
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE
+                JOptionPane.OK_CANCEL_OPTION
         );
 
         if (option == DialogPane.OK_OPTION) {
             String password = passwordField.getText();
-            if (!password.isEmpty()) {
-                if (password.equals(RegisterAccountDialog.ADMIN_PASSWORD)) {
-                    return true;
-                }
+            if (password.equals(RegisterAccountDialog.ADMIN_PASSWORD)) {
+                return true;
             }
         }
         return false;

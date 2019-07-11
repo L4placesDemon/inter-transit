@@ -51,12 +51,12 @@ public abstract class TipPanel extends JPanel {
 
     /* GETTERS_______________________________________________________________ */
     public Tip getTip() {
-        return tip;
+        return this.tip;
     }
 
     /* ______________________________________________________________________ */
     public Theme getTheme() {
-        return theme;
+        return this.theme;
     }
 
     /* ______________________________________________________________________ */

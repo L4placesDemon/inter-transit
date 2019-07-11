@@ -80,7 +80,7 @@ public class ThemesStatisticsDialog extends Dialog {
         southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         // ---------------------------------------------------------------------
-        this.setThemes(this.initTheme(Settings.getResource() + "src/docs").getFiles());
+        this.setThemes(this.initTheme(Tools.getResource("/docs")).getFiles());
 
         themesPanel.setLayout(new BoxLayout(themesPanel, BoxLayout.Y_AXIS));
 

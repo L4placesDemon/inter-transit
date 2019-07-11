@@ -2,8 +2,6 @@
 +   Implementar un visualizador de estadisticas para usuarios en cada tema.
 +   Implementar los talleres virtuales para cada tema.
 
-#   Implementar una funcion que permita agregar un titulo en el cuadro de
-    dialogo de opcion (si-no) o (si-no-cancelar) en DialogPane
 #   Implementar una funcion que permita definir opciones personalizadas en un 
     DialogPane
 #   Convertir algunos cuadros de dialogo como paneles.

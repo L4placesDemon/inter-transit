@@ -15,7 +15,7 @@ public class Tip extends Theme {
     /* METHODS ______________________________________________________________ */
     @Override
     public String toString() {
-        return "Tip{image=" + (this.getImage() != null ? this.getImage().substring(8, 16) : "")
+        return "Tip{image=" + (this.getImage() != null ? this.getImage() : "")
                 + ", title=" + super.getTitle()
                 + ", content=\n" + this.getDescription() + "\n}";
     }

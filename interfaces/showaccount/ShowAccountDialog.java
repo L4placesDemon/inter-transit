@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import tools.binaryfilemanager.BinaryFileManager;
+import tools.filemanager.BinaryFileManager;
 import tools.components.Dialog;
 import tools.components.DialogPane;
 
@@ -60,7 +60,9 @@ public abstract class ShowAccountDialog extends Dialog {
         });
 
         this.signoutButton.addActionListener(ae -> {
-            int option = DialogPane.yesNoOption("Cerrar Sesion?");
+            int option = DialogPane.showOption(
+                    "Cerrar Sesion", "Desea cerral la sesion de la cuenta?"
+            );
             if (option == DialogPane.YES_OPTION) {
                 this.dispose();
                 this.okAction();
@@ -74,7 +76,9 @@ public abstract class ShowAccountDialog extends Dialog {
 
     /* ______________________________________________________________________ */
     public void removeAction() {
-        int option = DialogPane.yesNoOption("Eliminar cuenta?");
+        int option = DialogPane.showOption(
+                "Eliminar Cuenta", "Deesa eliminar definitivamente la cuenta?"
+        );
 
         if (option == DialogPane.YES_OPTION) {
             this.dispose();

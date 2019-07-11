@@ -1,7 +1,7 @@
 package worldclasses.accounts;
 
 import java.util.ArrayList;
-import tools.binaryfilemanager.BinaryFileManager;
+import tools.filemanager.BinaryFileManager;
 import worldclasses.Settings;
 
 public class AdminAccount extends Account {

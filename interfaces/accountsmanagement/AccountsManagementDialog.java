@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import tools.Tools;
-import tools.binaryfilemanager.BinaryFileManager;
+import tools.filemanager.BinaryFileManager;
 import tools.components.Dialog;
 import tools.components.DialogPane;
 
@@ -167,7 +167,9 @@ public class AccountsManagementDialog extends Dialog {
     public void removeAccountAction() {
         if (this.selectedAccountButton != null) {
             Account account = this.selectedAccountButton.getAccount();
-            int option = DialogPane.yesNoOption("Eliminar cuenta?");
+            int option = DialogPane.showOption(
+                    "Eliminar Cuenta", "Deesa eliminar definitivamente la cuenta?"
+            );
 
             if (option == DialogPane.YES_OPTION) {
                 removeAccount(account);

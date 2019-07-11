@@ -11,7 +11,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import tools.Pair;
-import tools.binaryfilemanager.BinaryFileManager;
+import tools.filemanager.BinaryFileManager;
 
 public class Settings implements Serializable, Cloneable {
 
@@ -169,7 +169,7 @@ public class Settings implements Serializable, Cloneable {
                 new Color(60, 60, 60),
                 new Color(24, 136, 255),
                 Color.white,
-                new EtchedBorder(Color.black, Color.lightGray)
+                new EtchedBorder(Color.black, Color.gray)
         );
     }
 
@@ -186,19 +186,6 @@ public class Settings implements Serializable, Cloneable {
     @Override
     public String toString() {
         return "Settings{" + "theme=" + theme + ", font=" + font + ", size=" + size + '}';
-    }
-
-    /* ______________________________________________________________________ */
-    public static String getResource() {
-        String resource = Settings.class.getResource("/tools") + "";
-        int index;
-        try {
-            index = resource.indexOf("build");
-        } catch (Exception e) {
-            index = resource.indexOf("bin");
-        }
-
-        return resource.substring(5, index);
     }
 
     /* ______________________________________________________________________ */

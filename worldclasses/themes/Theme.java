@@ -59,7 +59,7 @@ public class Theme implements Serializable {
     @Override
     public String toString() {
         return "Theme{ID=" + this.getID()
-                + "image=" + (this.getImage() != null ? this.getImage().substring(8, 16) : "")
+                + ", image=" + (this.getImage() != null ? this.getImage() : "")
                 + ", title=" + this.getTitle()
                 + ", description:\n" + this.getDescription()
                 + "\n, $" + this.getValue()

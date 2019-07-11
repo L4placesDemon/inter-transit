@@ -1,11 +1,15 @@
 package interfaces.createtheme;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -51,9 +55,9 @@ public class CreateThemeDialog extends Dialog {
 
     /* ______________________________________________________________________ */
     private void initComponents() {
+        JPanel northPanel;
         JPanel westPanel;
         JPanel themePanel;
-        JPanel northPanel;
         JPanel buttonsPanel;
 
         JScrollPane scrollPane;
@@ -80,9 +84,9 @@ public class CreateThemeDialog extends Dialog {
         this.cancelButton = new JButton("Cancelar");
         this.finishButton = new JButton("Finalizar");
 
-        themePanel = new JPanel(new BorderLayout());
         northPanel = new JPanel(new BorderLayout());
         westPanel = new JPanel(new BorderLayout());
+        themePanel = new JPanel(new BorderLayout());
         scrollPane = new JScrollPane(this.themeDescriptionArea);
 
         buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -125,14 +129,8 @@ public class CreateThemeDialog extends Dialog {
         });
 
         this.finishButton.addActionListener(ae -> {
-            int option = DialogPane.yesNoCancelOption("Crear Tema", "Guardar el tema?");
-
-            if (option == DialogPane.YES_OPTION) {
-                this.initTheme();
-                dispose();
-            } else if (option == DialogPane.NO_OPTION) {
-                dispose();
-            }
+            this.finish();
+            
         });
 
         this.cancelButton.addActionListener(ae -> {
@@ -142,13 +140,16 @@ public class CreateThemeDialog extends Dialog {
 
     /* ______________________________________________________________________ */
     private void addNewTabAction() {
-        int option = DialogPane.showOptionDialog(
-                null, "mensaje", "titulo", 0, DialogPane.QUESTION_MESSAGE,
-                null, new String[]{"Tema", "Tip"}, "Tip"
+        int option = DialogPane.showOption(
+                "Agregar nueva Pestaña",
+                "Escoja el tipo de pestaña a agregar",
+                DialogPane.DEFAULT_OPTION,
+                DialogPane.QUESTION_MESSAGE,
+                new String[]{"Tema", "Tip"},
+                "Tip"
         );
 
         if (option == 0) {
-            System.out.println("theme");
         } else if (option == 1) {
             addNewTipAction();
         }
@@ -161,23 +162,35 @@ public class CreateThemeDialog extends Dialog {
         TipEditor tipEditor;
         String name;
 
-        name = DialogPane.input("Nuevo Tip", "Nombre del nuevo Tip:");
-        if (name != null) {
+        name = DialogPane.showInput("Nuevo Tip", "Nombre del nuevo Tip:");
 
-            if (name.isEmpty()) {
-                name = "nuevo tip " + generateTabNumber();
-            }
-            titleTab = new TitleTab(name);
-            tipEditor = new TipEditor(name);
-
-            this.tabbedPane.addTab(name, tipEditor);
-            tipEditor.getTipTitleField().requestFocus();
-            index = this.tabbedPane.indexOfComponent(tipEditor);
-            this.tabbedPane.setTabComponentAt(index, titleTab);
-            this.tabbedPane.setSelectedIndex(index);
-
-            this.tipEditors.add(tipEditor);
+        if (name == null) {
+            return;
         }
+
+        if (name.isEmpty()) {
+            name = "nuevo tip " + generateTabNumber();
+        }
+        titleTab = new TitleTab(name);
+        tipEditor = new TipEditor(name);
+
+        this.tabbedPane.addTab(name, tipEditor);
+        System.out.println("naname " + tipEditor.getName());
+        tipEditor.setName(name);
+        tipEditor.getTipTitleField().requestFocus();
+        index = this.tabbedPane.indexOfComponent(tipEditor);
+        this.tabbedPane.setTabComponentAt(index, titleTab);
+        this.tabbedPane.setSelectedIndex(index);
+
+        this.tipEditors.add(tipEditor);
+
+        tipEditor.getTipTitleField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                String text = tipEditor.getTipTitleField().getText();
+                titleTab.setText(text);
+            }
+        });
 
 //        updateMenuBar();
 //        updateStatusBar();
@@ -185,7 +198,7 @@ public class CreateThemeDialog extends Dialog {
     }
 
     /* ______________________________________________________________________ */
-    private void addNweThemeAction() {
+    private void addNewThemeAction() {
 
     }
 
@@ -207,12 +220,78 @@ public class CreateThemeDialog extends Dialog {
                     this.themeImageLabel.getWidth(),
                     this.themeImageLabel.getHeight())
             );
+            this.themeImageLabel.setName(image.getAbsolutePath());
         }
     }
 
     /* ______________________________________________________________________ */
-    private void initTheme() {
-        
+    private void finish() {
+        int option = DialogPane.showOption(
+                "Crear Tema", "Guardar el tema?", DialogPane.YES_NO_CANCEL_OPTION
+        );
+
+        if (option == DialogPane.YES_OPTION) {
+            try {
+                this.initTheme();
+                dispose();
+                this.okAction();
+            } catch (Exception e) {
+                DialogPane.showMessage(
+                        "Error al crear un tema",
+                        "Ingrese un valor valido para el tema",
+                        DialogPane.ERROR_MESSAGE
+                );
+            }
+        } else if (option == DialogPane.NO_OPTION) {
+            dispose();
+        }
+    }
+
+    /* ______________________________________________________________________ */
+    private void initTheme() throws NumberFormatException, Exception {
+        String image = this.themeImageLabel.getName();
+        String title = this.themeTitleField.getText();
+        String description = this.themeDescriptionArea.getText();
+        Double value = Double.parseDouble(this.themeValueField.getText());
+        ArrayList<Theme> files = this.getFiles(this.tabbedPane);
+
+        if (image == null) {
+            throw new Exception("No se escogio una imagen para el tema");
+        } else if (title.isEmpty()) {
+            throw new Exception("No se ingreso un titulo para el tema");
+        } else if (description.isEmpty()) {
+            throw new Exception("No se ingreso una descripcion para el tema");
+        } 
+
+        Theme theme = new Theme(
+                image,
+                title,
+                description,
+                value,
+                0,
+                files
+        );
+
+        this.setTheme(theme);
+
+        System.out.println(theme);
+    }
+
+    /* ______________________________________________________________________ */
+    private ArrayList<Theme> getFiles(JComponent root) {
+        ArrayList<Theme> files = new ArrayList<>();
+
+        for (Component component : root.getComponents()) {
+            if (component.getName() != null) {
+                if (component instanceof TipEditor) {
+                    files.add(((TipEditor) component).getTip());
+                } else if (component instanceof ThemeEditor) {
+                    files.add(((ThemeEditor) component).getTheme());
+                }
+            }
+        }
+
+        return files;
     }
 
     /* ______________________________________________________________________ */
@@ -247,8 +326,11 @@ public class CreateThemeDialog extends Dialog {
 //        if (!tipEditor.isClosable()) {
         fileName = tipEditor.getName();
 
-        option = DialogPane.yesNoCancelOption("Save file before close",
-                "Save " + fileName + "?");
+        option = DialogPane.showOption(
+                "Save file before close",
+                "Save " + fileName + "?",
+                DialogPane.YES_NO_CANCEL_OPTION
+        );
 
         if (option == DialogPane.OK_OPTION) {
 //                tipEditor.saveTools();

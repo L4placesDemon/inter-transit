@@ -1,7 +1,0 @@
-- Para subir y bajar de un vehículo, cerciorarse de que esté detenido.
-
-- Esperar el bus en las paradas establecidas.
-
-- Avisar con anticipación cuando baje.
-
-- No sacar la cabeza o brazos por la ventana.

@@ -6,48 +6,63 @@ public class DialogPane extends JOptionPane {
 
     /* ATTRIBUTES ___________________________________________________________ */
     private static final long serialVersionUID = 286880484650781705L;
-    public final static int PLAIN = JOptionPane.PLAIN_MESSAGE;
-    public final static int ERROR = JOptionPane.ERROR_MESSAGE;
-    public final static int INFORMATION = JOptionPane.INFORMATION_MESSAGE;
-    public final static int WARNING = JOptionPane.WARNING_MESSAGE;
-    public final static int QUESTION = JOptionPane.QUESTION_MESSAGE;
 
     /* METHODS ______________________________________________________________ */
-    public static void show(String message) {
-        show(message, -1);
+    public static void showMessage(String title, Object message, int optionType) {
+        showMessageDialog(null, message, title, optionType);
     }
 
     /* ______________________________________________________________________ */
-    public static void show(String message, int type) {
-        String title = type == ERROR ? "Error" : type == INFORMATION ? "Information"
-                : type == WARNING ? "Warning" : type == QUESTION ? "Question" : "";
-        showMessageDialog(null, message, title, type);
+    public static void showMessage(Object message, int optionType) {
+        String title = optionType == ERROR
+                ? "Error" : optionType == INFORMATION_MESSAGE
+                        ? "Information" : optionType == WARNING_MESSAGE
+                                ? "Warning" : optionType == QUESTION_MESSAGE
+                                        ? "Question" : "";
+        DialogPane.showMessage(title, message, optionType);
     }
 
     /* ______________________________________________________________________ */
-    public static void show(String title, String message, int type) {
-        showMessageDialog(null, message, title, type);
+    public static void showMessage(Object message) {
+        DialogPane.showMessage(message, -1);
     }
 
     /* ______________________________________________________________________ */
-    public static int yesNoOption(String message) {
+    public static String showInput(String title, Object message) {
+        return showInputDialog(null, message, title, PLAIN_MESSAGE);
+    }
+
+    /* ______________________________________________________________________ */
+    public static String showSelectedInput(String title, Object message, Object text) {
+        return (String) showInputDialog(
+                null, message, title, PLAIN_MESSAGE, null, null, text
+        );
+    }
+
+    /* ______________________________________________________________________ */
+    public static int showOption(String title, Object message, int optionType) {
         return showOptionDialog(null,
-                message, "Option", YES_NO_OPTION, QUESTION, null, null, 0);
+                message, title, optionType, QUESTION_MESSAGE, null, null, 0);
     }
 
     /* ______________________________________________________________________ */
-    public static int yesNoCancelOption(String title, String message) {
-        return showOptionDialog(null,
-                message, title, YES_NO_CANCEL_OPTION, QUESTION, null, null, 0);
+    public static int showOption(String title, String message) {
+        return showOption(title, message, YES_NO_OPTION);
     }
 
     /* ______________________________________________________________________ */
-    public static String input(String title, String message) {
-        return showInputDialog(null, message, title, PLAIN);
+    public static int showOption(
+            String title, Object message, int optionType,
+            int messageType, Object[] options, Object initialValue
+    ) {
+        return showOptionDialog(
+                null, message, title, optionType,
+                messageType, null, options, initialValue
+        );
     }
 
     /* ______________________________________________________________________ */
-    public static String selectedInput(String title, String message, Object text) {
-        return (String) showInputDialog(null, message, title, PLAIN, null, null, text);
+    public static int showConfirm(Object message, String title, int optionType) {
+        return showConfirmDialog(null, message, title, optionType, PLAIN_MESSAGE);
     }
 }

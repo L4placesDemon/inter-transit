@@ -91,6 +91,11 @@ public interface Tools {
     }
 
     /* ______________________________________________________________________ */
+    public static String getResource(String source) {
+        return Tools.class.getResource(source).getFile();
+    }
+
+    /* ______________________________________________________________________ */
     public static void setClipboard(String string) {
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
                 new StringSelection(string),

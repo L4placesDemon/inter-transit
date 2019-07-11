@@ -102,4 +102,11 @@ public class TextField extends JTextField implements FocusListener {
         this.setFont(new Font(font.getFamily(), Font.ITALIC, font.getSize()));
         this.setText(hint);
     }
+
+    /* SETTERS ______________________________________________________________ */
+    @Override
+    public void setText(String text) {
+        super.setText(text);
+        this.requestFocus();
+    }
 }
