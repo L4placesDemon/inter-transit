@@ -387,7 +387,6 @@ public class MainFrame extends JFrame {
         initTestAccounts();
         sortTestAccounts();
         showTestAccounts();
-//        initTestThemes();
 
         System.out.println(Tools.command("ver"));
         MainFrame mainFrame = new MainFrame(null);

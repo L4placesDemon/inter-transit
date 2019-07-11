@@ -8,6 +8,9 @@ import java.awt.FlowLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JButton;
@@ -158,8 +161,13 @@ public class WorkshopsPanel extends Panel {
 
         // ---------------------------------------------------------------------
 //        themesDirectoryPath = Settings.getResource() + "/src/docs";
-        themesDirectoryPath = Tools.getResource("/docs");
+        themesDirectoryPath = "/docs";
         System.out.println("ddd" + themesDirectoryPath);
+        File docs = new File(themesDirectoryPath);
+
+        if (!docs.exists()) {
+            docs.mkdir();
+        }
 
         themesDirectory = new File(themesDirectoryPath);
 
@@ -365,31 +373,26 @@ public class WorkshopsPanel extends Panel {
         int result;
         Theme theme;
 
-        System.out.println("Creating theme");
         result = createThemeDialog.showDialog();
         if (result != DialogPane.OK_OPTION) {
             return;
         }
-        System.out.println("create process");
 
         theme = createThemeDialog.getTheme();
         if (theme == null) {
             return;
         }
 
-        this.themes.add(theme);
         try {
-            System.out.println("all good");
-            this.createTheme(Tools.class.getResource("/docs")., theme);
-            System.out.println("finish");
+            this.createTheme("/docs", theme);
+            this.getThemes().add(theme);
         } catch (IOException e) {
-            System.out.println("horror");
+            System.out.println(e.getMessage());
         }
     }
 
     /* ______________________________________________________________________ */
     private void createTheme(String path, Theme theme) throws IOException {
-
         File directory;
         PlainFileManager plainFileManager;
         File imageFile;
@@ -399,74 +402,84 @@ public class WorkshopsPanel extends Panel {
         String image = theme.getImage();
         String title = theme.getTitle();
         String description = theme.getDescription();
-        double value = theme.getValue();
         ArrayList<Theme> files = theme.getFiles();
         ArrayList<Pair<Integer, Integer>> accounts = theme.getAccounts();
-        System.out.println("theme created");
 
-        // Crear carpeta
-        directory = new File(path + "/" + title);
+        // Carpeta documentos --------------------------------------------------
+        File docs = new File("docs");
+        if (!docs.exists()) {
+            docs.mkdir();
+        }
+
+        // Crear carpeta -------------------------------------------------------
+        directory = new File(docs.getAbsolutePath() + "/" + title);
         directory.mkdir();
-        System.out.println("folder created");
 
-        // Mover imagen
-        plainFileManager = new PlainFileManager(image);
+        // Mover imagen --------------------------------------------------------
         imageFile = new File(image);
 
-        imageFile.renameTo(new File(directory.getAbsolutePath() + "/" + imageFile.getName()));
-//        plainFileManager.moveTo(directory.getAbsolutePath() + "/" + imageFile.getName());
+        Files.copy(
+                Paths.get(image),
+                Paths.get(directory.getAbsolutePath() + "/" + imageFile.getName()),
+                StandardCopyOption.REPLACE_EXISTING
+        );
         theme.setImage(directory.getAbsolutePath() + "/" + imageFile.getName());
-        System.out.println("image moved");
 
-        // Escribir descripcion
+        // Escribir descripcion ------------------------------------------------
         descriptionFile = new File(directory.getAbsoluteFile() + "/descripcion.txt");
         descriptionFile.createNewFile();
 
         plainFileManager = new PlainFileManager(descriptionFile.getAbsolutePath());
         plainFileManager.write(description);
-        System.out.println("description writed");
 
-        // Crear archivos
+        // Crear archivos ------------------------------------------------------
+        System.out.println(files);
         for (Theme file : files) {
-            if (file instanceof Theme) {
-                this.createTheme(path, file);
-            } else if (file instanceof Tip) {
-                this.createTip(path, (Tip) file);
+            if (file instanceof Tip) {
+                this.createTheme(directory.getAbsolutePath(), file);
+            } else {
+                this.createTip(directory.getAbsolutePath(), (Tip) file);
             }
         }
-        System.out.println("created files");
 
-        // Crear archivo tema
+        // Crear archivo tema --------------------------------------------------
         binaryFileManager = new BinaryFileManager(
                 directory.getAbsolutePath() + "/" + title + ".dat"
         );
         binaryFileManager.write(theme);
-
-        System.out.println("created binary");
     }
 
     /* ______________________________________________________________________ */
     private void createTip(String path, Tip tip) throws IOException {
+        File directory;
         PlainFileManager plainFileManager;
         File imageFile;
-        File descriptionFile;
+        File tipFile;
 
         String image = tip.getImage();
         String title = tip.getTitle();
-        String description = tip.getDescription();
+        String content = tip.getDescription();
+
+        // Crear carpeta
+        directory = new File(path + "/" + title);
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
 
         // Mover Imagen
-        plainFileManager = new PlainFileManager(image);
         imageFile = new File(image);
-        imageFile.renameTo(new File(path + "/" + imageFile.getName()));
-//        plainFileManager.moveTo(path + "/" + imageFile.getName());
+        Files.copy(
+                Paths.get(image),
+                Paths.get(directory.getAbsolutePath() + "/" + imageFile.getName()),
+                StandardCopyOption.REPLACE_EXISTING
+        );
 
         // Escribir archivo
-        descriptionFile = new File(path + "/" + tip.getTitle() + ".txt");
-        descriptionFile.createNewFile();
+        tipFile = new File(directory.getAbsolutePath() + "/" + title + ".txt");
+        tipFile.createNewFile();
 
-        plainFileManager = new PlainFileManager(descriptionFile.getAbsolutePath());
-        plainFileManager.write(description);
+        plainFileManager = new PlainFileManager(tipFile.getAbsolutePath());
+        plainFileManager.write(content);
 
         System.out.println("created file");
     }

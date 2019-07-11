@@ -130,7 +130,7 @@ public class CreateThemeDialog extends Dialog {
 
         this.finishButton.addActionListener(ae -> {
             this.finish();
-            
+
         });
 
         this.cancelButton.addActionListener(ae -> {
@@ -175,7 +175,7 @@ public class CreateThemeDialog extends Dialog {
         tipEditor = new TipEditor(name);
 
         this.tabbedPane.addTab(name, tipEditor);
-        System.out.println("naname " + tipEditor.getName());
+
         tipEditor.setName(name);
         tipEditor.getTipTitleField().requestFocus();
         index = this.tabbedPane.indexOfComponent(tipEditor);
@@ -261,9 +261,9 @@ public class CreateThemeDialog extends Dialog {
             throw new Exception("No se ingreso un titulo para el tema");
         } else if (description.isEmpty()) {
             throw new Exception("No se ingreso una descripcion para el tema");
-        } 
+        }
 
-        Theme theme = new Theme(
+        Theme _theme = new Theme(
                 image,
                 title,
                 description,
@@ -272,9 +272,7 @@ public class CreateThemeDialog extends Dialog {
                 files
         );
 
-        this.setTheme(theme);
-
-        System.out.println(theme);
+        this.setTheme(_theme);
     }
 
     /* ______________________________________________________________________ */
