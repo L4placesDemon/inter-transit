@@ -31,7 +31,7 @@ public interface Tools {
     }
 
     /* ______________________________________________________________________ */
-    public static ImageIcon getIcon(String iconPath) { // /Package/Image.ext
+    public static ImageIcon getIcon(String iconPath) { // Image
         return iconPath != null
                 ? new ImageIcon(Tools.class.getResource(
                         Tools.DEFAULT_IMAGE_PATH
@@ -116,29 +116,6 @@ public interface Tools {
             }
         }
         return result;
-    }
-
-    /* ______________________________________________________________________ */
-    public static String getFileText(File file) {
-        String text = "";
-        String line;
-        BufferedReader bufferedReader;
-
-        try {
-            bufferedReader = new BufferedReader(new FileReader(file));
-            line = bufferedReader.readLine();
-
-            while (line != null) {
-                text += line;
-                line = bufferedReader.readLine();
-                if (line != null) {
-                    text += '\n';
-                }
-            }
-            bufferedReader.close();
-        } catch (IOException e) {
-        }
-        return text;
     }
 
     /* ______________________________________________________________________ */

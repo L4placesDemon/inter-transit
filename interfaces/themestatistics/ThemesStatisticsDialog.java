@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import tools.Tools;
 import tools.components.Dialog;
 
-import worldclasses.Settings;
+import tools.filemanager.PlainFileManager;
 import worldclasses.themes.Theme;
 import worldclasses.themes.Tip;
 
@@ -34,8 +34,8 @@ public class ThemesStatisticsDialog extends Dialog {
     private JButton reloadButton;
 
     /* CONSRUCTORS __________________________________________________________ */
-    public ThemesStatisticsDialog() {
-        this.themes = new ArrayList<>();
+    public ThemesStatisticsDialog(ArrayList<Theme> themes) {
+        this.themes = themes;
 
         this.initComponents();
         this.initEvents();
@@ -80,7 +80,7 @@ public class ThemesStatisticsDialog extends Dialog {
         southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         // ---------------------------------------------------------------------
-        this.setThemes(this.initTheme(Tools.getResource("/docs")).getFiles());
+//        this.setThemes(this.initTheme(Tools.getResource("/docs")).getFiles());
 
         themesPanel.setLayout(new BoxLayout(themesPanel, BoxLayout.Y_AXIS));
 
@@ -144,70 +144,70 @@ public class ThemesStatisticsDialog extends Dialog {
     }
 
     /* ______________________________________________________________________ */
-    private Theme initTheme(String path) {
-        File file = new File(path);
-        Object[] themeData;
-        Theme theme;
-
-        try {
-            themeData = this.getThemeData(path + "/descripcion.txt");
-            theme = new Theme(
-                    null,
-                    file.getName(),
-                    themeData[0] + "",
-                    Double.parseDouble(themeData[1] + ""),
-                    Integer.parseInt(themeData[2] + ""),
-                    new ArrayList<>()
-            );
-        } catch (FileNotFoundException | NumberFormatException e) {
-            if (file.isDirectory()) {
-                theme = new Theme(file.getName(), "");
-            } else {
-                theme = new Tip(file.getName(), Tools.getFileText(file));
-            }
-        }
-
-        if (file.isDirectory()) {
-            for (File listFile : file.listFiles()) {
-                if (!listFile.getName().equals("descripcion.txt")) {
-                    theme.getFiles().add(this.initTheme(
-                            listFile.getAbsolutePath()
-                    ));
-                }
-            }
-        }
-        return theme;
-    }
+//    private Theme initTheme(String path) {
+//        File file = new File(path);
+//        Object[] themeData;
+//        Theme theme;
+//
+//        try {
+//            themeData = this.getThemeData(path + "/descripcion.txt");
+//            theme = new Theme(
+//                    null,
+//                    file.getName(),
+//                    themeData[0] + "",
+//                    Double.parseDouble(themeData[1] + ""),
+//                    Integer.parseInt(themeData[2] + ""),
+//                    new ArrayList<>()
+//            );
+//        } catch (FileNotFoundException | NumberFormatException e) {
+//            if (file.isDirectory()) {
+//                theme = new Theme(file.getName(), "");
+//            } else {
+//                theme = new Tip(file.getName(), new PlainFileManager(file).read());
+//            }
+//        }
+//
+//        if (file.isDirectory()) {
+//            for (File listFile : file.listFiles()) {
+//                if (!listFile.getName().equals("descripcion.txt")) {
+//                    theme.getFiles().add(this.initTheme(
+//                            listFile.getAbsolutePath()
+//                    ));
+//                }
+//            }
+//        }
+//        return theme;
+//    }
 
     /* ______________________________________________________________________ */
-    private Object[] getThemeData(String themeDirectoryPath) throws FileNotFoundException {
-        File descriptionFile = new File(themeDirectoryPath);
-
-        if (descriptionFile.exists()) {
-            String text = Tools.getFileText(descriptionFile);
-
-            int start = text.indexOf('=') + 1;
-            int end = text.indexOf('\n');
-            String description = text.substring(start, end);
-
-            start = text.indexOf('=', start) + 1;
-            end = text.indexOf('\n', end + 1);
-            String value = text.substring(start, end);
-
-            start = text.indexOf('=', start) + 1;
-            end = text.indexOf('\n', end + 1);
-            String views = text.substring(start, end);
-
-            return new Object[]{
-                description,
-                Double.parseDouble(value),
-                Integer.parseInt(views)
-            };
-        } else {
-            System.out.println("description file do not exists");
-            throw new FileNotFoundException("description file do no exists");
-        }
-    }
+//    private Object[] getThemeData(String themeDirectoryPath) throws FileNotFoundException {
+//        File descriptionFile = new File(themeDirectoryPath);
+//
+//        if (descriptionFile.exists()) {
+//            String text = new PlainFileManager(descriptionFile).read();
+//
+//            int start = text.indexOf('=') + 1;
+//            int end = text.indexOf('\n');
+//            String description = text.substring(start, end);
+//
+//            start = text.indexOf('=', start) + 1;
+//            end = text.indexOf('\n', end + 1);
+//            String value = text.substring(start, end);
+//
+//            start = text.indexOf('=', start) + 1;
+//            end = text.indexOf('\n', end + 1);
+//            String views = text.substring(start, end);
+//
+//            return new Object[]{
+//                description,
+//                Double.parseDouble(value),
+//                Integer.parseInt(views)
+//            };
+//        } else {
+//            System.out.println("description file do not exists");
+//            throw new FileNotFoundException("description file do no exists");
+//        }
+//    }
 
     /* GETTERS ______________________________________________________________ */
     public ArrayList<Theme> getThemes() {
@@ -221,6 +221,6 @@ public class ThemesStatisticsDialog extends Dialog {
 
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
-        new ThemesStatisticsDialog().showTestDialog();
+//        new ThemesStatisticsDialog().showTestDialog();
     }
 }

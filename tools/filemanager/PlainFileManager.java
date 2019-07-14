@@ -12,11 +12,16 @@ import java.nio.file.StandardCopyOption;
 public class PlainFileManager {
 
     /* ATTRIBUTTES __________________________________________________________ */
-    private String pathFile;
+    private File file;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public PlainFileManager(String pathFile) {
-        this.pathFile = pathFile;
+    public PlainFileManager(File file) {
+        this.file = file;
+    }
+
+    /* ______________________________________________________________________ */
+    public PlainFileManager(String filePath) {
+        this(new File(filePath));
     }
 
     /* METHODS ______________________________________________________________ */
@@ -26,7 +31,7 @@ public class PlainFileManager {
         BufferedReader bufferedReader;
 
         try {
-            bufferedReader = new BufferedReader(new FileReader(new File(this.pathFile)));
+            bufferedReader = new BufferedReader(new FileReader(this.file));
             line = bufferedReader.readLine();
 
             while (line != null) {
@@ -47,14 +52,13 @@ public class PlainFileManager {
     /* ______________________________________________________________________ */
     public void write(String text) {
         try {
-            File file = new File(this.pathFile);
             FileWriter fileWriter;
 
-            if (!file.exists()) {
-                file.createNewFile();
+            if (!this.file.exists()) {
+                this.file.createNewFile();
             }
 
-            fileWriter = new FileWriter(file);
+            fileWriter = new FileWriter(this.file);
             fileWriter.write(text);
             fileWriter.close();
         } catch (IOException e) {
@@ -65,31 +69,17 @@ public class PlainFileManager {
     /* ______________________________________________________________________ */
     private void append(String text) {
         try {
-            File file = new File(this.pathFile);
             FileWriter fileWriter;
 
-            if (!file.exists()) {
+            if (!this.file.exists()) {
                 this.write(text);
             } else {
-                fileWriter = new FileWriter(file, true);
+                fileWriter = new FileWriter(this.file, true);
                 fileWriter.write(text);
                 fileWriter.close();
             }
         } catch (IOException e) {
             System.out.println(e);
-        }
-    }
-
-    /* ______________________________________________________________________ */
-    public void moveTo(String newPathFile) {
-        try {
-            Files.move(
-                    Paths.get(this.pathFile),
-                    Paths.get(newPathFile),
-                    StandardCopyOption.REPLACE_EXISTING
-            );
-        } catch (IOException ex) {
-            System.out.println("Can not move " + this.pathFile + " to " + newPathFile);
         }
     }
 }

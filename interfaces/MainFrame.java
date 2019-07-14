@@ -388,7 +388,7 @@ public class MainFrame extends JFrame {
         sortTestAccounts();
         showTestAccounts();
 
-        System.out.println(Tools.command("ver"));
+//        System.out.println(Tools.command("ver"));
         MainFrame mainFrame = new MainFrame(null);
         mainFrame.setVisible(true);
     }

@@ -1,6 +1,7 @@
 package interfaces.workshops;
 
 import interfaces.createtheme.CreateThemeDialog;
+import interfaces.themestatistics.ThemesStatisticsDialog;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -24,7 +25,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import tools.Pair;
-import tools.Tools;
 import tools.components.DialogPane;
 import tools.components.Panel;
 import tools.filemanager.BinaryFileManager;
@@ -52,6 +52,8 @@ public class WorkshopsPanel extends Panel {
     private JButton backButton;
     private JButton createButton;
     private JButton removeButton;
+    private JButton editButton;
+    private JButton statisticsButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public WorkshopsPanel(Account account) {
@@ -85,6 +87,8 @@ public class WorkshopsPanel extends Panel {
         this.backButton = new JButton("Volver");
         this.createButton = new JButton("Nuevo");
         this.removeButton = new JButton("Eliminar");
+        this.editButton = new JButton("Editar");
+        this.statisticsButton = new JButton("Estadisticas");
 
         treeScrollPane = new JScrollPane(this.themesTree);
 
@@ -149,6 +153,14 @@ public class WorkshopsPanel extends Panel {
         this.removeButton.addActionListener(ae -> {
             this.removeTheme();
         });
+
+        this.editButton.addActionListener(ae -> {
+
+        });
+
+        this.statisticsButton.addActionListener(ae -> {
+            new ThemesStatisticsDialog(this.getThemes()).showDialog();
+        });
     }
 
     /* ______________________________________________________________________ */
@@ -161,8 +173,7 @@ public class WorkshopsPanel extends Panel {
 
         // ---------------------------------------------------------------------
 //        themesDirectoryPath = Settings.getResource() + "/src/docs";
-        themesDirectoryPath = "/docs";
-        System.out.println("ddd" + themesDirectoryPath);
+        themesDirectoryPath = "docs";
         File docs = new File(themesDirectoryPath);
 
         if (!docs.exists()) {
@@ -181,26 +192,44 @@ public class WorkshopsPanel extends Panel {
                 root.add(this.initFiles(listFile.getAbsolutePath()));
             }
         }
+        System.out.println("Tthemes");
+        System.out.println(this.getThemes());
 
-        this.setThemes(this.initTheme(themesDirectoryPath).getFiles());
-
+//        this.setThemes(this.initTheme(themesDirectoryPath).getFiles());
         return defaultTreeModel;
     }
 
     /* ______________________________________________________________________ */
     private DefaultMutableTreeNode initFiles(String path) {
         File file = new File(path);
-        DefaultMutableTreeNode defaultMutableTreeNode;
-        defaultMutableTreeNode = new DefaultMutableTreeNode(
-                file.getName().replace(".txt", "")
-        );
+        DefaultMutableTreeNode defaultMutableTreeNode = null;
+        DefaultMutableTreeNode child;
 
         if (file.isDirectory()) {
             for (File listFile : file.listFiles()) {
-                if (!listFile.getName().equals("descripcion.txt")) {
-                    defaultMutableTreeNode.add(this.initFiles(
+//                if (!listFile.getName().equals("descripcion.txt")) {
+//                    defaultMutableTreeNode.add(this.initFiles(
+//                            listFile.getAbsolutePath()
+//                    ));
+//                }
+                if (listFile.getName().contains(".dat")) {
+                    defaultMutableTreeNode = new DefaultMutableTreeNode(
+                            file.getName()//.replace(".txt", "")
+                    );
+
+                    Theme _file = (Theme) new BinaryFileManager(
                             listFile.getAbsolutePath()
-                    ));
+                    ).read().get(0);
+
+                    if (_file instanceof Theme) {
+                        this.getThemes().add(_file);
+
+                        for (Theme _file_ : _file.getFiles()) {
+                            defaultMutableTreeNode.add(
+                                    new DefaultMutableTreeNode(_file_.getTitle())
+                            );
+                        }
+                    }
                 }
             }
         }
@@ -227,7 +256,7 @@ public class WorkshopsPanel extends Panel {
             if (file.isDirectory()) {
                 theme = new Theme(file.getName(), "");
             } else {
-                theme = new Tip(file.getName(), Tools.getFileText(file));
+                theme = new Tip(file.getName(), new PlainFileManager(file).read());
             }
         }
 
@@ -248,7 +277,7 @@ public class WorkshopsPanel extends Panel {
         File descriptionFile = new File(themeDirectoryPath);
 
         if (descriptionFile.exists()) {
-            String text = Tools.getFileText(descriptionFile);
+            String text = new PlainFileManager(descriptionFile).read();
 
             int start = text.indexOf('=') + 1;
             int end = text.indexOf('\n');
@@ -330,11 +359,7 @@ public class WorkshopsPanel extends Panel {
             if (tip instanceof Tip) {
                 this.remove(this.tipPanel);
 
-                if (this.getAccount() instanceof AdminAccount) {
-                    this.tipPanel = new TipAdminPanel(theme, (Tip) tip);
-                } else {
-                    this.tipPanel = new TipUserPanel(theme, (Tip) tip);
-                }
+                this.tipPanel = new TipPanel(theme, (Tip) tip);
 
                 this.add(this.tipPanel, BorderLayout.CENTER);
                 this.tipPanel.updateUI();
@@ -384,7 +409,7 @@ public class WorkshopsPanel extends Panel {
         }
 
         try {
-            this.createTheme("/docs", theme);
+            this.createTheme("docs", theme);
             this.getThemes().add(theme);
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -406,7 +431,7 @@ public class WorkshopsPanel extends Panel {
         ArrayList<Pair<Integer, Integer>> accounts = theme.getAccounts();
 
         // Carpeta documentos --------------------------------------------------
-        File docs = new File("docs");
+        File docs = new File(path);
         if (!docs.exists()) {
             docs.mkdir();
         }
@@ -414,6 +439,8 @@ public class WorkshopsPanel extends Panel {
         // Crear carpeta -------------------------------------------------------
         directory = new File(docs.getAbsolutePath() + "/" + title);
         directory.mkdir();
+        System.out.println("path " + path);
+        System.out.println("theme path " + directory.getAbsolutePath());
 
         // Mover imagen --------------------------------------------------------
         imageFile = new File(image);
@@ -436,9 +463,11 @@ public class WorkshopsPanel extends Panel {
         System.out.println(files);
         for (Theme file : files) {
             if (file instanceof Tip) {
-                this.createTheme(directory.getAbsolutePath(), file);
-            } else {
+                System.out.println("i1 " + file.getImage());
                 this.createTip(directory.getAbsolutePath(), (Tip) file);
+                System.out.println("i2 " + file.getImage());
+            } else {
+                this.createTheme(directory.getAbsolutePath(), file);
             }
         }
 
@@ -462,9 +491,7 @@ public class WorkshopsPanel extends Panel {
 
         // Crear carpeta
         directory = new File(path + "/" + title);
-        if (!directory.exists()) {
-            directory.mkdir();
-        }
+        directory.mkdir();
 
         // Mover Imagen
         imageFile = new File(image);
@@ -473,6 +500,7 @@ public class WorkshopsPanel extends Panel {
                 Paths.get(directory.getAbsolutePath() + "/" + imageFile.getName()),
                 StandardCopyOption.REPLACE_EXISTING
         );
+        tip.setImage(directory.getAbsolutePath() + "/" + imageFile.getName());
 
         // Escribir archivo
         tipFile = new File(directory.getAbsolutePath() + "/" + title + ".txt");
@@ -480,8 +508,6 @@ public class WorkshopsPanel extends Panel {
 
         plainFileManager = new PlainFileManager(tipFile.getAbsolutePath());
         plainFileManager.write(content);
-
-        System.out.println("created file");
     }
 
     /* ______________________________________________________________________ */

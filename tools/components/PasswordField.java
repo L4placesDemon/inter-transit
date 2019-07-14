@@ -19,16 +19,10 @@ public class PasswordField extends JPasswordField {
     public PasswordField() {
         this.echoChar = getEchoChar();
 
-        this.initComponents();
         this.initEvents();
     }
 
     /* METHODS ______________________________________________________________ */
-    private void initComponents() {
-//        this.setBorder(null);
-    }
-
-    /* ______________________________________________________________________ */
     private void initEvents() {
         this.undoManager = new UndoManager();
         this.getDocument().addUndoableEditListener(undoManager);
