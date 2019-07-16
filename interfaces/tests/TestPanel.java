@@ -1,20 +1,26 @@
 package interfaces.tests;
 
+import java.awt.BorderLayout;
+import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 import tools.components.Panel;
 
 import worldclasses.accounts.Account;
 
-public class Test extends Panel {
+public class TestPanel extends Panel {
 
     /* ATTRIBUTES ___________________________________________________________ */
     private Account account;
 
+    private JLabel statementLabel;
+    private ArrayList<JButton> optionButtons;
+
     private JButton backButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public Test(Account account) {
+    public TestPanel(Account account) {
         this.account = account;
 
         this.initComponents();
@@ -24,6 +30,8 @@ public class Test extends Panel {
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
         // Set up Panel --------------------------------------------------------
+        this.setLayout(new BorderLayout());
+
         // Set up Components ---------------------------------------------------
         // ---------------------------------------------------------------------
         // ---------------------------------------------------------------------

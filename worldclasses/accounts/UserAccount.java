@@ -57,6 +57,11 @@ public class UserAccount extends Account {
         return points;
     }
 
+    /* ______________________________________________________________________ */
+    public ArrayList<String> getViewedThemes() {
+        return this.viewedThemes;
+    }
+
     /* SETTERS ______________________________________________________________ */
     public void setLevel(Integer level) {
         this.level = level;
@@ -65,6 +70,11 @@ public class UserAccount extends Account {
     /* ______________________________________________________________________ */
     public void setPoints(Integer points) {
         this.points = points;
+    }
+
+    /* ______________________________________________________________________ */
+    public void setViewedThemes(ArrayList<String> viewedThemes) {
+        this.viewedThemes = viewedThemes;
     }
 
     /* METHODS ______________________________________________________________ */

@@ -1,10 +1,10 @@
 package interfaces.workshops;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import tools.Tools;
 
@@ -26,6 +26,7 @@ public class FilePanel extends JPanel {
     private TextField themeTitleField;
     private TextField themeValueField;
     private TextArea themeDescriptionArea;
+    private JProgressBar progressBar;
 
     private JLabel tipImageLabel;
     private TextField tipTitleField;
@@ -58,6 +59,9 @@ public class FilePanel extends JPanel {
         this.themeTitleField = new TextField(this.getTheme().getTitle());
         this.themeDescriptionArea = new TextArea(this.getTheme().getDescription());
         this.themeValueField = new TextField(this.getTheme().getValue() + "");
+        this.progressBar = new JProgressBar(
+                JProgressBar.VERTICAL, 0, this.getTheme().getFiles().size()
+        );
 
         this.tipImageLabel = new JLabel();
         this.tipTitleField = new TextField(this.getTip().getTitle());
@@ -98,6 +102,7 @@ public class FilePanel extends JPanel {
         themePanel.add(themeNorthPanel, BorderLayout.NORTH);
         themePanel.add(this.themeImageLabel, BorderLayout.WEST);
         themePanel.add(themeScrollPane, BorderLayout.CENTER);
+        themePanel.add(this.progressBar, BorderLayout.EAST);
 
         tipImagePanel.add(this.tipImageLabel);
 

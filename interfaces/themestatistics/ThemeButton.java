@@ -40,7 +40,7 @@ public class ThemeButton extends JButton {
 
         // ---------------------------------------------------------------------
         if (this.theme.getImage() != null) {
-            imageLabel.setIcon(Tools.getImageIcon(this.theme.getImage()));
+            imageLabel.setIcon(Tools.getAbsoluteImageIcon(this.theme.getImage(), 20, 20));
         }
 
         // ---------------------------------------------------------------------

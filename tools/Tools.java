@@ -91,6 +91,11 @@ public interface Tools {
     }
 
     /* ______________________________________________________________________ */
+    public static ImageIcon getAbsoluteImageIcon(String imagePath) {
+        return new ImageIcon(Tools.getAbsoluteImage(imagePath));
+    }
+
+    /* ______________________________________________________________________ */
     public static String getResource(String source) {
         return Tools.class.getResource(source).getFile();
     }
@@ -121,7 +126,7 @@ public interface Tools {
     /* ______________________________________________________________________ */
     public static String command(String command) throws IOException {
         String text = "";
-        
+
         ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", command);
         builder.redirectErrorStream(true);
         Process p = builder.start();

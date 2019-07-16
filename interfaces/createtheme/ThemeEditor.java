@@ -138,9 +138,9 @@ public class ThemeEditor extends JPanel {
     private DefaultMutableTreeNode initNode(Theme theme) {
         DefaultMutableTreeNode node = new DefaultMutableTreeNode(theme.getTitle());
 
-        this.getTheme().getFiles().forEach(i -> {
-            node.add(this.initNode(i));
-        });
+        for (Theme file : theme.getFiles()) {
+            node.add(this.initNode(file));
+        }
 
         return node;
     }

@@ -10,8 +10,6 @@ import javax.swing.JSeparator;
 public class MenuBar extends JMenuBar {
 
     private JMenuItem newItem;
-    private JMenuItem closeItem;
-    private JMenuItem closeAllItem;
     private JMenuItem finishItem;
 
     private JMenuItem undoItem;
@@ -68,8 +66,6 @@ public class MenuBar extends JMenuBar {
         fileMenu.setMnemonic(KeyEvent.VK_F);
         fileMenu.add(newItem);
         fileMenu.add(new JSeparator());
-        fileMenu.add(closeItem);
-        fileMenu.add(closeAllItem);
         fileMenu.add(new JSeparator());
         fileMenu.add(finishItem);
 
@@ -105,16 +101,6 @@ public class MenuBar extends JMenuBar {
     /* ______________________________________________________________________ */
     public JMenuItem getNewItem() {
         return newItem;
-    }
-
-    /* ______________________________________________________________________ */
-    public JMenuItem getCloseItem() {
-        return closeItem;
-    }
-
-    /* ______________________________________________________________________ */
-    public JMenuItem getCloseAllItem() {
-        return closeAllItem;
     }
 
     /* ______________________________________________________________________ */

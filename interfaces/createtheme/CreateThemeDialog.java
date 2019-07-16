@@ -40,7 +40,7 @@ public class CreateThemeDialog extends Dialog {
     private TextArea themeDescriptionArea;
 
     private JTabbedPane tabbedPane;
-    private ArrayList<ThemeEditor> tipEditors;
+    private ArrayList<ThemeEditor> themeEditors;
 
     private JButton finishButton;
     private JButton cancelButton;
@@ -48,7 +48,7 @@ public class CreateThemeDialog extends Dialog {
     /* CONSTRUCTORS _________________________________________________________ */
     public CreateThemeDialog(Theme theme) {
         this.theme = theme;
-        tipEditors = new ArrayList<>();
+        themeEditors = new ArrayList<>();
 
         this.initComponents();
         this.initEvents();
@@ -104,12 +104,15 @@ public class CreateThemeDialog extends Dialog {
             this.themeValueField.setText(this.getTheme().getValue() + "");
 
             if (this.getTheme().getImage() != null) {
+                this.themeImageLabel.setName(this.getTheme().getImage());
+
                 this.themeImageLabel.setIcon(Tools.getAbsoluteImageIcon(
                         this.getTheme().getImage(),
-                        this.themeImageLabel.getWidth(),
-                        this.themeImageLabel.getHeight()
+                        120,
+                        120
                 ));
             }
+
             this.themeDescriptionArea.setText(this.getTheme().getDescription());
         }
 
@@ -198,7 +201,7 @@ public class CreateThemeDialog extends Dialog {
         this.tabbedPane.setTabComponentAt(index, titleTab);
         this.tabbedPane.setSelectedIndex(index);
 
-        this.tipEditors.add(tipEditor);
+        this.themeEditors.add(tipEditor);
 
         tipEditor.getTitleField().addKeyListener(new KeyAdapter() {
             @Override
@@ -244,7 +247,7 @@ public class CreateThemeDialog extends Dialog {
         this.tabbedPane.setTabComponentAt(index, titleTab);
         this.tabbedPane.setSelectedIndex(index);
 
-        this.tipEditors.add(themeEditor);
+        this.themeEditors.add(themeEditor);
 
         titleTab.addCloseAction(ae -> {
             this.closeTab(themeEditor);
@@ -332,16 +335,23 @@ public class CreateThemeDialog extends Dialog {
     private ArrayList<Theme> getFiles() {
         ArrayList<Theme> files = new ArrayList<>();
 
-        for (Component component : this.tabbedPane.getComponents()) {
-            if (component.getName() != null) {
-                if (component instanceof TipEditor) {
-                    files.add(((TipEditor) component).getTip());
-                } else if (component instanceof ThemeEditor) {
-                    files.add(((ThemeEditor) component).getTheme());
-                }
+        for (ThemeEditor themeEditor : this.themeEditors) {
+            if (themeEditor instanceof TipEditor) {
+                files.add(((TipEditor) themeEditor).getTip());
+            } else if (themeEditor instanceof ThemeEditor) {
+                files.add(themeEditor.getTheme());
             }
         }
 
+//        for (Component component : this.tabbedPane.getComponents()) {
+//            if (component.getName() != null) {
+//                if (component instanceof TipEditor) {
+//                    files.add(((TipEditor) component).getTip());
+//                } else if (component instanceof ThemeEditor) {
+//                    files.add(((ThemeEditor) component).getTheme());
+//                }
+//            }
+//        }
         return files;
     }
 
@@ -372,15 +382,15 @@ public class CreateThemeDialog extends Dialog {
     /* ______________________________________________________________________ */
     public void closeTab(ThemeEditor themeEditor) {
         int option = DialogPane.showOption(
-                "Eliminar Tip",
-                "Eliminar definitivamente el tip "
+                "Eliminar Pestaña",
+                "Eliminar definitivamente la pestaña "
                 + themeEditor.getTheme().getTitle() + "?",
                 DialogPane.YES_NO_OPTION
         );
 
         if (option == DialogPane.OK_OPTION) {
             this.tabbedPane.remove(themeEditor);
-            this.tipEditors.remove(themeEditor);
+            this.themeEditors.remove(themeEditor);
             Tools.output(themeEditor + " closed");
         }
     }

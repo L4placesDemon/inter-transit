@@ -2,12 +2,12 @@ package interfaces.workshops;
 
 import interfaces.createtheme.CreateThemeDialog;
 import interfaces.themestatistics.ThemesStatisticsDialog;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -25,6 +25,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import tools.Pair;
+import tools.Tools;
 import tools.components.DialogPane;
 import tools.components.Panel;
 import tools.filemanager.BinaryFileManager;
@@ -47,9 +48,10 @@ public class WorkshopsPanel extends Panel {
 
     private AccountButton accountButton;
     private JTree themesTree;
-    private JPanel pPanel;
+    private JPanel filePanel;
 
     private JButton backButton;
+
     private JButton createButton;
     private JButton removeButton;
     private JButton editButton;
@@ -82,13 +84,14 @@ public class WorkshopsPanel extends Panel {
         this.themesTree = new JTree(this.initTree());
 
         westPanel = new JPanel(new BorderLayout());
-        this.pPanel = new JPanel();
+        this.filePanel = new JPanel();
 
         this.backButton = new JButton("Volver");
-        this.createButton = new JButton("Nuevo");
-        this.removeButton = new JButton("Eliminar");
-        this.editButton = new JButton("Editar");
         this.statisticsButton = new JButton("Estadisticas");
+
+        this.createButton = new JButton(Tools.getImageIcon("add", 30, 30));
+        this.editButton = new JButton(Tools.getImageIcon("edit", 30, 30));
+        this.removeButton = new JButton(Tools.getImageIcon("remove", 30, 30));
 
         treeScrollPane = new JScrollPane(this.themesTree);
 
@@ -116,22 +119,29 @@ public class WorkshopsPanel extends Panel {
             }
         });
 
+        this.createButton.setBorder(null);
+        this.editButton.setBorder(null);
+        this.removeButton.setBorder(null);
+
         isAdmin = this.getAccount() instanceof AdminAccount;
         this.createButton.setVisible(isAdmin);
+        this.editButton.setVisible(isAdmin);
         this.removeButton.setVisible(isAdmin);
 
         // ---------------------------------------------------------------------
-        buttonsPanel.add(this.removeButton);
         buttonsPanel.add(this.createButton);
+        buttonsPanel.add(this.editButton);
+        buttonsPanel.add(this.removeButton);
 
         westPanel.add(this.accountButton, BorderLayout.NORTH);
         westPanel.add(treeScrollPane, BorderLayout.CENTER);
         westPanel.add(buttonsPanel, BorderLayout.SOUTH);
 
+        southPanel.add(this.statisticsButton);
         southPanel.add(this.backButton);
 
         this.add(westPanel, BorderLayout.WEST);
-        this.add(this.pPanel, BorderLayout.CENTER);
+        this.add(this.filePanel, BorderLayout.CENTER);
         this.add(southPanel, BorderLayout.SOUTH);
     }
 
@@ -155,7 +165,7 @@ public class WorkshopsPanel extends Panel {
         });
 
         this.editButton.addActionListener(ae -> {
-
+            this.editTheme();
         });
 
         this.statisticsButton.addActionListener(ae -> {
@@ -238,10 +248,10 @@ public class WorkshopsPanel extends Panel {
         this.accountButton.accountAction();
         this.setAccount(this.accountButton.getAccount());
 
-        if (this.pPanel instanceof FilePanel) {
+        if (this.filePanel instanceof FilePanel) {
 
-            themeTitle = ((FilePanel) this.pPanel).getTheme().getTitle();
-            tipTitle = ((FilePanel) this.pPanel).getTip().getTitle();
+            themeTitle = ((FilePanel) this.filePanel).getTheme().getTitle();
+            tipTitle = ((FilePanel) this.filePanel).getTip().getTitle();
 
             this.showTip(themeTitle, tipTitle);
             System.out.println(themeTitle + ", " + tipTitle);
@@ -249,6 +259,7 @@ public class WorkshopsPanel extends Panel {
 
         isAdmin = this.getAccount() instanceof AdminAccount;
         this.createButton.setVisible(isAdmin);
+        this.editButton.setVisible(isAdmin);
         this.removeButton.setVisible(isAdmin);
     }
 
@@ -275,25 +286,26 @@ public class WorkshopsPanel extends Panel {
 
     /* ______________________________________________________________________ */
     private void showTip(String themeTitle, String tipTitle) {
-
         Theme theme = this.searchTheme(themeTitle);
         Theme tip = this.searchTheme(tipTitle);
 
-        System.out.println("Theme=" + theme);
-        System.out.println("Tip=" + (Tip) tip);
-
         if (theme != null && tip != null) {
             if (tip instanceof Tip) {
-                System.out.println("bien");
-                this.remove(this.pPanel);
 
-                System.out.println("ToTheme");
-                System.out.println(theme);
-                System.out.println((Tip) tip);
-                this.pPanel = new FilePanel(theme, (Tip) tip);
+                this.remove(this.filePanel);
+                this.filePanel = new FilePanel(theme, (Tip) tip);
 
-                this.add(this.pPanel, BorderLayout.CENTER);
-                this.pPanel.updateUI();
+                this.add(this.filePanel, BorderLayout.CENTER);
+                this.filePanel.updateUI();
+
+                if (this.getAccount() instanceof UserAccount) {
+                    ArrayList<String> viewedThemes;
+                    viewedThemes = ((UserAccount) this.getAccount()).getViewedThemes();
+
+                    if (!viewedThemes.contains(theme.getTitle())) {
+                        viewedThemes.add(theme.getTitle());
+                    }
+                }
             }
         }
     }
@@ -443,7 +455,12 @@ public class WorkshopsPanel extends Panel {
 
     /* ______________________________________________________________________ */
     private void removeTheme() {
+        System.out.println(Arrays.toString(this.themesTree.getSelectionPath().getPath()));
+    }
 
+    /* ______________________________________________________________________ */
+    private void editTheme() {
+        System.out.println(Arrays.toString(this.themesTree.getSelectionPath().getPath()));
     }
 
     /* GETTERS ______________________________________________________________ */
