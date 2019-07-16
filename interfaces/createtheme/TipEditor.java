@@ -19,31 +19,24 @@ import tools.components.TextField;
 
 import worldclasses.themes.Tip;
 
-public class TipEditor extends JPanel {
+public class TipEditor extends ThemeEditor {
 
     /* ATTRIBUTES ___________________________________________________________ */
-    private Tip tip;
-
-    private JLabel tipImageLabel;
-    private JButton setTipImageButton;
-    private TextField tipTitleField;
-    private TextArea tipContentArea;
+    private JButton imageButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public TipEditor(String title) {
-        this.tip = new Tip(title, "");
-
-        this.initComponents();
-        this.initEvents();
+    public TipEditor(Tip tip) {
+        super(tip);
     }
 
     /* ______________________________________________________________________ */
     public TipEditor() {
-        this("");
+        this(new Tip("", ""));
     }
 
     /* METHODS ______________________________________________________________ */
-    private void initComponents() {
+    @Override
+    protected void initComponents() {
         JPanel centerPanel;
         JPanel westPanel;
 
@@ -51,53 +44,54 @@ public class TipEditor extends JPanel {
         this.setLayout(new BorderLayout());
 
         // Set up Components ---------------------------------------------------
-        this.tipImageLabel = new JLabel();
-        this.setTipImageButton = new JButton(" Elegir Imagen ");
+        super.imageLabel = new JLabel();
+        this.imageButton = new JButton(" Elegir Imagen ");
 
-        this.tipTitleField = new TextField();
-        this.tipContentArea = new TextArea();
+        super.titleField = new TextField();
+        super.descriptionArea = new TextArea();
 
         centerPanel = new JPanel(new BorderLayout());
         westPanel = new JPanel();
 
         // ---------------------------------------------------------------------
-        this.tipImageLabel.setMaximumSize(new Dimension(120, 110));
-        this.tipImageLabel.setPreferredSize(new Dimension(120, 110));
+        super.imageLabel.setMaximumSize(new Dimension(120, 110));
+        super.imageLabel.setPreferredSize(new Dimension(120, 110));
 
-        this.tipTitleField.setHint("Titulo");
-        this.tipTitleField.setText(this.getTip().getTitle());
+        super.titleField.setHint("Titulo");
+        super.titleField.setText(this.getTip().getTitle());
 
         westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.Y_AXIS));
         westPanel.setBorder(new EtchedBorder());
 
         // ---------------------------------------------------------------------
-        centerPanel.add(this.tipTitleField, BorderLayout.NORTH);
-        centerPanel.add(this.tipContentArea, BorderLayout.CENTER);
+        centerPanel.add(super.titleField, BorderLayout.NORTH);
+        centerPanel.add(super.descriptionArea, BorderLayout.CENTER);
 
-        westPanel.add(this.tipImageLabel);
-        westPanel.add(this.setTipImageButton);
+        westPanel.add(super.imageLabel);
+        westPanel.add(this.imageButton);
 
         this.add(centerPanel, BorderLayout.CENTER);
         this.add(westPanel, BorderLayout.WEST);
     }
 
     /* ______________________________________________________________________ */
-    private void initEvents() {
-        this.setTipImageButton.addActionListener(ae -> {
+    @Override
+    protected void initEvents() {
+        this.imageButton.addActionListener(ae -> {
             this.setImageAction();
         });
 
-        this.tipTitleField.addKeyListener(new KeyAdapter() {
+        super.titleField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent ke) {
-                getTip().setTitle(tipTitleField.getText());
+                getTip().setTitle(titleField.getText());
             }
         });
 
-        this.tipContentArea.addKeyListener(new KeyAdapter() {
+        super.descriptionArea.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent arg0) {
-                getTip().setDescription(tipContentArea.getText());
+                getTip().setDescription(descriptionArea.getText());
             }
         });
     }
@@ -115,10 +109,10 @@ public class TipEditor extends JPanel {
 
         if (result == JFileChooser.APPROVE_OPTION) {
             image = fileChooser.getSelectedFile();
-            this.tipImageLabel.setIcon(Tools.getAbsoluteImageIcon(
+            super.imageLabel.setIcon(Tools.getAbsoluteImageIcon(
                     image.getAbsolutePath(),
-                    this.tipImageLabel.getWidth(),
-                    this.tipImageLabel.getHeight())
+                    super.imageLabel.getWidth(),
+                    super.imageLabel.getHeight())
             );
             this.getTip().setImage(image.getAbsolutePath());
         }
@@ -132,16 +126,16 @@ public class TipEditor extends JPanel {
 
     /* GETTERS ______________________________________________________________ */
     public Tip getTip() {
-        return this.tip;
+        return (Tip) this.getTheme();
     }
 
     /* ______________________________________________________________________ */
-    public TextField getTipTitleField() {
-        return this.tipTitleField;
+    public TextField getTitleField() {
+        return this.titleField;
     }
 
     /* SETTERS_______________________________________________________________ */
     public void setTip(Tip tip) {
-        this.tip = tip;
+        this.setTheme(tip);
     }
 }

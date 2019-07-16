@@ -47,7 +47,7 @@ public class WorkshopsPanel extends Panel {
 
     private AccountButton accountButton;
     private JTree themesTree;
-    private JPanel tipPanel;
+    private JPanel pPanel;
 
     private JButton backButton;
     private JButton createButton;
@@ -82,7 +82,7 @@ public class WorkshopsPanel extends Panel {
         this.themesTree = new JTree(this.initTree());
 
         westPanel = new JPanel(new BorderLayout());
-        this.tipPanel = new JPanel();
+        this.pPanel = new JPanel();
 
         this.backButton = new JButton("Volver");
         this.createButton = new JButton("Nuevo");
@@ -131,7 +131,7 @@ public class WorkshopsPanel extends Panel {
         southPanel.add(this.backButton);
 
         this.add(westPanel, BorderLayout.WEST);
-        this.add(this.tipPanel, BorderLayout.CENTER);
+        this.add(this.pPanel, BorderLayout.CENTER);
         this.add(southPanel, BorderLayout.SOUTH);
     }
 
@@ -172,7 +172,6 @@ public class WorkshopsPanel extends Panel {
         File themesDirectory;
 
         // ---------------------------------------------------------------------
-//        themesDirectoryPath = Settings.getResource() + "/src/docs";
         themesDirectoryPath = "docs";
         File docs = new File(themesDirectoryPath);
 
@@ -195,7 +194,6 @@ public class WorkshopsPanel extends Panel {
         System.out.println("Tthemes");
         System.out.println(this.getThemes());
 
-//        this.setThemes(this.initTheme(themesDirectoryPath).getFiles());
         return defaultTreeModel;
     }
 
@@ -203,103 +201,32 @@ public class WorkshopsPanel extends Panel {
     private DefaultMutableTreeNode initFiles(String path) {
         File file = new File(path);
         DefaultMutableTreeNode defaultMutableTreeNode = null;
-        DefaultMutableTreeNode child;
+        DefaultMutableTreeNode child = null;
+        Theme theme;
 
         if (file.isDirectory()) {
-            for (File listFile : file.listFiles()) {
-//                if (!listFile.getName().equals("descripcion.txt")) {
-//                    defaultMutableTreeNode.add(this.initFiles(
-//                            listFile.getAbsolutePath()
-//                    ));
-//                }
-                if (listFile.getName().contains(".dat")) {
-                    defaultMutableTreeNode = new DefaultMutableTreeNode(
-                            file.getName()//.replace(".txt", "")
-                    );
+            defaultMutableTreeNode = new DefaultMutableTreeNode(file.getName());
 
-                    Theme _file = (Theme) new BinaryFileManager(
+            for (File listFile : file.listFiles()) {
+                child = this.initFiles(listFile.getAbsolutePath());
+
+                if (listFile.getName().contains(".dat")) {
+                    theme = (Theme) new BinaryFileManager(
                             listFile.getAbsolutePath()
                     ).read().get(0);
 
-                    if (_file instanceof Theme) {
-                        this.getThemes().add(_file);
-
-                        for (Theme _file_ : _file.getFiles()) {
-                            defaultMutableTreeNode.add(
-                                    new DefaultMutableTreeNode(_file_.getTitle())
-                            );
-                        }
+                    if (theme instanceof Theme) {
+                        this.getThemes().add(theme);
                     }
                 }
-            }
-        }
-        return defaultMutableTreeNode;
-    }
 
-    /* ______________________________________________________________________ */
-    private Theme initTheme(String path) {
-        File file = new File(path);
-        Object[] themeData;
-        Theme theme;
-
-        try {
-            themeData = this.getThemeData(path + "/descripcion.txt");
-            theme = new Theme(
-                    null,
-                    file.getName().replace(".txt", ""),
-                    themeData[0] + "",
-                    Double.parseDouble(themeData[1] + ""),
-                    Integer.parseInt(themeData[2] + ""),
-                    new ArrayList<>()
-            );
-        } catch (FileNotFoundException | NumberFormatException e) {
-            if (file.isDirectory()) {
-                theme = new Theme(file.getName(), "");
-            } else {
-                theme = new Tip(file.getName(), new PlainFileManager(file).read());
-            }
-        }
-
-        if (file.isDirectory()) {
-            for (File listFile : file.listFiles()) {
-                if (!listFile.getName().equals("descripcion.txt")) {
-                    theme.getFiles().add(this.initTheme(
-                            listFile.getAbsolutePath()
-                    ));
+                if (child != null) {
+                    defaultMutableTreeNode.add(child);
                 }
             }
         }
-        return theme;
-    }
 
-    /* ______________________________________________________________________ */
-    private Object[] getThemeData(String themeDirectoryPath) throws FileNotFoundException {
-        File descriptionFile = new File(themeDirectoryPath);
-
-        if (descriptionFile.exists()) {
-            String text = new PlainFileManager(descriptionFile).read();
-
-            int start = text.indexOf('=') + 1;
-            int end = text.indexOf('\n');
-            String description = text.substring(start, end);
-
-            start = text.indexOf('=', start) + 1;
-            end = text.indexOf('\n', end + 1);
-            String value = text.substring(start, end);
-
-            start = text.indexOf('=', start) + 1;
-            end = text.indexOf('\n', end + 1);
-            String views = text.substring(start, end);
-
-            return new Object[]{
-                description,
-                Double.parseDouble(value),
-                Integer.parseInt(views)
-            };
-        } else {
-            System.out.println("description file do not exists");
-            throw new FileNotFoundException("description file do no exists");
-        }
+        return defaultMutableTreeNode;
     }
 
     /* ______________________________________________________________________ */
@@ -311,12 +238,11 @@ public class WorkshopsPanel extends Panel {
         this.accountButton.accountAction();
         this.setAccount(this.accountButton.getAccount());
 
-        if (this.tipPanel instanceof TipPanel) {
+        if (this.pPanel instanceof FilePanel) {
 
-            themeTitle = ((TipPanel) this.tipPanel).getTheme().getTitle();
-            tipTitle = ((TipPanel) this.tipPanel).getTip().getTitle();
+            themeTitle = ((FilePanel) this.pPanel).getTheme().getTitle();
+            tipTitle = ((FilePanel) this.pPanel).getTip().getTitle();
 
-            this.showTip(themeTitle, tipTitle);
             this.showTip(themeTitle, tipTitle);
             System.out.println(themeTitle + ", " + tipTitle);
         }
@@ -338,9 +264,10 @@ public class WorkshopsPanel extends Panel {
                 try {
                     this.showTip(
                             path[path.length - 2] + "",
-                            path[path.length - 1] + ".txt"
+                            path[path.length - 1] + ""
                     );
                 } catch (Exception e) {
+                    System.out.println(e + "");
                 }
             }
         }
@@ -353,16 +280,20 @@ public class WorkshopsPanel extends Panel {
         Theme tip = this.searchTheme(tipTitle);
 
         System.out.println("Theme=" + theme);
-        System.out.println("Tip=" + tip);
+        System.out.println("Tip=" + (Tip) tip);
 
         if (theme != null && tip != null) {
             if (tip instanceof Tip) {
-                this.remove(this.tipPanel);
+                System.out.println("bien");
+                this.remove(this.pPanel);
 
-                this.tipPanel = new TipPanel(theme, (Tip) tip);
+                System.out.println("ToTheme");
+                System.out.println(theme);
+                System.out.println((Tip) tip);
+                this.pPanel = new FilePanel(theme, (Tip) tip);
 
-                this.add(this.tipPanel, BorderLayout.CENTER);
-                this.tipPanel.updateUI();
+                this.add(this.pPanel, BorderLayout.CENTER);
+                this.pPanel.updateUI();
             }
         }
     }
@@ -394,7 +325,7 @@ public class WorkshopsPanel extends Panel {
 
     /* ______________________________________________________________________ */
     private void createTheme() {
-        CreateThemeDialog createThemeDialog = new CreateThemeDialog();
+        CreateThemeDialog createThemeDialog = new CreateThemeDialog(new Theme("", ""));
         int result;
         Theme theme;
 
@@ -543,11 +474,8 @@ public class WorkshopsPanel extends Panel {
 
     /*  MAIN ________________________________________________________________ */
     public static void main(String[] args) {
-        new WorkshopsPanel(new UserAccount(
-                "Alejandro",
-                "413J0c",
-                "passwd",
-                "profile/image-31"
-        )).showTestDialog();
+        new WorkshopsPanel((Account) new BinaryFileManager(
+                Settings.ACCOUNTS_PATH_FILE
+        ).read().get(0)).showTestDialog();
     }
 }

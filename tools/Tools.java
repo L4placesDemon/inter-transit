@@ -121,10 +121,8 @@ public interface Tools {
     /* ______________________________________________________________________ */
     public static String command(String command) throws IOException {
         String text = "";
-//            Runtime.getRuntime().exec("cmd /c && " + command);
-//        Runtime.getRuntime().exec(command);
-
-        ProcessBuilder builder = new ProcessBuilder("xterm", command);
+        
+        ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", command);
         builder.redirectErrorStream(true);
         Process p = builder.start();
 

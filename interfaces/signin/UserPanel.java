@@ -72,7 +72,7 @@ public class UserPanel extends JPanel {
         this.showPasswordButton = new JToggleButton(UserPanel.HIDE_ICON, false);
         this.messageLabel = new JLabel(" ", JLabel.RIGHT);
 
-        nicknameLabel = new JLabel("Apodo:", JLabel.RIGHT);
+        nicknameLabel = new JLabel("Alias:", JLabel.RIGHT);
         passwordLabel = new JLabel("Contraseña:", JLabel.RIGHT);
 
         westPanel = new JPanel(new GridLayout(2, 1, 10, 10));

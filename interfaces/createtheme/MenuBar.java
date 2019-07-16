@@ -1,18 +1,15 @@
 package interfaces.createtheme;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
-import javax.swing.border.EtchedBorder;
 
 public class MenuBar extends JMenuBar {
 
     private JMenuItem newItem;
-    private JMenuItem renameItem;
     private JMenuItem closeItem;
     private JMenuItem closeAllItem;
     private JMenuItem finishItem;
@@ -44,10 +41,7 @@ public class MenuBar extends JMenuBar {
 
         // Menu Items ----------------------------------------------------------
         // File ----------------------------------------------------------------
-        newItem = new JMenuItem("Nuevo Tip");
-        renameItem = new JMenuItem("Renombrar Tip");
-        closeItem = new JMenuItem("Eliminar Tip");
-        closeAllItem = new JMenuItem("Eliminar Todos");
+        newItem = new JMenuItem("Nuevo");
         finishItem = new JMenuItem("Finalizar");
         
 //        newItem = new MenuItem("Nuevo Tip", 'N', 'N', "new.png");
@@ -73,7 +67,6 @@ public class MenuBar extends JMenuBar {
         // File Menu -----------------------------------------------------------
         fileMenu.setMnemonic(KeyEvent.VK_F);
         fileMenu.add(newItem);
-        fileMenu.add(renameItem);
         fileMenu.add(new JSeparator());
         fileMenu.add(closeItem);
         fileMenu.add(closeAllItem);

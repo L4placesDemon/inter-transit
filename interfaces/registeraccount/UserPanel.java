@@ -45,7 +45,7 @@ public class UserPanel extends JPanel {
         this.messageLabel = new JLabel(" ", JLabel.RIGHT);
 
         usernameLabel = new JLabel("Nombres:", JLabel.RIGHT);
-        nicknameLabel = new JLabel("Apodo:", JLabel.RIGHT);
+        nicknameLabel = new JLabel("Alias:", JLabel.RIGHT);
 
         leftPanel = new JPanel(new GridLayout(2, 1, 3, 3));
         rightPanel = new JPanel(new GridLayout(2, 1, 3, 3));

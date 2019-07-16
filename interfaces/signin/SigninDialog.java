@@ -153,16 +153,16 @@ public class SigninDialog extends Dialog {
         ArrayList<Object> objects;
 
         if (nickname.isEmpty()) {
-            return "El campo del apodo no debe estar vacio";
+            return "El campo del alias no debe estar vacio";
         } else if (nickname.length() < 6) {
-            return "El apodo debe tener almenos 6 caracteres";
+            return "El alias debe tener almenos 6 caracteres";
         } else {
             for (int i = 0; i < nickname.length(); i++) {
                 char c = nickname.charAt(i);
                 if (!Character.isAlphabetic(c) && !Character.isDigit(c)
                         && !Character.isWhitespace(c)) {
 
-                    return "Caracteres validos para apodo: (a-z), (0-9), ' '";
+                    return "Caracteres validos para alias: (a-z), (0-9), ' '";
                 }
             }
 

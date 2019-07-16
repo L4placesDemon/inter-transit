@@ -209,9 +209,9 @@ public class RegisterAccountDialog extends Dialog {
         } else if (username.length() < 6) {
             throw new Exception("El nombre debe tener almenos 6 caracteres");
         } else if (nickname.isEmpty()) {
-            throw new Exception("El campo del apodo no debe estar vacio");
+            throw new Exception("El campo del alias no debe estar vacio");
         } else if (nickname.length() < 6) {
-            throw new Exception("El apodo debe tener almenos 6 caracteres");
+            throw new Exception("El alias debe tener almenos 6 caracteres");
         } else {
 
             for (int i = 0; i < username.length(); i++) {
@@ -225,7 +225,7 @@ public class RegisterAccountDialog extends Dialog {
 
                 if (!Character.isAlphabetic(c) && !Character.isDigit(c)
                         && !Character.isWhitespace(c)) {
-                    throw new Exception("Caracteres validos para apodo: (a-z), (0-9), ' '");
+                    throw new Exception("Caracteres validos para alias: (a-z), (0-9), ' '");
                 }
             }
 

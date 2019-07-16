@@ -107,6 +107,6 @@ public class TextField extends JTextField implements FocusListener {
     @Override
     public void setText(String text) {
         super.setText(text);
-        this.requestFocus();
+//        this.requestFocus();
     }
 }

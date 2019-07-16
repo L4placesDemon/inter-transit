@@ -43,7 +43,7 @@ public class AdminPanel extends AccountPanel {
 
         // ---------------------------------------------------------------------
         leftPanel.add(new JLabel("Nombre:", JLabel.RIGHT));
-        leftPanel.add(new JLabel("Apodo:", JLabel.RIGHT));
+        leftPanel.add(new JLabel("Alias:", JLabel.RIGHT));
 
         rightPanel.add(super.usernameField);
         rightPanel.add(super.nicknameField);

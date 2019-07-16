@@ -32,7 +32,7 @@ public final class EditAccountDialog extends RegisterAccountDialog {
     public EditAccountDialog(Account account) {
         if (account instanceof AdminAccount) {
             this.setAccount(new AdminAccount(
-                    ((AdminAccount) account).getLevel(),
+                    ((AdminAccount) account).getLEVEL(),
                     account.getUsername(),
                     account.getNickname(),
                     account.getPassword(),
@@ -229,9 +229,9 @@ public final class EditAccountDialog extends RegisterAccountDialog {
         } else if (username.length() < 6) {
             throw new Exception("El nombre debe tener almenos 6 caracteres");
         } else if (_nickname.isEmpty()) {
-            throw new Exception("El campo del apodo no debe estar vacio");
+            throw new Exception("El campo del alias no debe estar vacio");
         } else if (_nickname.length() < 6) {
-            throw new Exception("El apodo debe tener almenos 6 caracteres");
+            throw new Exception("El alias debe tener almenos 6 caracteres");
         } else {
 
             for (int i = 0; i < username.length(); i++) {
@@ -248,7 +248,7 @@ public final class EditAccountDialog extends RegisterAccountDialog {
                 if (!Character.isAlphabetic(c) && !Character.isDigit(c)
                         && !Character.isWhitespace(c)) {
                     throw new Exception(
-                            "Caracteres validos para apodo: (a-z), (0-9), ' '"
+                            "Caracteres validos para alias: (a-z), (0-9), ' '"
                     );
                 }
             }
@@ -275,7 +275,7 @@ public final class EditAccountDialog extends RegisterAccountDialog {
         String password = this.passwordPanel.getPassword();
 
         if (this.getAccount() instanceof AdminAccount) {
-            Integer level = ((AdminAccount) this.getAccount()).getLevel();
+            Integer level = ((AdminAccount) this.getAccount()).getLEVEL();
 
             return new AdminAccount(level, name, username, password, image);
 

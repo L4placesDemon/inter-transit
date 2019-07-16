@@ -52,7 +52,7 @@ public class UserPanel extends interfaces.registeraccount.UserPanel {
         this.messageLabel = new JLabel(" ", JLabel.RIGHT);
 
         this.usernameLabel = new JLabel("Nombres:", JLabel.RIGHT);
-        this.nicknameLabel = new JLabel("Apodo:", JLabel.RIGHT);
+        this.nicknameLabel = new JLabel("Alias:", JLabel.RIGHT);
 
         leftPanel = new JPanel(new GridLayout(2, 1, 3, 3));
         rightPanel = new JPanel(new GridLayout(2, 1, 3, 3));

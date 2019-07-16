@@ -2,10 +2,12 @@ package interfaces;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.IOException;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -80,18 +82,27 @@ public class AboutDialog extends Dialog {
         labelsPanel.setBorder(new EmptyBorder(0, 20, 5, 20));
 
         // ---------------------------------------------------------------------
-        descriptionPanel.add(new TextArea("Inter-Transit\n"
-                + "El programa estara enfocado en brindarle informacion al usuario"
-                + " acerca de la cultura ciudadana en cuanto a movilidad vehicular."
-                + "Permite realizar diferentes cuestionarios acerca de los temas"
-                + " contenidos."));
+        descriptionPanel.add(new TextArea("Inter-Transit está enfocado en "
+                + "brindarle informacion al usuario acerca de la cultura "
+                + "ciudadana en cuanto a movilidad vehicular. Permite realizar "
+                + "diferentes cuestionarios para probar los conocimientos "
+                + "adquiridos."));
 
+        Font font = Settings.getCurrentSettings().getFont();
+        String path = Tools.class.getResource("/tools") + "";
+        
         try {
-            creditsPanel.add(new TextArea("Snow Gryphon Software\n"
-                    + "Version: 6.1.0\n"
-                    + Tools.command("ver")
-                    + (Tools.class.getResource("") + "").substring(5).replace("/tools/", "")));
+            JEditorPane editorPane = new JEditorPane(
+                    "text/html",
+                    "<font face=" + font.getFamily() + " size=" + font.getSize() / 4 + ">"
+                    + "SnowGryphon Software<br>"
+                    + "<b>Version:</b> Inter-Transit 7.3.2<br>"
+                    + "<b>System:</b> " + Tools.command("ver") + "<br>"
+                    + "<b>User Directory:</b> " + path.substring(10, path.indexOf("/tools")) //                    + "</font>"
+            );
+            creditsPanel.add(editorPane);
         } catch (IOException ex) {
+            System.out.println(ex);
         }
 
         logosPanel.add(new JLabel(Tools.getImageIcon(logo, 213, 213)));

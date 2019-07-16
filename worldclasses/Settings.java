@@ -140,6 +140,8 @@ public class Settings implements Serializable, Cloneable {
         UIManager.put("Separator.foreground", Color.gray);
 
         UIManager.put("TabbedPane.background", primary);
+
+        UIManager.put("EditorPane.font", font);
 //        UIManager.put("TabbedPane.selected", select);
 //        UIManager.put("TabbedPane.light", primary);
 //        UIManager.put("TabbedPane.highlight", primary);

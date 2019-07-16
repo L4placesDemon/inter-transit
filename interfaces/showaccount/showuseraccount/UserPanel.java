@@ -55,7 +55,7 @@ public class UserPanel extends AccountPanel {
 
         // ---------------------------------------------------------------------
         leftPanel.add(new JLabel("Nombre:", JLabel.RIGHT));
-        leftPanel.add(new JLabel("Apodo:", JLabel.RIGHT));
+        leftPanel.add(new JLabel("Alias:", JLabel.RIGHT));
         leftPanel.add(new JLabel("Nivel:", JLabel.RIGHT));
         leftPanel.add(new JLabel("Puntos:", JLabel.RIGHT));
 

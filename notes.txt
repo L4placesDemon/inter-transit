@@ -2,6 +2,7 @@
 +   Implementar un visualizador de estadisticas para usuarios en cada tema.
 +   Implementar los talleres virtuales para cada tema.
 
+#   Mostrar la fuente actual en el cuadro de dialogo.
 #   Convertir algunos cuadros de dialogo como paneles.
 #   Reemplazar botones por un menu desplegable en el administrador de cuentas.
 

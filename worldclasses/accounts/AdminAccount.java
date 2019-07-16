@@ -9,10 +9,10 @@ public class AdminAccount extends Account {
     /* ATTRIBUTES ___________________________________________________________ */
     private static final long serialVersionUID = -3552751394699439101L;
 
-    private int LEVEL;
+    private Integer LEVEL;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public AdminAccount(int LEVEL, String username, String nickname, String password, String image) {
+    public AdminAccount(Integer LEVEL, String username, String nickname, String password, String image) {
         super(username, nickname, password, image);
 
         this.LEVEL = LEVEL;
@@ -22,7 +22,7 @@ public class AdminAccount extends Account {
     public AdminAccount(String username, String nickname, String password, String image) {
         super(username, nickname, password, image);
 
-        this.LEVEL = this.generateLevel();
+        this.LEVEL = this.generateLEVEL();
     }
 
     /* ______________________________________________________________________ */
@@ -34,26 +34,26 @@ public class AdminAccount extends Account {
     public AdminAccount(Account account) {
         this(account.getUsername(), account.getNickname(), account.getPassword(), account.getImage());
         if (account instanceof AdminAccount) {
-            this.LEVEL = ((AdminAccount) account).getLevel();
+            this.LEVEL = ((AdminAccount) account).getLEVEL();
         }
     }
 
     /* METHODS ______________________________________________________________ */
     @Override
     public String toString() {
-        return "AdminAccout{" + "LEVEL=" + this.getLevel() + ", "
+        return "AdminAccout{" + "LEVEL=" + this.getLEVEL() + ", "
                 + super.toString().substring(8);
     }
 
     /* ______________________________________________________________________ */
-    private int generateLevel() {
+    private int generateLEVEL() {
         ArrayList<Object> objects = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE).read();
         int higher = 0;
         int level;
 
         for (Object object : objects) {
             if (object instanceof AdminAccount) {
-                level = ((AdminAccount) object).getLevel();
+                level = ((AdminAccount) object).getLEVEL();
                 if (higher < level) {
                     higher = level;
                 }
@@ -64,7 +64,7 @@ public class AdminAccount extends Account {
     }
 
     /* GETTERS ______________________________________________________________ */
-    public int getLevel() {
+    public Integer getLEVEL() {
         return this.LEVEL;
     }
 }

@@ -1,9 +1,12 @@
 package interfaces.workshops;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import tools.Tools;
 
 import tools.components.TextArea;
 import tools.components.TextField;
@@ -11,25 +14,25 @@ import tools.components.TextField;
 import worldclasses.themes.Theme;
 import worldclasses.themes.Tip;
 
-public class TipPanel extends JPanel {
+public class FilePanel extends JPanel {
 
     /* ATTRIBUTES ___________________________________________________________ */
     private static final long serialVersionUID = -4899131835181592905L;
 
-    protected Theme theme;
-    protected Tip tip;
+    private Theme theme;
+    private Tip tip;
 
-    protected JLabel themeImageLabel;
-    protected TextField themeTitleTextField;
-    protected TextField themeValueTextField;
-    protected TextArea themeDescriptionTextArea;
+    private JLabel themeImageLabel;
+    private TextField themeTitleField;
+    private TextField themeValueField;
+    private TextArea themeDescriptionArea;
 
-    protected JLabel tipImageLabel;
-    protected TextField tipTitleTextField;
-    protected TextArea tipContentTextArea;
+    private JLabel tipImageLabel;
+    private TextField tipTitleField;
+    private TextArea tipContentArea;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public TipPanel(Theme theme, Tip tip) {
+    public FilePanel(Theme theme, Tip tip) {
         this.theme = theme;
         this.tip = tip;
 
@@ -37,9 +40,11 @@ public class TipPanel extends JPanel {
     }
 
     /* METHODS ______________________________________________________________ */
-    protected void initComponents() {
+    private void initComponents() {
         JPanel themeNorthPanel;
         JPanel themePanel;
+
+        JPanel tipImagePanel;
         JPanel tipPanel;
 
         JScrollPane themeScrollPane;
@@ -49,41 +54,59 @@ public class TipPanel extends JPanel {
         this.setLayout(new BorderLayout());
 
         // Set up Components ---------------------------------------------------
-        this.themeTitleTextField = new TextField(this.getTheme().getTitle());
-        this.themeDescriptionTextArea = new TextArea(this.getTheme().getDescription());
-        this.themeValueTextField = new TextField(this.getTheme().getValue() + "");
+        this.themeImageLabel = new JLabel();
+        this.themeTitleField = new TextField(this.getTheme().getTitle());
+        this.themeDescriptionArea = new TextArea(this.getTheme().getDescription());
+        this.themeValueField = new TextField(this.getTheme().getValue() + "");
 
-        this.tipTitleTextField = new TextField(this.getTip().getTitle());
-        this.tipContentTextArea = new TextArea(this.getTip().getDescription());
+        this.tipImageLabel = new JLabel();
+        this.tipTitleField = new TextField(this.getTip().getTitle());
+        this.tipContentArea = new TextArea(this.getTip().getDescription());
 
         themeNorthPanel = new JPanel(new BorderLayout());
         themePanel = new JPanel(new BorderLayout());
+
+        tipImagePanel = new JPanel();
         tipPanel = new JPanel(new BorderLayout());
 
-        themeScrollPane = new JScrollPane(this.themeDescriptionTextArea);
-        tipScrollPane = new JScrollPane(this.tipContentTextArea);
-
-        this.themeTitleTextField.setEditable(false);
-        this.themeDescriptionTextArea.setEditable(false);
-        this.themeValueTextField.setEditable(false);
-
-        this.tipTitleTextField.setEditable(false);
-        this.tipContentTextArea.setEditable(false);
+        themeScrollPane = new JScrollPane(this.themeDescriptionArea);
+        tipScrollPane = new JScrollPane(this.tipContentArea);
 
         // ---------------------------------------------------------------------
-        themeNorthPanel.add(this.themeTitleTextField, BorderLayout.CENTER);
-        themeNorthPanel.add(this.themeValueTextField, BorderLayout.EAST);
+        this.themeTitleField.setEditable(false);
+        this.themeDescriptionArea.setEditable(false);
+        this.themeValueField.setEditable(false);
 
-        themePanel.add(themeNorthPanel, BorderLayout.CENTER);
+        this.tipTitleField.setEditable(false);
+        this.tipContentArea.setEditable(false);
+
+        this.themeImageLabel.setIcon(Tools.getAbsoluteImageIcon(
+                this.getTheme().getImage(),
+                120, 120
+        ));
+        this.tipImageLabel.setIcon(Tools.getAbsoluteImageIcon(
+                this.getTip().getImage(),
+                120, 120
+        ));
+
+        tipImagePanel.setLayout(new BoxLayout(tipImagePanel, BoxLayout.Y_AXIS));
+
+        // ---------------------------------------------------------------------
+        themeNorthPanel.add(this.themeTitleField, BorderLayout.CENTER);
+        themeNorthPanel.add(this.themeValueField, BorderLayout.EAST);
+
+        themePanel.add(themeNorthPanel, BorderLayout.NORTH);
         themePanel.add(this.themeImageLabel, BorderLayout.WEST);
         themePanel.add(themeScrollPane, BorderLayout.CENTER);
 
-        tipPanel.add(this.tipTitleTextField, BorderLayout.CENTER);
-        tipPanel.add(this.tipImageLabel, BorderLayout.WEST);
+        tipImagePanel.add(this.tipImageLabel);
+
+        tipPanel.add(this.tipTitleField, BorderLayout.NORTH);
+        tipPanel.add(tipImagePanel, BorderLayout.WEST);
         tipPanel.add(tipScrollPane, BorderLayout.CENTER);
 
         this.add(themePanel, BorderLayout.NORTH);
-        this.add(tipPanel, BorderLayout.NORTH);
+        this.add(tipPanel, BorderLayout.CENTER);
     }
 
     /* GETTERS_______________________________________________________________ */
@@ -98,27 +121,27 @@ public class TipPanel extends JPanel {
 
     /* ______________________________________________________________________ */
     public TextField getTitleThemeTextField() {
-        return this.themeTitleTextField;
+        return this.themeTitleField;
     }
 
     /* ______________________________________________________________________ */
     public TextArea getDescriptionThemeTextArea() {
-        return this.themeDescriptionTextArea;
+        return this.themeDescriptionArea;
     }
 
     /* ______________________________________________________________________ */
     public TextField getValueThemeTextField() {
-        return this.themeValueTextField;
+        return this.themeValueField;
     }
 
     /* ______________________________________________________________________ */
     public TextField getTitleTipTextField() {
-        return this.tipTitleTextField;
+        return this.tipTitleField;
     }
 
     /* ______________________________________________________________________ */
     public TextArea getContentTipTextArea() {
-        return this.tipContentTextArea;
+        return this.tipContentArea;
     }
 
     /* SETTERS_______________________________________________________________ */

@@ -4,26 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import tools.Tools;
@@ -33,6 +23,7 @@ import tools.components.TextArea;
 import tools.components.TextField;
 
 import worldclasses.themes.Theme;
+import worldclasses.themes.Tip;
 
 public class CreateThemeDialog extends Dialog {
 
@@ -49,13 +40,14 @@ public class CreateThemeDialog extends Dialog {
     private TextArea themeDescriptionArea;
 
     private JTabbedPane tabbedPane;
-    private ArrayList<TipEditor> tipEditors;
+    private ArrayList<ThemeEditor> tipEditors;
 
     private JButton finishButton;
     private JButton cancelButton;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public CreateThemeDialog() {
+    public CreateThemeDialog(Theme theme) {
+        this.theme = theme;
         tipEditors = new ArrayList<>();
 
         this.initComponents();
@@ -81,11 +73,11 @@ public class CreateThemeDialog extends Dialog {
         this.menuBar = new MenuBar();
         this.setJMenuBar(this.menuBar);
 
-        this.themeImageLabel = new JLabel();
-        this.setThemeImageButton = new JButton("Elegir Imagen");
+        this.themeTitleField = new TextField();
         this.themeValueField = new TextField();
 
-        this.themeTitleField = new TextField();
+        this.themeImageLabel = new JLabel();
+        this.setThemeImageButton = new JButton("Elegir Imagen");
         this.themeDescriptionArea = new TextArea();
 
         this.tabbedPane = new JTabbedPane();
@@ -105,6 +97,21 @@ public class CreateThemeDialog extends Dialog {
 
         this.themeTitleField.setHint("Titulo del Tema");
         this.themeValueField.setHint("Valor del Tema");
+
+        if (this.getTheme() != null) {
+            System.out.println("is not null");
+            this.themeTitleField.setText(this.getTheme().getTitle());
+            this.themeValueField.setText(this.getTheme().getValue() + "");
+
+            if (this.getTheme().getImage() != null) {
+                this.themeImageLabel.setIcon(Tools.getAbsoluteImageIcon(
+                        this.getTheme().getImage(),
+                        this.themeImageLabel.getWidth(),
+                        this.themeImageLabel.getHeight()
+                ));
+            }
+            this.themeDescriptionArea.setText(this.getTheme().getDescription());
+        }
 
         scrollPane.getVerticalScrollBar().setUnitIncrement(7);
 
@@ -139,7 +146,6 @@ public class CreateThemeDialog extends Dialog {
 
         this.finishButton.addActionListener(ae -> {
             this.finish();
-
         });
 
         this.cancelButton.addActionListener(ae -> {
@@ -159,6 +165,7 @@ public class CreateThemeDialog extends Dialog {
         );
 
         if (option == 0) {
+            addNewThemeAction();
         } else if (option == 1) {
             addNewTipAction();
         }
@@ -181,34 +188,67 @@ public class CreateThemeDialog extends Dialog {
             name = "nuevo tip " + generateTabNumber();
         }
         titleTab = new TitleTab(name);
-        tipEditor = new TipEditor(name);
+        tipEditor = new TipEditor(new Tip(name, ""));
 
         this.tabbedPane.addTab(name, tipEditor);
 
         tipEditor.setName(name);
-        tipEditor.getTipTitleField().requestFocus();
+
         index = this.tabbedPane.indexOfComponent(tipEditor);
         this.tabbedPane.setTabComponentAt(index, titleTab);
         this.tabbedPane.setSelectedIndex(index);
 
         this.tipEditors.add(tipEditor);
 
-        tipEditor.getTipTitleField().addKeyListener(new KeyAdapter() {
+        tipEditor.getTitleField().addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent ke) {
-                String text = tipEditor.getTipTitleField().getText();
+                String text = tipEditor.getTitleField().getText();
                 titleTab.setText(text);
             }
         });
 
+        titleTab.addCloseAction(ae -> {
+            this.closeTab(tipEditor);
+        });
 //        updateMenuBar();
 //        updateStatusBar();
 //        updatePopupMenus();
+        tipEditor.getTitleField().requestFocus();
     }
 
     /* ______________________________________________________________________ */
     private void addNewThemeAction() {
+        int index;
+        TitleTab titleTab;
+        ThemeEditor themeEditor;
+        String name;
 
+        name = DialogPane.showInput("Nuevo Tema", "Nombre del nuevo Tema:");
+
+        if (name == null) {
+            return;
+        }
+
+        if (name.isEmpty()) {
+            name = "nuevo tema " + generateTabNumber();
+        }
+        titleTab = new TitleTab(name);
+        themeEditor = new ThemeEditor(new Theme(name, ""));
+
+        this.tabbedPane.addTab(name, themeEditor);
+
+        themeEditor.setName(name);
+
+        index = this.tabbedPane.indexOfComponent(themeEditor);
+        this.tabbedPane.setTabComponentAt(index, titleTab);
+        this.tabbedPane.setSelectedIndex(index);
+
+        this.tipEditors.add(themeEditor);
+
+        titleTab.addCloseAction(ae -> {
+            this.closeTab(themeEditor);
+        });
     }
 
     /* ______________________________________________________________________ */
@@ -247,7 +287,7 @@ public class CreateThemeDialog extends Dialog {
             } catch (Exception e) {
                 DialogPane.showMessage(
                         "Error al crear un tema",
-                        "Ingrese un valor valido para el tema",
+                        e.getMessage(),
                         DialogPane.ERROR_MESSAGE
                 );
             }
@@ -257,38 +297,42 @@ public class CreateThemeDialog extends Dialog {
     }
 
     /* ______________________________________________________________________ */
-    private void initTheme() throws NumberFormatException, Exception {
+    private void initTheme() throws Exception {
         String image = this.themeImageLabel.getName();
         String title = this.themeTitleField.getText();
         String description = this.themeDescriptionArea.getText();
-        Double value = Double.parseDouble(this.themeValueField.getText());
-        ArrayList<Theme> files = this.getFiles(this.tabbedPane);
+        Double value = null;
+        ArrayList<Theme> files = this.getFiles();
 
-        if (image == null) {
-            throw new Exception("No se escogio una imagen para el tema");
-        } else if (title.isEmpty()) {
+        try {
+            value = Double.parseDouble(this.themeValueField.getText());
+        } catch (NumberFormatException e) {
+        }
+        if (title.isEmpty()) {
             throw new Exception("No se ingreso un titulo para el tema");
+        } else if (value == null) {
+            throw new Exception("Ingrese un valor valido para el tema");
+        } else if (image == null) {
+            throw new Exception("No se escogio una imagen para el tema");
         } else if (description.isEmpty()) {
             throw new Exception("No se ingreso una descripcion para el tema");
         }
 
-        Theme _theme = new Theme(
+        this.setTheme(new Theme(
                 image,
                 title,
                 description,
                 value,
                 0,
                 files
-        );
-
-        this.setTheme(_theme);
+        ));
     }
 
     /* ______________________________________________________________________ */
-    private ArrayList<Theme> getFiles(JComponent root) {
+    private ArrayList<Theme> getFiles() {
         ArrayList<Theme> files = new ArrayList<>();
 
-        for (Component component : root.getComponents()) {
+        for (Component component : this.tabbedPane.getComponents()) {
             if (component.getName() != null) {
                 if (component instanceof TipEditor) {
                     files.add(((TipEditor) component).getTip());
@@ -326,42 +370,19 @@ public class CreateThemeDialog extends Dialog {
     }
 
     /* ______________________________________________________________________ */
-    public void closeTab(TipEditor tipEditor) {
-        String fileName;
-        Integer option;
-
-//        if (!tipEditor.isClosable()) {
-        fileName = tipEditor.getName();
-
-        option = DialogPane.showOption(
-                "Save file before close",
-                "Save " + fileName + "?",
-                DialogPane.YES_NO_CANCEL_OPTION
+    public void closeTab(ThemeEditor themeEditor) {
+        int option = DialogPane.showOption(
+                "Eliminar Tip",
+                "Eliminar definitivamente el tip "
+                + themeEditor.getTheme().getTitle() + "?",
+                DialogPane.YES_NO_OPTION
         );
 
         if (option == DialogPane.OK_OPTION) {
-//                tipEditor.saveTools();
-
-            Tools.output(fileName + " saved succesfully");
-            close(tipEditor);
-        } else if (option == DialogPane.NO_OPTION) {
-
-            Tools.output(fileName + " file didn't be saved");
-            close(tipEditor);
+            this.tabbedPane.remove(themeEditor);
+            this.tipEditors.remove(themeEditor);
+            Tools.output(themeEditor + " closed");
         }
-//        } else {
-//            close(scrollPane);
-//        }
-
-//        updateMenuBar();
-//        updateStatusBar();
-    }
-
-    /* ______________________________________________________________________ */
-    public void close(TipEditor tipEditor) {
-        this.tabbedPane.remove(tipEditor);
-        this.tipEditors.remove(tipEditor);
-        Tools.output(tipEditor + " closed");
     }
 
     /* GETTERS ______________________________________________________________ */
@@ -376,6 +397,6 @@ public class CreateThemeDialog extends Dialog {
 
     /* MAIN _________________________________________________________________ */
     public static void main(String[] args) {
-        new CreateThemeDialog().showTestDialog();
+        new CreateThemeDialog(null).showTestDialog();
     }
 }
