@@ -90,11 +90,16 @@ public class AboutDialog extends Dialog {
 
         Font font = Settings.getCurrentSettings().getFont();
         String path = Tools.class.getResource("/tools") + "";
-        
+
+        String color = "black";
+        if (Settings.getCurrentSettings().getTheme().equals(Settings.DARK_THEME)) {
+            color = "white";
+        }
+
         try {
             JEditorPane editorPane = new JEditorPane(
                     "text/html",
-                    "<font face=" + font.getFamily() + " size=" + font.getSize() / 4 + ">"
+                    "<font face=" + font.getFamily() + " size=" + font.getSize() / 4 + " color= " + color + ">"
                     + "SnowGryphon Software<br>"
                     + "<b>Version:</b> Inter-Transit 7.3.2<br>"
                     + "<b>System:</b> " + Tools.command("ver") + "<br>"

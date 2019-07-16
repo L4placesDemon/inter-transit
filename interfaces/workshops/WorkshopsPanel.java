@@ -299,11 +299,10 @@ public class WorkshopsPanel extends Panel {
                 this.filePanel.updateUI();
 
                 if (this.getAccount() instanceof UserAccount) {
-                    ArrayList<String> viewedThemes;
-                    viewedThemes = ((UserAccount) this.getAccount()).getViewedThemes();
 
-                    if (!viewedThemes.contains(theme.getTitle())) {
-                        viewedThemes.add(theme.getTitle());
+                    if (!((UserAccount) this.getAccount()).getViewedThemes().contains(theme.getID())) {
+                        ((UserAccount) this.getAccount()).getViewedThemes().add(theme.getID());
+                        System.out.println(this.getAccount());
                     }
                 }
             }
@@ -354,6 +353,8 @@ public class WorkshopsPanel extends Panel {
         try {
             this.createTheme("docs", theme);
             this.getThemes().add(theme);
+            this.themesTree.setModel(this.initTree());
+
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -403,12 +404,9 @@ public class WorkshopsPanel extends Panel {
         plainFileManager.write(description);
 
         // Crear archivos ------------------------------------------------------
-        System.out.println(files);
         for (Theme file : files) {
             if (file instanceof Tip) {
-                System.out.println("i1 " + file.getImage());
                 this.createTip(directory.getAbsolutePath(), (Tip) file);
-                System.out.println("i2 " + file.getImage());
             } else {
                 this.createTheme(directory.getAbsolutePath(), file);
             }

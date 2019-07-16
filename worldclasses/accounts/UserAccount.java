@@ -12,11 +12,11 @@ public class UserAccount extends Account {
     private Integer level;
     private Integer points;
 
-    private ArrayList<String> viewedThemes;
+    private ArrayList<Integer> viewedThemes;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public UserAccount(Integer ID, String username, String nickname, String password,
-            String image, Integer level, Integer points, ArrayList<String> viewedThemes) {
+            String image, Integer level, Integer points, ArrayList<Integer> viewedThemes) {
         super(username, nickname, password, image);
         this.ID = ID;
 
@@ -26,7 +26,7 @@ public class UserAccount extends Account {
     }
 
     public UserAccount(String username, String nickname, String password,
-            String image, Integer level, Integer points, ArrayList<String> viewedThemes) {
+            String image, Integer level, Integer points, ArrayList<Integer> viewedThemes) {
         this(new Random().nextInt(9999) + 1, username, nickname, password, image, level, points, viewedThemes);
     }
 
@@ -63,7 +63,7 @@ public class UserAccount extends Account {
     }
 
     /* ______________________________________________________________________ */
-    public ArrayList<String> getViewedThemes() {
+    public ArrayList<Integer> getViewedThemes() {
         return this.viewedThemes;
     }
 
@@ -83,7 +83,7 @@ public class UserAccount extends Account {
     }
 
     /* ______________________________________________________________________ */
-    public void setViewedThemes(ArrayList<String> viewedThemes) {
+    public void setViewedThemes(ArrayList<Integer> viewedThemes) {
         this.viewedThemes = viewedThemes;
     }
 
@@ -94,6 +94,7 @@ public class UserAccount extends Account {
         return "UserAccount{ID=" + this.getID() + ", "
                 + superString.substring(0, superString.length() - 1) + ", "
                 + this.getLevel() + ", "
-                + this.getPoints() + "}";
+                + this.getPoints() + ", "
+                + this.getViewedThemes() + "}";
     }
 }

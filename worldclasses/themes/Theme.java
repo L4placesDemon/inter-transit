@@ -12,7 +12,7 @@ public class Theme implements Serializable {
     protected String title;
     protected String description;
 
-    private final Integer ID;
+    protected Integer ID;
     private Double value;
     private Integer views;
     private ArrayList<Theme> files;
@@ -108,6 +108,10 @@ public class Theme implements Serializable {
     }
 
     /* SETTERS ______________________________________________________________ */
+    public void setID(Integer ID) {
+        this.ID = ID;
+    }
+
     public void setImage(String image) {
         this.image = image;
     }
