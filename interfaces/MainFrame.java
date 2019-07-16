@@ -232,12 +232,14 @@ public class MainFrame extends JFrame {
             this.add(this.menuPanel);
             this.menuPanel.getAccountButton().setIcon(Tools.getImageIcon(imagePath, 80, 80));
             this.menuPanel.updateUI();
+
+            this.setAccount(workshopsPanel.getAccount());
         });
 
         this.remove(this.menuPanel);
         this.add(workshopsPanel);
-        workshopsPanel.updateUI();
 
+        workshopsPanel.updateUI();
     }
 
     /* ______________________________________________________________________ */

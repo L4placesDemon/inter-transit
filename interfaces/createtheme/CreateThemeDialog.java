@@ -36,7 +36,6 @@ public class CreateThemeDialog extends Dialog {
     private JButton setThemeImageButton;
 
     private TextField themeTitleField;
-    private TextField themeValueField;
     private TextArea themeDescriptionArea;
 
     private JTabbedPane tabbedPane;
@@ -74,7 +73,6 @@ public class CreateThemeDialog extends Dialog {
         this.setJMenuBar(this.menuBar);
 
         this.themeTitleField = new TextField();
-        this.themeValueField = new TextField();
 
         this.themeImageLabel = new JLabel();
         this.setThemeImageButton = new JButton("Elegir Imagen");
@@ -96,12 +94,10 @@ public class CreateThemeDialog extends Dialog {
         this.themeImageLabel.setPreferredSize(new Dimension(120, 110));
 
         this.themeTitleField.setHint("Titulo del Tema");
-        this.themeValueField.setHint("Valor del Tema");
 
         if (this.getTheme() != null) {
             System.out.println("is not null");
             this.themeTitleField.setText(this.getTheme().getTitle());
-            this.themeValueField.setText(this.getTheme().getValue() + "");
 
             if (this.getTheme().getImage() != null) {
                 this.themeImageLabel.setName(this.getTheme().getImage());
@@ -120,7 +116,6 @@ public class CreateThemeDialog extends Dialog {
 
         // ---------------------------------------------------------------------
         northPanel.add(this.themeTitleField, BorderLayout.CENTER);
-        northPanel.add(this.themeValueField, BorderLayout.EAST);
 
         westPanel.add(this.themeImageLabel, BorderLayout.CENTER);
         westPanel.add(this.setThemeImageButton, BorderLayout.SOUTH);
@@ -304,17 +299,10 @@ public class CreateThemeDialog extends Dialog {
         String image = this.themeImageLabel.getName();
         String title = this.themeTitleField.getText();
         String description = this.themeDescriptionArea.getText();
-        Double value = null;
         ArrayList<Theme> files = this.getFiles();
 
-        try {
-            value = Double.parseDouble(this.themeValueField.getText());
-        } catch (NumberFormatException e) {
-        }
         if (title.isEmpty()) {
             throw new Exception("No se ingreso un titulo para el tema");
-        } else if (value == null) {
-            throw new Exception("Ingrese un valor valido para el tema");
         } else if (image == null) {
             throw new Exception("No se escogio una imagen para el tema");
         } else if (description.isEmpty()) {
@@ -325,7 +313,6 @@ public class CreateThemeDialog extends Dialog {
                 image,
                 title,
                 description,
-                value,
                 0,
                 files
         ));

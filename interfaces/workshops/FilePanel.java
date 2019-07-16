@@ -24,7 +24,6 @@ public class FilePanel extends JPanel {
 
     private JLabel themeImageLabel;
     private TextField themeTitleField;
-    private TextField themeValueField;
     private TextArea themeDescriptionArea;
     private JProgressBar progressBar;
 
@@ -58,7 +57,6 @@ public class FilePanel extends JPanel {
         this.themeImageLabel = new JLabel();
         this.themeTitleField = new TextField(this.getTheme().getTitle());
         this.themeDescriptionArea = new TextArea(this.getTheme().getDescription());
-        this.themeValueField = new TextField(this.getTheme().getValue() + "");
         this.progressBar = new JProgressBar(
                 JProgressBar.VERTICAL, 0, this.getTheme().getFiles().size()
         );
@@ -79,7 +77,6 @@ public class FilePanel extends JPanel {
         // ---------------------------------------------------------------------
         this.themeTitleField.setEditable(false);
         this.themeDescriptionArea.setEditable(false);
-        this.themeValueField.setEditable(false);
 
         this.tipTitleField.setEditable(false);
         this.tipContentArea.setEditable(false);
@@ -97,7 +94,6 @@ public class FilePanel extends JPanel {
 
         // ---------------------------------------------------------------------
         themeNorthPanel.add(this.themeTitleField, BorderLayout.CENTER);
-        themeNorthPanel.add(this.themeValueField, BorderLayout.EAST);
 
         themePanel.add(themeNorthPanel, BorderLayout.NORTH);
         themePanel.add(this.themeImageLabel, BorderLayout.WEST);
@@ -132,11 +128,6 @@ public class FilePanel extends JPanel {
     /* ______________________________________________________________________ */
     public TextArea getDescriptionThemeTextArea() {
         return this.themeDescriptionArea;
-    }
-
-    /* ______________________________________________________________________ */
-    public TextField getValueThemeTextField() {
-        return this.themeValueField;
     }
 
     /* ______________________________________________________________________ */

@@ -26,7 +26,6 @@ public class ThemeEditor extends JPanel {
 
     protected JLabel imageLabel;
     protected TextField titleField;
-    private TextField valueField;
     protected TextArea descriptionArea;
     private JTree filesTree;
 
@@ -55,7 +54,6 @@ public class ThemeEditor extends JPanel {
         // Set up Components ---------------------------------------------------
         this.imageLabel = new JLabel();
         this.titleField = new TextField(this.getTheme().getTitle());
-        this.valueField = new TextField(this.getTheme().getValue() + "");
         this.descriptionArea = new TextArea(this.getTheme().getDescription());
 
         this.filesTree = new JTree(this.initTree());
@@ -81,7 +79,6 @@ public class ThemeEditor extends JPanel {
         }
 
         this.titleField.setEditable(false);
-        this.valueField.setEditable(false);
         this.descriptionArea.setEditable(false);
 
         imagePanel.setLayout(new BoxLayout(imagePanel, BoxLayout.Y_AXIS));
@@ -89,7 +86,6 @@ public class ThemeEditor extends JPanel {
 
         // ---------------------------------------------------------------------
         northPanel.add(this.titleField, BorderLayout.CENTER);
-        northPanel.add(this.valueField, BorderLayout.EAST);
 
         imagePanel.add(this.imageLabel);
 

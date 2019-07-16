@@ -13,41 +13,36 @@ public class Theme implements Serializable {
     protected String description;
 
     protected Integer ID;
-    private Double value;
     private Integer views;
     private ArrayList<Theme> files;
     private ArrayList<Pair<Integer, Integer>> accounts;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public Theme(String image, String title, String description, Double value,
-            Integer views, ArrayList<Theme> files, ArrayList<Pair<Integer, Integer>> accounts) {
+    public Theme(String image, String title, String description, Integer views, ArrayList<Theme> files, ArrayList<Pair<Integer, Integer>> accounts) {
         this.ID = new Random().nextInt(9999) + 1;
 
         this.image = image;
         this.title = title;
         this.description = description;
 
-        this.value = value;
         this.views = views;
         this.files = files;
         this.accounts = accounts;
     }
 
     /* ______________________________________________________________________ */
-    public Theme(String image, String title, String description, Double value,
-            Integer views, ArrayList<Theme> files) {
-        this(image, title, description, value, views, files, new ArrayList<>());
+    public Theme(String image, String title, String description, Integer views, ArrayList<Theme> files) {
+        this(image, title, description, views, files, new ArrayList<>());
     }
 
     /* ______________________________________________________________________ */
-    public Theme(String image, String title, String description, Double value,
-            Integer views) {
-        this(image, title, description, value, views, new ArrayList());
+    public Theme(String image, String title, String description, Integer views) {
+        this(image, title, description, views, new ArrayList());
     }
 
     /* ______________________________________________________________________ */
     public Theme(String image, String title, String description) {
-        this(image, title, description, 0.0, 0);
+        this(image, title, description, 0);
     }
 
     /* ______________________________________________________________________ */
@@ -62,7 +57,6 @@ public class Theme implements Serializable {
                 + ", image=" + (this.getImage() != null ? this.getImage() : "")
                 + ", title=" + this.getTitle()
                 + ", description:\n" + this.getDescription()
-                + "\n, $" + this.getValue()
                 + ", " + this.getViews() + " views"
                 + ", tips=\n" + this.getFiles() + "}";
     }
@@ -85,11 +79,6 @@ public class Theme implements Serializable {
     /* ______________________________________________________________________ */
     public String getDescription() {
         return this.description;
-    }
-
-    /* ______________________________________________________________________ */
-    public Double getValue() {
-        return this.value;
     }
 
     /* ______________________________________________________________________ */
@@ -124,11 +113,6 @@ public class Theme implements Serializable {
     /* ______________________________________________________________________ */
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    /* ______________________________________________________________________ */
-    public void setValue(Double value) {
-        this.value = value;
     }
 
     /* ______________________________________________________________________ */

@@ -12,6 +12,8 @@ public abstract class Account implements Serializable {
     private String nickname;
     private String password;
     private String image;
+    
+    private Double budget;
 
     /* CONSTRUCTORS _________________________________________________________ */
     public Account(String username, String nickname, String password, String image) {

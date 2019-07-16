@@ -272,14 +272,18 @@ public class WorkshopsPanel extends Panel {
             if (path != null) {
                 System.out.println(Arrays.toString(path));
 
-                try {
+//                System.out.println(path[path.length - 2] + ", "
+//                        + path[path.length - 1]);
+
+//                try {
                     this.showTip(
                             path[path.length - 2] + "",
                             path[path.length - 1] + ""
                     );
-                } catch (Exception e) {
-                    System.out.println(e + "");
-                }
+//                } catch (Exception e) {
+//                    System.out.println("show");
+//                    System.out.println(e + "");
+//                }
             }
         }
     }
@@ -302,7 +306,7 @@ public class WorkshopsPanel extends Panel {
 
                     if (!((UserAccount) this.getAccount()).getViewedThemes().contains(theme.getID())) {
                         ((UserAccount) this.getAccount()).getViewedThemes().add(theme.getID());
-                        System.out.println(this.getAccount());
+                        theme.setViews(theme.getViews() + 1);
                     }
                 }
             }
@@ -356,6 +360,7 @@ public class WorkshopsPanel extends Panel {
             this.themesTree.setModel(this.initTree());
 
         } catch (IOException e) {
+            System.out.println("create");
             System.out.println(e.getMessage());
         }
     }
