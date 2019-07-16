@@ -438,11 +438,14 @@ public class WorkshopsPanel extends Panel {
 
         // Mover Imagen
         imageFile = new File(image);
-        Files.copy(
-                Paths.get(image),
-                Paths.get(directory.getAbsolutePath() + "/" + imageFile.getName()),
-                StandardCopyOption.REPLACE_EXISTING
-        );
+        if (imageFile.exists()) {
+
+            Files.copy(
+                    Paths.get(image),
+                    Paths.get(directory.getAbsolutePath() + "/" + imageFile.getName()),
+                    StandardCopyOption.REPLACE_EXISTING
+            );
+        }
         tip.setImage(directory.getAbsolutePath() + "/" + imageFile.getName());
 
         // Escribir archivo

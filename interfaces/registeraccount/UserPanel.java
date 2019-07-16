@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import tools.components.Border;
 import tools.components.TextField;
+import worldclasses.Settings;
 
 public class UserPanel extends JPanel {
 
@@ -29,11 +30,21 @@ public class UserPanel extends JPanel {
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
+        Color color = null;
+        String theme;
+
         JLabel usernameLabel;
         JLabel nicknameLabel;
 
         JPanel leftPanel;
         JPanel rightPanel;
+
+        theme = Settings.getCurrentSettings().getTheme();
+        if (theme.equals(Settings.LIGHT_THEME)) {
+            color = Color.red;
+        } else if (theme.equals(Settings.DARK_THEME)) {
+            color = new Color(69, 162, 255);
+        }
 
         // Set up Panel --------------------------------------------------------
         this.setLayout(new BorderLayout());
@@ -51,7 +62,7 @@ public class UserPanel extends JPanel {
         rightPanel = new JPanel(new GridLayout(2, 1, 3, 3));
 
         // ---------------------------------------------------------------------
-        this.messageLabel.setForeground(Color.red);
+        this.messageLabel.setForeground(color);
 
         leftPanel.setBorder(new EmptyBorder(5, 43, 5, 20));
         rightPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

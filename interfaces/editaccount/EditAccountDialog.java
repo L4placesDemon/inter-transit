@@ -148,8 +148,8 @@ public final class EditAccountDialog extends RegisterAccountDialog {
 
             if (result == DialogPane.YES_OPTION) {
                 if (string.equals("Admin")) {
-
                     if (verifyAdmin()) {
+
                         this.edit(this.initAccount());
                         this.dispose();
                         this.okAction();
@@ -158,6 +158,8 @@ public final class EditAccountDialog extends RegisterAccountDialog {
                         userPanel.setMessage("No tiene permiso para ser Administrador");
                     }
                 } else {
+
+                    this.edit(this.initAccount());
                     this.dispose();
                     this.okAction();
                 }

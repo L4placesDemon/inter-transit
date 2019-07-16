@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 import tools.components.Border;
 import tools.components.PasswordField;
+import worldclasses.Settings;
 
 public class PasswordPanel extends interfaces.registeraccount.PasswordPanel {
 
@@ -33,9 +34,19 @@ public class PasswordPanel extends interfaces.registeraccount.PasswordPanel {
 
     /* METHODS ______________________________________________________________ */
     private void initComponents() {
+        Color color = null;
+        String theme;
+
         JPanel westPanel;
         JPanel centerPanel;
         JPanel eastPanel;
+
+        theme = Settings.getCurrentSettings().getTheme();
+        if (theme.equals(Settings.LIGHT_THEME)) {
+            color = Color.red;
+        } else if (theme.equals(Settings.DARK_THEME)) {
+            color = new Color(69, 162, 255);
+        }
 
         // Set up Panel --------------------------------------------------------
         this.setLayout(new BorderLayout());
@@ -68,7 +79,7 @@ public class PasswordPanel extends interfaces.registeraccount.PasswordPanel {
         this.showPasswordButton.setPreferredSize(new Dimension(24, 18));
         this.showPasswordButton.setEnabled(false);
 
-        this.messageLabel.setForeground(Color.red);
+        this.messageLabel.setForeground(color);
         this.messageLabel.setEnabled(false);
 
         westPanel.setBorder(new EmptyBorder(5, 10, 5, 10));

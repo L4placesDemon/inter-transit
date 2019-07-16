@@ -13,6 +13,7 @@ import tools.Tools;
 import tools.filemanager.BinaryFileManager;
 
 import worldclasses.Settings;
+import worldclasses.accounts.Account;
 import worldclasses.accounts.UserAccount;
 
 public class ShowUserDialog extends ShowAccountDialog {
@@ -92,7 +93,6 @@ public class ShowUserDialog extends ShowAccountDialog {
         int state = editAccountDialog.showDialog();
 
         if (state == EditAccountDialog.OK_OPTION) {
-
             removeAccount(this.getAccount());
             System.out.println("removed account: " + this.getAccount());
 
@@ -102,9 +102,6 @@ public class ShowUserDialog extends ShowAccountDialog {
             super.imageLabel.setIcon(Tools.getImageIcon(this.getAccount().getImage(), 120, 120));
             super.accountPanel.setUsername(this.getAccount().getUsername());
             super.accountPanel.setNickname(this.getAccount().getNickname());
-
-            ((UserPanel) super.accountPanel).setLevel(((UserAccount) this.getAccount()).getLevel());
-            ((UserPanel) super.accountPanel).setPoints(((UserAccount) this.getAccount()).getPoints());
 
             manager = new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE);
             manager.add(this.getAccount());

@@ -8,21 +8,26 @@ public class UserAccount extends Account {
     /* ATTRIBUTTES __________________________________________________________ */
     private static final long serialVersionUID = -1121815081591018371L;
 
-    private final int ID;
+    private int ID;
     private Integer level;
     private Integer points;
 
     private ArrayList<String> viewedThemes;
 
     /* CONSTRUCTORS _________________________________________________________ */
-    public UserAccount(String username, String nickname, String password,
+    public UserAccount(Integer ID, String username, String nickname, String password,
             String image, Integer level, Integer points, ArrayList<String> viewedThemes) {
         super(username, nickname, password, image);
-        this.ID = new Random().nextInt(9999) + 1;
+        this.ID = ID;
 
         this.level = level;
         this.points = points;
         this.viewedThemes = viewedThemes;
+    }
+
+    public UserAccount(String username, String nickname, String password,
+            String image, Integer level, Integer points, ArrayList<String> viewedThemes) {
+        this(new Random().nextInt(9999) + 1, username, nickname, password, image, level, points, viewedThemes);
     }
 
     /* ______________________________________________________________________ */
@@ -63,6 +68,11 @@ public class UserAccount extends Account {
     }
 
     /* SETTERS ______________________________________________________________ */
+    public void setID(Integer ID) {
+        this.ID = ID;
+    }
+
+    /* ______________________________________________________________________ */
     public void setLevel(Integer level) {
         this.level = level;
     }
