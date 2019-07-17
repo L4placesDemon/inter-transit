@@ -5,37 +5,56 @@ import tools.Pair;
 
 public class Question {
 
-    private String enunciado;
+	/* ATTRIBUTES ___________________________________________________________ */
+	private String image;
+    private String statement;
 
-    private ArrayList<Pair<String, Integer>> options;
+    private ArrayList<Pair<String, Integer>> answers;
 
+	/* CONSTRUCTORS _________________________________________________________ */
     public Question(String enunciado, ArrayList<Pair<String, Integer>> options) {
-        this.enunciado = enunciado;
-        this.options = options;
+        this.statement = enunciado;
+        this.answers = options;
     }
 
+	/* ______________________________________________________________________ */
     public Question(String enunciado) {
         this(enunciado, new ArrayList<>());
     }
 
+	/* METHODS ______________________________________________________________ */
     @Override
     public String toString() {
-        return "Question{" + "enunciado=" + enunciado + ", options=" + options + '}';
+        return "Question{" + "enunciado=" + statement + ", options=" + answers + '}';
     }
 
-    public String getEnunciado() {
-        return this.enunciado;
+	/* GETTERS ______________________________________________________________ */
+    public String getImage() {
+    	return this.image;
     }
 
-    public ArrayList<Pair<String, Integer>> getOptions() {
-        return this.options;
+	/* ______________________________________________________________________ */
+    public String getStatement() {
+        return this.statement;
     }
 
-    public void setEnunciado(String enunciado) {
-        this.enunciado = enunciado;
+	/* ______________________________________________________________________ */
+    public ArrayList<Pair<String, Integer>> getAnswers() {
+        return this.answers;
+    }
+    
+	/* SETTERS ______________________________________________________________ */
+    public void setImage(String image) {
+    	this.image = image;
     }
 
-    public void setOptions(ArrayList<Pair<String, Integer>> options) {
-        this.options = options;
+	/* ______________________________________________________________________ */
+    public void setStatement(String enunciado) {
+        this.statement = enunciado;
+    }
+
+	/* ______________________________________________________________________ */
+    public void setAnswers(ArrayList<Pair<String, Integer>> answers) {
+        this.answers = answers;
     }
 }

@@ -1,11 +1,10 @@
 +   Implementar un administrador de temas
 +   Implementar un visualizador de estadisticas para usuarios en cada tema.
-+   Implementar los talleres virtuales para cada tema.
++	Implementar un administrador de test
++   Implementar los test.
 
-#   Mostrar la fuente actual en el cuadro de dialogo.
 #   Convertir algunos cuadros de dialogo como paneles.
-#   Reemplazar botones por un menu desplegable en el administrador de cuentas.
 
 -   Salida de texto por consola con la funcion Tools.output.
 -   Documentar codigo.
--   Agregar excepsiones personalizadas.
+-   Agregar excepciones personalizadas.
