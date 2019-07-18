@@ -1,18 +1,18 @@
 package interfaces.showaccount.showadminaccount;
 
-import interfaces.accountsmanagement.AccountsManagementDialog;
-import interfaces.editaccount.EditAccountDialog;
-import interfaces.showaccount.ShowAccountDialog;
-
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import interfaces.accountsmanagement.AccountsManagementDialog;
+import interfaces.editaccount.EditAccountDialog;
+import interfaces.showaccount.ShowAccountDialog;
 import tools.Tools;
 import tools.filemanager.BinaryFileManager;
-
 import worldclasses.Settings;
 import worldclasses.accounts.AdminAccount;
 
@@ -37,7 +37,7 @@ public class ShowAdminDialog extends ShowAccountDialog {
         // Set up Frame --------------------------------------------------------
         super.initComponents();
 
-        this.setSize(535, 360);
+        this.setMinimumSize(new Dimension(535, 360));
         this.setLocationRelativeTo(null);
         this.setTitle("Datos Administrador");
 
@@ -54,11 +54,11 @@ public class ShowAdminDialog extends ShowAccountDialog {
         mainPanel.add(super.imageLabel, BorderLayout.CENTER);
         mainPanel.add(super.accountPanel, BorderLayout.SOUTH);
 
-        buttonsPanel.add(super.backButton);
         buttonsPanel.add(super.removeButton);
         buttonsPanel.add(this.accountsManagementButton);
         buttonsPanel.add(super.signoutButton);
         buttonsPanel.add(super.editButton);
+        buttonsPanel.add(super.backButton);
 
         super.add(mainPanel, BorderLayout.CENTER);
         super.add(buttonsPanel, BorderLayout.SOUTH);

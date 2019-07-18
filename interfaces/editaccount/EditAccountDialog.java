@@ -134,7 +134,6 @@ public final class EditAccountDialog extends RegisterAccountDialog {
 
     /* ______________________________________________________________________ */
     private void finishAction() {
-        boolean bool = true;
         String string = this.verifyAccount();
 
         System.out.println(string);

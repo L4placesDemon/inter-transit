@@ -5,9 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 public class PlainFileManager {
 
@@ -67,19 +64,19 @@ public class PlainFileManager {
     }
 
     /* ______________________________________________________________________ */
-    private void append(String text) {
-        try {
-            FileWriter fileWriter;
-
-            if (!this.file.exists()) {
-                this.write(text);
-            } else {
-                fileWriter = new FileWriter(this.file, true);
-                fileWriter.write(text);
-                fileWriter.close();
-            }
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-    }
+//    private void append(String text) {
+//        try {
+//            FileWriter fileWriter;
+//
+//            if (!this.file.exists()) {
+//                this.write(text);
+//            } else {
+//                fileWriter = new FileWriter(this.file, true);
+//                fileWriter.write(text);
+//                fileWriter.close();
+//            }
+//        } catch (IOException e) {
+//            System.out.println(e);
+//        }
+//    }
 }

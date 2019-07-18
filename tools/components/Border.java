@@ -1,7 +1,7 @@
 package tools.components;
 
 import java.awt.Color;
-import java.awt.Font;
+
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -36,11 +36,11 @@ public class Border extends CompoundBorder {
 
         this.insideBorder = new TitledBorder(string);
         ((TitledBorder) this.insideBorder).setTitleFont(
-                Settings.getCurrentSettings().getFont()
+                settings.getFont()
         );
         ((TitledBorder) this.insideBorder).setBorder(new EtchedBorder());
 
-        if (Settings.getCurrentSettings().getTheme().equals(Settings.DARK_THEME)) {
+        if (settings.getTheme().equals(Settings.DARK_THEME)) {
             color = Color.white;
         } else {
             color = Color.black;

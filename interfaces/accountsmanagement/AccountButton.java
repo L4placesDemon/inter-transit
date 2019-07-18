@@ -1,60 +1,84 @@
 package interfaces.accountsmanagement;
 
 import java.awt.BorderLayout;
+
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JToggleButton;
 
+import interfaces.showaccount.ShowAccountDialog;
+import interfaces.showaccount.showadminaccount.ShowAdminDialog;
+import interfaces.showaccount.showuseraccount.ShowUserDialog;
 import tools.Tools;
-
 import worldclasses.accounts.Account;
+import worldclasses.accounts.AdminAccount;
+import worldclasses.accounts.UserAccount;
 
-public class AccountButton extends JToggleButton {
+public class AccountButton extends JButton {
 
-    /* ATTRIBUTES ___________________________________________________________ */
-    private static final long serialVersionUID = 6655939696146523981L;
+	/* ATTRIBUTES ___________________________________________________________ */
+	private static final long serialVersionUID = 6655939696146523981L;
 
-    private Account account;
+	private Account account;
 
-    private JLabel imageLabel;
-    private JLabel nicknameLabel;
+	private JLabel imageLabel;
+	private JLabel nicknameLabel;
 
-    /* CONSTRUCTORS _________________________________________________________ */
-    public AccountButton(Account account) {
-        this.account = account;
+	/* CONSTRUCTORS _________________________________________________________ */
+	public AccountButton(Account account) {
+		this.account = account;
 
-        this.initComponents();
-    }
+		this.initComponents();
+		this.initEvents();
+	}
 
-    /* METHODS ______________________________________________________________ */
-    private void initComponents() {
-        // Set up Button --------------------------------------------------------
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+	/* METHODS ______________________________________________________________ */
+	private void initComponents() {
+		// Set up Button --------------------------------------------------------
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        // Set up Components ---------------------------------------------------
-        this.imageLabel = new JLabel(Tools.getImageIcon(this.getAccount().getImage(), 60, 60));
-        this.nicknameLabel = new JLabel(this.getAccount().getNickname());
+		// Set up Components ---------------------------------------------------
+		this.imageLabel = new JLabel(Tools.getImageIcon(this.getAccount().getImage(), 60, 60));
+		this.nicknameLabel = new JLabel(this.getAccount().getNickname());
 
-        // ---------------------------------------------------------------------
-        // ---------------------------------------------------------------------
-        this.add(this.imageLabel, BorderLayout.CENTER);
-        this.add(this.nicknameLabel, BorderLayout.SOUTH);
-    }
+		// ---------------------------------------------------------------------
+		// ---------------------------------------------------------------------
+		this.add(this.imageLabel, BorderLayout.CENTER);
+		this.add(this.nicknameLabel, BorderLayout.SOUTH);
+	}
 
-    /* ______________________________________________________________________ */
-    public void updateAccount(Account account) {
-        this.setAccount(account);
-        this.imageLabel.setIcon(Tools.getImageIcon(this.account.getImage(), 60, 60));
-        this.nicknameLabel.setText(this.account.getNickname());
-    }
+	/* ______________________________________________________________________ */
+	private void initEvents() {
+		// Button Events -------------------------------------------------------
+		this.addActionListener(ae -> {
+			ShowAccountDialog showAccountDialog;
 
-    /* GETTERS ______________________________________________________________ */
-    public Account getAccount() {
-        return this.account;
-    }
+			if (this.getAccount() instanceof AdminAccount) {
+				showAccountDialog = new ShowAdminDialog((AdminAccount) this.getAccount());
+				showAccountDialog.getSignoutButton().setVisible(false);
+				showAccountDialog.showDialog();
+			} else if (this.getAccount() instanceof UserAccount) {
+				showAccountDialog = new ShowUserDialog((UserAccount) this.getAccount());
+				showAccountDialog.getSignoutButton().setVisible(false);
+				showAccountDialog.showDialog();
+			}
+		});
+	}
 
-    /* SETTERS ______________________________________________________________ */
-    public final void setAccount(Account account) {
-        this.account = account;
-    }
+	/* ______________________________________________________________________ */
+	public void updateAccount(Account account) {
+		this.setAccount(account);
+		this.imageLabel.setIcon(Tools.getImageIcon(this.account.getImage(), 60, 60));
+		this.nicknameLabel.setText(this.account.getNickname());
+	}
+
+	/* GETTERS ______________________________________________________________ */
+	public Account getAccount() {
+		return this.account;
+	}
+
+	/* SETTERS ______________________________________________________________ */
+	public final void setAccount(Account account) {
+		this.account = account;
+	}
 }

@@ -1,19 +1,18 @@
 package interfaces.showaccount.showuseraccount;
 
-import interfaces.editaccount.EditAccountDialog;
-import interfaces.showaccount.ShowAccountDialog;
-
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import interfaces.editaccount.EditAccountDialog;
+import interfaces.showaccount.ShowAccountDialog;
 import tools.Tools;
 import tools.filemanager.BinaryFileManager;
-
 import worldclasses.Settings;
-import worldclasses.accounts.Account;
 import worldclasses.accounts.UserAccount;
 
 public class ShowUserDialog extends ShowAccountDialog {
@@ -37,10 +36,9 @@ public class ShowUserDialog extends ShowAccountDialog {
         // Set up Dialog -------------------------------------------------------
         super.initComponents();
 
-        this.setSize(451, 360);
+        this.setMinimumSize(new Dimension(451, 360));
         this.setLocationRelativeTo(null);
         this.setTitle("Datos Usuario");
-//        this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
         super.accountPanel = new UserPanel((UserAccount) this.getAccount());
