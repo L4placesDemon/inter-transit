@@ -8,11 +8,13 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import interfaces.accountsmanagement.AccountsManagementDialog;
+import interfaces.accountsmanagement.AccountsManagementPanel;
 import interfaces.editaccount.EditAccountDialog;
 import interfaces.showaccount.ShowAccountDialog;
+
 import tools.Tools;
 import tools.filemanager.BinaryFileManager;
+
 import worldclasses.Settings;
 import worldclasses.accounts.AdminAccount;
 
@@ -77,9 +79,9 @@ public class ShowAdminDialog extends ShowAccountDialog {
 
     /* ______________________________________________________________________ */
     public void accountsManagementAction() {
-        this.setVisible(false);
-        new AccountsManagementDialog((AdminAccount) getAccount()).showDialog();
-        this.setVisible(true);
+//        this.setVisible(false);
+//        new AccountsManagementPanel((AdminAccount) this.getAccount()).showDialog();
+//        this.setVisible(true);
     }
 
     /* ______________________________________________________________________ */
@@ -108,6 +110,11 @@ public class ShowAdminDialog extends ShowAccountDialog {
             manager.add(this.getAccount());
         }
         this.setVisible(true);
+    }
+
+    /* ______________________________________________________________________ */
+    public JButton getAccountsManagementButton() {
+        return this.accountsManagementButton;
     }
 
     /* MAIN _________________________________________________________________ */

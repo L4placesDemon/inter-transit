@@ -40,12 +40,14 @@ public final class EditAccountDialog extends RegisterAccountDialog {
             ));
         } else if (account instanceof UserAccount) {
             this.setAccount(new UserAccount(
+                    ((UserAccount) account).getID(),
                     account.getUsername(),
                     account.getNickname(),
                     account.getPassword(),
                     account.getImage(),
                     ((UserAccount) account).getLevel(),
-                    ((UserAccount) account).getPoints()
+                    ((UserAccount) account).getPoints(),
+                    ((UserAccount) account).getViewedThemes()
             ));
         }
 
@@ -281,10 +283,12 @@ public final class EditAccountDialog extends RegisterAccountDialog {
             return new AdminAccount(level, name, username, password, image);
 
         } else if (this.getAccount() instanceof UserAccount) {
+            Integer ID = ((UserAccount) this.getAccount()).getID();
             Integer level = ((UserAccount) this.getAccount()).getLevel();
             Integer points = ((UserAccount) this.getAccount()).getPoints();
+            ArrayList<Integer> viewedThemes = ((UserAccount) this.getAccount()).getViewedThemes();
 
-            return new UserAccount(name, username, password, image, level, points);
+            return new UserAccount(ID, name, username, password, image, level, points, viewedThemes);
         }
         return null;
     }
@@ -292,10 +296,6 @@ public final class EditAccountDialog extends RegisterAccountDialog {
     /* ______________________________________________________________________ */
     public void edit(Account account) {
         this.getAccount().setImage(account.getImage());
-
-        if (account instanceof AdminAccount) {
-            this.setAccount(new AdminAccount(this.getAccount()));
-        }
 
         if (this.userPanel.isEditable()) {
             this.getAccount().setUsername(account.getUsername());

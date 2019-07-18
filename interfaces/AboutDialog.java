@@ -71,8 +71,6 @@ public class AboutDialog extends Dialog {
         buttonsPanel = new JPanel(new FlowLayout());
 
         // ---------------------------------------------------------------------
-        logosPanel.setBorder(new EmptyBorder(0, 13, 0, 0));
-
         descriptionPanel.setLayout(new BoxLayout(descriptionPanel, BoxLayout.Y_AXIS));
         descriptionPanel.setBorder(new EtchedBorder());
 

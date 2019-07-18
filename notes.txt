@@ -1,10 +1,8 @@
 +   Implementar un administrador de temas
 +   Implementar un visualizador de estadisticas para usuarios en cada tema.
-+	Implementar un administrador de test
++   Implementar un administrador de test
 +   Implementar los test.
 
-#   Convertir algunos cuadros de dialogo como paneles.
-
--   Salida de texto por consola con la funcion Tools.output.
--   Documentar codigo.
--   Agregar excepciones personalizadas.
++   Salida de texto por consola con la funcion Tools.output.
++   Documentar codigo.
++   Agregar excepciones personalizadas.

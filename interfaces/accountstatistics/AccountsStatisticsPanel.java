@@ -14,13 +14,13 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import tools.filemanager.BinaryFileManager;
-import tools.components.Dialog;
+import tools.components.Panel;
 import worldclasses.Settings;
 
 import worldclasses.accounts.Account;
 import worldclasses.accounts.UserAccount;
 
-public class AccountStatisticsDialog extends Dialog {
+public class AccountsStatisticsPanel extends Panel {
 
     /* ATTRIBUTTES __________________________________________________________ */
     private static final long serialVersionUID = -877346624852504076L;
@@ -32,7 +32,7 @@ public class AccountStatisticsDialog extends Dialog {
     private JButton backButton;
 
     /* CONSTRUCTORS__________________________________________________________ */
-    public AccountStatisticsDialog(ArrayList<Account> accounts) {
+    public AccountsStatisticsPanel(ArrayList<Account> accounts) {
 
         this.accounts = accounts;
 
@@ -64,10 +64,7 @@ public class AccountStatisticsDialog extends Dialog {
 
         // Set up Dialog -------------------------------------------------------
         this.setLayout(new BorderLayout());
-        this.setSize(900, 500);
-        this.setMinimumSize(new Dimension(800, 400));
-        this.setLocationRelativeTo(null);
-        this.setTitle("Estadisticas");
+//        this.setTitle("Estadisticas");
 
         // Set up Components ---------------------------------------------------
         this.levelStatisticsGraph = new StatisticsGraph(color);
@@ -139,6 +136,12 @@ public class AccountStatisticsDialog extends Dialog {
         return accounts;
     }
 
+    /* ______________________________________________________________________ */
+    @Override
+    public JButton getCloseButton() {
+        return this.backButton;
+    }
+
     /* SETTERS ______________________________________________________________ */
     public void setAccounts(ArrayList<Account> accounts) {
         this.accounts = accounts;
@@ -150,6 +153,6 @@ public class AccountStatisticsDialog extends Dialog {
         new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE).read().forEach(i -> {
             accounts.add((Account) i);
         });
-        new AccountStatisticsDialog(accounts).showTestDialog();
+        new AccountsStatisticsPanel(accounts).showTestDialog();
     }
 }
