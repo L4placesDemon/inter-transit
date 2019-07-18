@@ -5,6 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -28,13 +30,15 @@ public class AboutDialog extends Dialog {
 
     /* CONSTRUCTORS _________________________________________________________ */
     public AboutDialog() {
-
-        this.initComponents();
-        this.initEvents();
+        try {
+            this.initComponents();
+            this.initEvents();
+        } catch (IOException ex) {
+        }
     }
 
     /* METHODS ______________________________________________________________ */
-    private void initComponents() {
+    private void initComponents() throws IOException {
         String theme;
         String logo = null;
 
@@ -45,6 +49,17 @@ public class AboutDialog extends Dialog {
         JPanel centerPanel;
         JPanel labelsPanel;
         JPanel buttonsPanel;
+
+        TextArea textArea;
+        JEditorPane editorPane;
+
+        Font font = Settings.getCurrentSettings().getFont();
+        String path = Tools.class.getResource("/tools") + "";
+
+        String color = "black";
+        if (Settings.getCurrentSettings().getTheme().equals(Settings.DARK_THEME)) {
+            color = "white";
+        }
 
         theme = Settings.getCurrentSettings().getTheme();
         if (theme.equals(Settings.LIGHT_THEME)) {
@@ -61,17 +76,32 @@ public class AboutDialog extends Dialog {
         this.setResizable(false);
 
         // Set up Components ---------------------------------------------------
-        descriptionPanel = new JPanel();
-        creditsPanel = new JPanel();
         this.closeButton = new JButton("Cerrar");
+
+        descriptionPanel = new JPanel(new BorderLayout());
+        creditsPanel = new JPanel();
 
         logosPanel = new JPanel(new GridLayout(1, 2));
         centerPanel = new JPanel(new GridLayout(2, 1));
         labelsPanel = new JPanel(new GridLayout(2, 1, 0, 5));
         buttonsPanel = new JPanel(new FlowLayout());
 
+        textArea = new TextArea("Inter-Transit está enfocado en "
+                + "brindarle informacion al usuario acerca de la cultura "
+                + "ciudadana en cuanto a movilidad vehicular. Permite realizar "
+                + "diferentes cuestionarios para probar los conocimientos "
+                + "adquiridos."
+        );
+        editorPane = new JEditorPane(
+                "text/html",
+                "<font face=" + font.getFamily() + " size=" + font.getSize() / 4 + " color= " + color + ">"
+                + "SnowGryphon Software<br>"
+                + "<b>Version:</b> Inter-Transit 7.3.2<br>"
+                + "<b>System:</b> " + Tools.command("ver") + "<br>"
+                + "<b>User Directory:</b> " + path.substring(10, path.indexOf("/tools")) + "</font>"
+        );
+
         // ---------------------------------------------------------------------
-        descriptionPanel.setLayout(new BoxLayout(descriptionPanel, BoxLayout.Y_AXIS));
         descriptionPanel.setBorder(new EtchedBorder());
 
         creditsPanel.setLayout(new BoxLayout(creditsPanel, BoxLayout.Y_AXIS));
@@ -79,34 +109,12 @@ public class AboutDialog extends Dialog {
 
         labelsPanel.setBorder(new EmptyBorder(0, 20, 5, 20));
 
+        textArea.setEditable(false);
+        editorPane.setEditable(false);
+
         // ---------------------------------------------------------------------
-        descriptionPanel.add(new TextArea("Inter-Transit está enfocado en "
-                + "brindarle informacion al usuario acerca de la cultura "
-                + "ciudadana en cuanto a movilidad vehicular. Permite realizar "
-                + "diferentes cuestionarios para probar los conocimientos "
-                + "adquiridos."));
-
-        Font font = Settings.getCurrentSettings().getFont();
-        String path = Tools.class.getResource("/tools") + "";
-
-        String color = "black";
-        if (Settings.getCurrentSettings().getTheme().equals(Settings.DARK_THEME)) {
-            color = "white";
-        }
-
-        try {
-            JEditorPane editorPane = new JEditorPane(
-                    "text/html",
-                    "<font face=" + font.getFamily() + " size=" + font.getSize() / 4 + " color= " + color + ">"
-                    + "SnowGryphon Software<br>"
-                    + "<b>Version:</b> Inter-Transit 7.3.2<br>"
-                    + "<b>System:</b> " + Tools.command("ver") + "<br>"
-                    + "<b>User Directory:</b> " + path.substring(10, path.indexOf("/tools")) //                    + "</font>"
-            );
-            creditsPanel.add(editorPane);
-        } catch (IOException ex) {
-            System.out.println(ex);
-        }
+        descriptionPanel.add(textArea);
+        creditsPanel.add(editorPane);
 
         logosPanel.add(new JLabel(Tools.getImageIcon(logo, 213, 213)));
         logosPanel.add(new JLabel(Tools.getImageIcon("logos/company_logo", 180, 180)));

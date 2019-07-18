@@ -21,135 +21,135 @@ import worldclasses.themes.Theme;
 
 public class ThemeEditor extends JPanel {
 
-	/* ATTRIBUTES ___________________________________________________________ */
-	private static final long serialVersionUID = -3262044934925318895L;
+    /* ATTRIBUTES ___________________________________________________________ */
+    private static final long serialVersionUID = -3262044934925318895L;
 
-	private Theme theme;
+    private Theme theme;
 
-	protected JLabel imageLabel;
-	protected TextField titleField;
-	protected TextArea descriptionArea;
-	private JTree filesTree;
+    protected JLabel imageLabel;
+    protected TextField titleField;
+    protected TextArea descriptionArea;
+    private JTree filesTree;
 
-	private JButton editButton;
+    private JButton editButton;
 
-	/* CONSTRUCTORS _________________________________________________________ */
-	public ThemeEditor(Theme theme) {
-		this.theme = theme;
+    /* CONSTRUCTORS _________________________________________________________ */
+    public ThemeEditor(Theme theme) {
+        this.theme = theme;
 
-		this.initComponents();
-		this.initEvents();
-	}
+        this.initComponents();
+        this.initEvents();
+    }
 
-	/* METHODS ______________________________________________________________ */
-	protected void initComponents() {
-		JPanel northPanel;
-		JPanel imagePanel;
-		JPanel themePanel;
-		JPanel buttonsPanel;
+    /* METHODS ______________________________________________________________ */
+    protected void initComponents() {
+        JPanel northPanel;
+        JPanel imagePanel;
+        JPanel themePanel;
+        JPanel buttonsPanel;
 
-		JScrollPane scrollPane;
+        JScrollPane scrollPane;
 
-		// Set up Panel --------------------------------------------------------
-		this.setLayout(new BorderLayout());
+        // Set up Panel --------------------------------------------------------
+        this.setLayout(new BorderLayout());
 
-		// Set up Components ---------------------------------------------------
-		this.imageLabel = new JLabel();
-		this.titleField = new TextField(this.getTheme().getTitle());
-		this.descriptionArea = new TextArea(this.getTheme().getDescription());
+        // Set up Components ---------------------------------------------------
+        this.imageLabel = new JLabel();
+        this.titleField = new TextField(this.getTheme().getTitle());
+        this.descriptionArea = new TextArea(this.getTheme().getDescription());
 
-		this.filesTree = new JTree(this.initTree());
+        this.filesTree = new JTree(this.initTree());
 
-		this.editButton = new JButton("Editar");
+        this.editButton = new JButton("Editar");
 
-		northPanel = new JPanel(new BorderLayout());
-		imagePanel = new JPanel();
-		themePanel = new JPanel(new BorderLayout());
-		scrollPane = new JScrollPane(this.descriptionArea);
+        northPanel = new JPanel(new BorderLayout());
+        imagePanel = new JPanel();
+        themePanel = new JPanel(new BorderLayout());
+        scrollPane = new JScrollPane(this.descriptionArea);
 
-		buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-		// ---------------------------------------------------------------------
-		if (this.getTheme() != null) {
-			if (this.getTheme().getImage() != null) {
+        // ---------------------------------------------------------------------
+        if (this.getTheme() != null) {
+            if (this.getTheme().getImage() != null) {
 
-				this.imageLabel.setPreferredSize(new Dimension(120, 120));
+                this.imageLabel.setPreferredSize(new Dimension(120, 120));
 
-				this.imageLabel.setIcon(Tools.getAbsoluteImageIcon(this.getTheme().getImage(),
-						120, 120));
-			}
-		}
+                this.imageLabel.setIcon(Tools.getAbsoluteImageIcon(this.getTheme().getImage(),
+                        120, 120));
+            }
+        }
 
-		this.titleField.setEditable(false);
-		this.descriptionArea.setEditable(false);
+        this.titleField.setEditable(false);
+        this.descriptionArea.setEditable(false);
 
-		imagePanel.setLayout(new BoxLayout(imagePanel, BoxLayout.Y_AXIS));
-		scrollPane.getVerticalScrollBar().setUnitIncrement(7);
+        imagePanel.setLayout(new BoxLayout(imagePanel, BoxLayout.Y_AXIS));
+        scrollPane.getVerticalScrollBar().setUnitIncrement(7);
 
-		// ---------------------------------------------------------------------
-		northPanel.add(this.titleField, BorderLayout.CENTER);
+        // ---------------------------------------------------------------------
+        northPanel.add(this.titleField, BorderLayout.CENTER);
 
-		imagePanel.add(this.imageLabel);
+        imagePanel.add(this.imageLabel);
 
-		themePanel.add(northPanel, BorderLayout.NORTH);
-		themePanel.add(imagePanel, BorderLayout.WEST);
-		themePanel.add(scrollPane, BorderLayout.CENTER);
+        themePanel.add(northPanel, BorderLayout.NORTH);
+        themePanel.add(imagePanel, BorderLayout.WEST);
+        themePanel.add(scrollPane, BorderLayout.CENTER);
 
-		buttonsPanel.add(this.editButton);
+        buttonsPanel.add(this.editButton);
 
-		this.add(themePanel, BorderLayout.CENTER);
-		this.add(this.filesTree, BorderLayout.WEST);
-		this.add(buttonsPanel, BorderLayout.SOUTH);
-	}
+        this.add(themePanel, BorderLayout.CENTER);
+        this.add(this.filesTree, BorderLayout.WEST);
+        this.add(buttonsPanel, BorderLayout.SOUTH);
+    }
 
-	/* ______________________________________________________________________ */
-	protected void initEvents() {
-		// Components Events ---------------------------------------------------
-		this.editButton.addActionListener(ae -> {
-			createTheme();
-		});
-	}
+    /* ______________________________________________________________________ */
+    protected void initEvents() {
+        // Components Events ---------------------------------------------------
+        this.editButton.addActionListener(ae -> {
+            createTheme();
+        });
+    }
 
-	/* ______________________________________________________________________ */
-	private void createTheme() {
-		EditThemeDialog createThemeDialog = new EditThemeDialog(this.getTheme());
-		int result;
-		Theme _theme;
+    /* ______________________________________________________________________ */
+    private void createTheme() {
+        ThemeManagerDialog createThemeDialog = new ThemeManagerDialog(this.getTheme());
+        int result;
+        Theme _theme;
 
-		result = createThemeDialog.showDialog();
-		if (result == DialogPane.OK_OPTION) {
-			_theme = createThemeDialog.getTheme();
-			if (_theme != null) {
-				this.setTheme(_theme);
-			}
-		}
+        result = createThemeDialog.showDialog();
+        if (result == DialogPane.OK_OPTION) {
+            _theme = createThemeDialog.getTheme();
+            if (_theme != null) {
+                this.setTheme(_theme);
+            }
+        }
 
-		this.filesTree.setModel(this.initTree());
-	}
+        this.filesTree.setModel(this.initTree());
+    }
 
-	/* ______________________________________________________________________ */
-	private DefaultTreeModel initTree() {
-		return new DefaultTreeModel(this.initNode(this.getTheme()));
-	}
+    /* ______________________________________________________________________ */
+    private DefaultTreeModel initTree() {
+        return new DefaultTreeModel(this.initNode(this.getTheme()));
+    }
 
-	/* ______________________________________________________________________ */
-	private DefaultMutableTreeNode initNode(Theme theme) {
-		DefaultMutableTreeNode node = new DefaultMutableTreeNode(theme.getTitle());
+    /* ______________________________________________________________________ */
+    private DefaultMutableTreeNode initNode(Theme theme) {
+        DefaultMutableTreeNode node = new DefaultMutableTreeNode(theme.getTitle());
 
-		for (Theme file : theme.getFiles()) {
-			node.add(this.initNode(file));
-		}
+        for (Theme file : theme.getFiles()) {
+            node.add(this.initNode(file));
+        }
 
-		return node;
-	}
+        return node;
+    }
 
-	/* GETTERS ______________________________________________________________ */
-	public Theme getTheme() {
-		return this.theme;
-	}
+    /* GETTERS ______________________________________________________________ */
+    public Theme getTheme() {
+        return this.theme;
+    }
 
-	/* SETTERS ______________________________________________________________ */
-	public void setTheme(Theme theme) {
-		this.theme = theme;
-	}
+    /* SETTERS ______________________________________________________________ */
+    public void setTheme(Theme theme) {
+        this.theme = theme;
+    }
 }
