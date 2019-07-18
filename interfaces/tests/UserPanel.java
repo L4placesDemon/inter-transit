@@ -3,8 +3,10 @@ package interfaces.tests;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
 import tools.Tools;
 import worldclasses.accounts.Account;
@@ -17,7 +19,7 @@ public class UserPanel extends JPanel {
 
 	private Account account;
 
-	private JLabel accountLabel;
+	private JButton accountButton;
 	private JLabel pointsLabel;
 	private JLabel levelLabel;
 
@@ -26,23 +28,36 @@ public class UserPanel extends JPanel {
 		this.account = account;
 
 		this.initComponents();
-		this.initEvents();
 	}
 
 	/* METHODS ______________________________________________________________ */
 	private void initComponents() {
+		String imagePath;
+		String nickname;
+
 		JPanel eastPanel;
+		JPanel pointsPanel;
+		JPanel levelPanel;
 
 		// Set up Panel --------------------------------------------------------
 		this.setLayout(new BorderLayout());
 
 		// Set up Components ---------------------------------------------------
-		this.accountLabel = new JLabel(this.getAccount().getUsername(),
-				Tools.getImageIcon(this.getAccount().getImage(), 30, 30), JLabel.RIGHT);
+		if (this.getAccount() != null) {
+			imagePath = this.getAccount().getImage();
+			nickname = this.getAccount().getNickname();
+		} else {
+			imagePath = "profile/image-00";
+			nickname = "Iniciar Sesion";
+		}
+
+		this.accountButton = new JButton(nickname, Tools.getImageIcon(imagePath, 40, 40));
 		this.pointsLabel = new JLabel("sin puntos");
 		this.levelLabel = new JLabel("sin nivel");
 
-		eastPanel = new JPanel(new GridLayout());
+		eastPanel = new JPanel();
+		pointsPanel = new JPanel(new GridLayout(2, 1));
+		levelPanel = new JPanel(new GridLayout(2, 1));
 
 		// ---------------------------------------------------------------------
 		if (this.getAccount() instanceof UserAccount) {
@@ -51,16 +66,18 @@ public class UserPanel extends JPanel {
 		}
 
 		// ---------------------------------------------------------------------
-		eastPanel.add(this.pointsLabel);
-		eastPanel.add(this.levelLabel);
+		pointsPanel.add(new JLabel("Puntos"));
+		pointsPanel.add(this.pointsLabel);
+		
+		levelPanel.add(new JLabel("Nivel"));
+		levelPanel.add(this.levelLabel);
+		
+		eastPanel.add(pointsPanel);
+		eastPanel.add(new JSeparator(JSeparator.VERTICAL));
+		eastPanel.add(levelPanel);
 
-		this.add(this.accountLabel, BorderLayout.CENTER);
+		this.add(this.accountButton, BorderLayout.CENTER);
 		this.add(eastPanel, BorderLayout.EAST);
-	}
-
-	/* ______________________________________________________________________ */
-	private void initEvents() {
-		// ---------------------------------------------------------------------
 	}
 
 	/* GETTERS ______________________________________________________________ */

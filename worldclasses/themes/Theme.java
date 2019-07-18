@@ -7,7 +7,9 @@ import tools.Pair;
 
 public class Theme implements Serializable {
 
-    /* ATRIBUTES ____________________________________________________________ */
+	/* ATRIBUTES ____________________________________________________________ */
+	private static final long serialVersionUID = 8883119185404026867L;
+	
     protected String image;
     protected String title;
     protected String description;
@@ -37,7 +39,7 @@ public class Theme implements Serializable {
 
     /* ______________________________________________________________________ */
     public Theme(String image, String title, String description, Integer views) {
-        this(image, title, description, views, new ArrayList());
+        this(image, title, description, views, new ArrayList<>());
     }
 
     /* ______________________________________________________________________ */

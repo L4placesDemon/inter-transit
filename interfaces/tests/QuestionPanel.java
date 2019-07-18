@@ -59,7 +59,9 @@ public class QuestionPanel extends Panel {
 		// ---------------------------------------------------------------------
 
 		for (Pair<String, Integer> answer : this.getQuestion().getAnswers()) {
-			this.answerButtons.add(new JToggleButton(answer.getKey()));
+			JToggleButton answerButton = new JToggleButton(answer.getKey());
+			this.answerButtons.add(answerButton);
+			buttonGroup.add(answerButton);
 		}
 		// ---------------------------------------------------------------------
 		statementPanel.add(this.statementLabel);

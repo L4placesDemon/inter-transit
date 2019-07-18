@@ -1,4 +1,4 @@
-package interfaces.createtheme;
+package interfaces.workshops.createtheme;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -21,7 +21,9 @@ import worldclasses.themes.Tip;
 
 public class TipEditor extends ThemeEditor {
 
-    /* ATTRIBUTES ___________________________________________________________ */
+	/* ATTRIBUTES ___________________________________________________________ */
+	private static final long serialVersionUID = -873079095821918740L;
+	
     private JButton imageButton;
 
     /* CONSTRUCTORS _________________________________________________________ */

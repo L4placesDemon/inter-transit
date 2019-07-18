@@ -16,6 +16,7 @@ import interfaces.showaccount.ShowAccountDialog;
 import interfaces.showaccount.showadminaccount.ShowAdminDialog;
 import interfaces.showaccount.showuseraccount.ShowUserDialog;
 import interfaces.signin.SigninDialog;
+import interfaces.tests.SolveTestPanel;
 import interfaces.workshops.WorkshopsPanel;
 import tools.Pair;
 import tools.Tools;
@@ -135,7 +136,7 @@ public class MainFrame extends JFrame {
 		});
 
 		this.menuPanel.getTestButton().addActionListener(ae -> {
-//            System.out.println(this.menuPanel.getAccountButton().getSize());
+			this.solveTestsAction();
 		});
 	}
 
@@ -213,8 +214,6 @@ public class MainFrame extends JFrame {
 			this.add(this.menuPanel);
 			this.menuPanel.getAccountButton().setIcon(Tools.getImageIcon(imagePath, 80, 80));
 			this.menuPanel.updateUI();
-
-			this.setAccount(workshopsPanel.getAccount());
 		});
 
 		this.remove(this.menuPanel);
@@ -241,6 +240,30 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/* ______________________________________________________________________ */
+	private void solveTestsAction() {
+		SolveTestPanel solveTestPanel = new SolveTestPanel(this.getAccount());
+
+		solveTestPanel.getCloseButton().addActionListener(ae -> {
+			String imagePath = "profile/image-00";
+
+			this.setAccount(solveTestPanel.getAccount());
+			if (this.getAccount() != null) {
+				imagePath = this.getAccount().getImage();
+			}
+
+			this.remove(solveTestPanel);
+			this.add(this.menuPanel);
+			this.menuPanel.getAccountButton().setIcon(Tools.getImageIcon(imagePath, 80, 80));
+			this.menuPanel.updateUI();
+		});
+		
+		this.remove(this.menuPanel);
+		this.add(solveTestPanel);
+		
+		solveTestPanel.updateUI();
+	}
+
 	/* GETTERS ______________________________________________________________ */
 	public Account getAccount() {
 		return this.account;
@@ -260,12 +283,12 @@ public class MainFrame extends JFrame {
 
 		if (manager.read().isEmpty()) {
 			manager.add(new AdminAccount("Alejandro", "Admin1", "Passwd", "profile/image-31"));
-			
+
 			for (int i = 10; i < 20; i++) {
 				userAccount = new UserAccount("test user", "nickname" + i, "passwd", "profile/image-" + i);
 				userAccount.setLevel(random.nextInt(10) + 1);
 				userAccount.setPoints(random.nextInt(50) + 1);
-				
+
 				manager.add(userAccount);
 			}
 		}

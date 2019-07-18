@@ -1,16 +1,13 @@
 package interfaces.workshops;
 
+import javax.swing.JButton;
+
 import interfaces.showaccount.ShowAccountDialog;
 import interfaces.showaccount.showadminaccount.ShowAdminDialog;
 import interfaces.showaccount.showuseraccount.ShowUserDialog;
 import interfaces.signin.SigninDialog;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-
 import tools.Tools;
 import tools.components.Dialog;
-
 import worldclasses.accounts.Account;
 import worldclasses.accounts.AdminAccount;
 import worldclasses.accounts.UserAccount;
@@ -33,8 +30,9 @@ public class AccountButton extends JButton {
     private void initComponents() {
         String imagePath;
         String nickname;
-        ImageIcon imageIcon;
 
+		// Set up Button -------------------------------------------------------
+		// Set up Components ---------------------------------------------------
         if (this.getAccount() != null) {
             imagePath = this.getAccount().getImage();
             nickname = this.getAccount().getNickname();
@@ -42,9 +40,10 @@ public class AccountButton extends JButton {
             imagePath = "profile/image-00";
             nickname = "Iniciar Sesion";
         }
-        imageIcon = Tools.getImageIcon(imagePath, 40, 40);
-
-        this.setIcon(imageIcon);
+        
+		// ---------------------------------------------------------------------
+		// ---------------------------------------------------------------------
+        this.setIcon(Tools.getImageIcon(imagePath, 40, 40));
         this.setText(nickname);
     }
 

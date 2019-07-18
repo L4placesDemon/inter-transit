@@ -2,7 +2,10 @@ package worldclasses.themes;
 
 public class Tip extends Theme {
 
-    /* CONSTRUCTORS _________________________________________________________ */
+	/* ATRIBUTES ____________________________________________________________ */
+	private static final long serialVersionUID = 3042680017917363548L;
+
+	/* CONSTRUCTORS _________________________________________________________ */
     public Tip(String title, String content) {
         super(title, content);
     }

@@ -137,7 +137,6 @@ public class Settings implements Serializable, Cloneable {
         UIManager.put("MenuItem.font", font);
 
         UIManager.put("Separator.background", primary);
-        UIManager.put("Separator.foreground", Color.gray);
 
         UIManager.put("TabbedPane.background", primary);
 

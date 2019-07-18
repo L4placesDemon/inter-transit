@@ -1,4 +1,4 @@
-package interfaces.createtheme;
+package interfaces.workshops.createtheme;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -6,7 +6,10 @@ import javax.swing.JCheckBox;
 
 public class CheckBoxMenuItem extends JCheckBox {
 
-    /* CONSTRUCTORS _________________________________________________________ */
+	/* ATTRIBUTES ___________________________________________________________ */
+	private static final long serialVersionUID = 4333420196270174783L;
+
+	/* CONSTRUCTORS _________________________________________________________ */
     public CheckBoxMenuItem(String text, boolean selected, int mnemonic) {
         setText(text);
         setSelected(selected);

@@ -1,7 +1,7 @@
-package interfaces.createtheme;
+package interfaces.workshops.createtheme;
 
 import java.awt.event.KeyEvent;
-import javax.swing.JCheckBoxMenuItem;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -9,22 +9,24 @@ import javax.swing.JSeparator;
 
 public class MenuBar extends JMenuBar {
 
-    private JMenuItem newItem;
+	private static final long serialVersionUID = -1443740280797494141L;
+	
+	private JMenuItem newItem;
     private JMenuItem finishItem;
 
-    private JMenuItem undoItem;
-    private JMenuItem redoItem;
-    private JMenuItem copyItem;
-    private JMenuItem cutItem;
-    private JMenuItem pasteItem;
-    private JMenuItem selectAllItem;
-    private JMenuItem findItem;
-
-    private JMenuItem fontItem;
-    private JMenuItem marginSizeItem;
-    private JCheckBoxMenuItem warpTextItem;
-    private JCheckBoxMenuItem showStatusBarItem;
-    private JMenuItem closeFindBarItem;
+//    private JMenuItem undoItem;
+//    private JMenuItem redoItem;
+//    private JMenuItem copyItem;
+//    private JMenuItem cutItem;
+//    private JMenuItem pasteItem;
+//    private JMenuItem selectAllItem;
+//    private JMenuItem findItem;
+//
+//    private JMenuItem fontItem;
+//    private JMenuItem marginSizeItem;
+//    private JCheckBoxMenuItem warpTextItem;
+//    private JCheckBoxMenuItem showStatusBarItem;
+//    private JMenuItem closeFindBarItem;
 
     public MenuBar() {
         this.initComponents();

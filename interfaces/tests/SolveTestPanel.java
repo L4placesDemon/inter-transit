@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import tools.components.Panel;
+import tools.filemanager.BinaryFileManager;
+import worldclasses.Settings;
 import worldclasses.accounts.Account;
 import worldclasses.test.Test;
 
@@ -22,17 +24,12 @@ public class SolveTestPanel extends Panel {
 	private JButton backButton;
 
 	/* CONSTRUCTORS _________________________________________________________ */
-	public SolveTestPanel(Account account, ArrayList<Test> tests) {
+	public SolveTestPanel(Account account) {
 		this.account = account;
-		this.tests = tests;
+		this.tests = new ArrayList<>();
 
 		this.initComponents();
 		this.initEvents();
-	}
-
-	/* ______________________________________________________________________ */
-	public SolveTestPanel(Account account) {
-		this(account, new ArrayList<>());
 	}
 
 	/* METHODS ______________________________________________________________ */
@@ -48,6 +45,7 @@ public class SolveTestPanel extends Panel {
 		testsPanel = new JPanel();
 
 		// ---------------------------------------------------------------------
+		this.add(this.userPanel, BorderLayout.NORTH);
 		this.add(testsPanel, BorderLayout.CENTER);
 	}
 
@@ -79,5 +77,11 @@ public class SolveTestPanel extends Panel {
 	/* ______________________________________________________________________ */
 	public void setTests(ArrayList<Test> tests) {
 		this.tests = tests;
+	}
+	
+
+	/* ______________________________________________________________________ */
+	public static void main(String[] args) {
+		new SolveTestPanel((Account) new BinaryFileManager(Settings.ACCOUNTS_PATH_FILE).read().get(0)).showTestDialog();
 	}
 }

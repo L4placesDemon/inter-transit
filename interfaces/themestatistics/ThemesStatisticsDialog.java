@@ -5,20 +5,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import tools.Tools;
 import tools.components.Dialog;
-
-import tools.filemanager.PlainFileManager;
 import worldclasses.themes.Theme;
-import worldclasses.themes.Tip;
 
 public class ThemesStatisticsDialog extends Dialog {
 

@@ -1,4 +1,4 @@
-package interfaces.createtheme;
+package interfaces.workshops.createtheme;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -6,14 +6,16 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 public class TitleTab extends JComponent {
 
-    /* ATTRIBUTTES __________________________________________________________ */
+	/* ATTRIBUTTES __________________________________________________________ */
+	private static final long serialVersionUID = -8413540237895211978L;
+	
     private JLabel textLabel;
     private JButton closeButton;
 //    private JPopupMenu popupMenu;

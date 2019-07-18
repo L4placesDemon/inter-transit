@@ -2,172 +2,181 @@ package interfaces;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import tools.filemanager.BinaryFileManager;
 
 import tools.components.Dialog;
 import tools.components.FontChooser;
 import tools.components.ToggleSwitch;
 import tools.components.ToggleSwitchListener;
+import tools.filemanager.BinaryFileManager;
 import worldclasses.Settings;
 
 public class SettingsDialog extends Dialog {
 
-    /* ATTRIBUTES ___________________________________________________________ */
-    private static final long serialVersionUID = -3025669317140773900L;
+	/* ATTRIBUTES ___________________________________________________________ */
+	private static final long serialVersionUID = -3025669317140773900L;
 
-    public static final String LIGHT_THEME = "light-theme";
-    public static final String DARL_THEME = "dark-theme";
+	public static final String LIGHT_THEME = "light-theme";
+	public static final String DARL_THEME = "dark-theme";
 
-    private Settings settings;
+	private Settings settings;
 
-    private ToggleSwitch toggleSwitch;
-    private JButton fontButton;
+	private ToggleSwitch toggleSwitch;
 
-    private JButton okButton;
-    private JButton cancelButton;
+	private JLabel fontLabel;
+	private JButton fontButton;
 
-    /* CONSTRUCTORS _________________________________________________________ */
-    public SettingsDialog(Settings settings) {
-        this.settings = settings;
+	private JButton okButton;
+	private JButton cancelButton;
 
-        this.initComponents();
-        this.initEvents();
-    }
+	/* CONSTRUCTORS _________________________________________________________ */
+	public SettingsDialog(Settings settings) {
+		this.settings = settings;
 
-    /* METHODS ______________________________________________________________ */
-    private void initComponents() {
-        JPanel centerPanel;
-        JPanel southPanel;
+		this.initComponents();
+		this.initEvents();
+	}
 
-        JPanel mainPanel;
+	/* METHODS ______________________________________________________________ */
+	private void initComponents() {
+		JPanel centerPanel;
+		JPanel southPanel;
 
-        // Set up Dialog -------------------------------------------------------
-        this.setLayout(new BorderLayout());
-        this.setSize(340, 200);
-        this.setLocationRelativeTo(null);
-        this.setTitle("Configuracion");
-        this.setResizable(false);
+		JPanel mainPanel;
 
-        // Set up Components ---------------------------------------------------
-        this.toggleSwitch = new ToggleSwitch(
-                this.getSettings().getTheme().equals(Settings.DARK_THEME),
-                new Color(24, 136, 255)
-        );
-        if (this.getSettings().getTheme().equals(Settings.DARK_THEME)) {
-            Settings.darkTheme();
-        } else {
-            Settings.lightTheme();
-        }
+		Font font = this.getSettings().getFont();
+		String style = "Plain";
 
-        this.fontButton = new JButton("Cambiar Fuente");
+		if (font.getStyle() == Font.BOLD) {
+			style = "Bold";
+		} else if (font.getStyle() == Font.ITALIC) {
+			style = "Italic";
+		} else if (font.getStyle() == (Font.BOLD | Font.ITALIC)) {
+			style = "BoldItalic";
+		}
 
-        this.okButton = new JButton("Aceptar");
-        this.cancelButton = new JButton("Cancelar");
+		// Set up Dialog -------------------------------------------------------
+		this.setLayout(new BorderLayout());
+		this.setMinimumSize(new Dimension(340, 200));
+		this.setMinimumSize(new Dimension(400, 250));
+		this.setLocationRelativeTo(null);
+		this.setTitle("Configuracion");
 
-        centerPanel = new JPanel(new GridLayout(2, 2, 40, 25));
-        southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		// Set up Components ---------------------------------------------------
+		this.toggleSwitch = new ToggleSwitch(this.getSettings().getTheme().equals(Settings.DARK_THEME),
+				new Color(24, 136, 255));
+		if (this.getSettings().getTheme().equals(Settings.DARK_THEME)) {
+			Settings.darkTheme();
+		} else {
+			Settings.lightTheme();
+		}
 
-        mainPanel = new JPanel(new BorderLayout());
+		this.fontLabel = new JLabel(font.getFamily() + ", " + style + ", " + font.getSize(), JLabel.RIGHT);
+		this.fontButton = new JButton("Cambiar");
 
-        // ---------------------------------------------------------------------
-        centerPanel.setBorder(new EmptyBorder(20, 0, 20, 20));
+		this.okButton = new JButton("Aceptar");
+		this.cancelButton = new JButton("Cancelar");
 
-        // ---------------------------------------------------------------------
-        centerPanel.add(new JLabel("Tema Oscuro", JLabel.RIGHT));
-        centerPanel.add(this.toggleSwitch);
-        centerPanel.add(new JLabel("Fuente", JLabel.RIGHT));
-        centerPanel.add(this.fontButton);
+		centerPanel = new JPanel(new GridLayout(2, 2, 40, 25));
+		southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        southPanel.add(this.okButton);
-        southPanel.add(this.cancelButton);
+		mainPanel = new JPanel(new BorderLayout());
 
-        mainPanel.add(centerPanel, BorderLayout.CENTER);
-        mainPanel.add(southPanel, BorderLayout.SOUTH);
+		// ---------------------------------------------------------------------
+		centerPanel.setBorder(new EmptyBorder(20, 0, 20, 20));
 
-        this.add(mainPanel, BorderLayout.CENTER);
-    }
+		// ---------------------------------------------------------------------
+		centerPanel.add(new JLabel("Tema Oscuro", JLabel.RIGHT));
+		centerPanel.add(this.toggleSwitch);
+		centerPanel.add(this.fontLabel);
+		centerPanel.add(this.fontButton);
 
-    /* ______________________________________________________________________ */
-    private void initEvents() {
+		southPanel.add(this.okButton);
+		southPanel.add(this.cancelButton);
 
-        // Components Events ---------------------------------------------------
-        this.toggleSwitch.addToggleSwitchListener(new ToggleSwitchListener() {
-            @Override
-            public void activate() {
-                getSettings().setTheme(Settings.DARK_THEME);
-                dispose();
-                okAction();
-                new BinaryFileManager(Settings.SETTINGS_PATH_FILE).write(
-                        getSettings()
-                );
-                setDialogResultValue(new SettingsDialog(getSettings()).showDialog());
-            }
+		mainPanel.add(centerPanel, BorderLayout.CENTER);
+		mainPanel.add(southPanel, BorderLayout.SOUTH);
 
-            @Override
-            public void deactivate() {
-                getSettings().setTheme(Settings.LIGHT_THEME);
-                dispose();
-                new BinaryFileManager(Settings.SETTINGS_PATH_FILE).write(
-                        getSettings()
-                );
-                setDialogResultValue(new SettingsDialog(getSettings()).showDialog());
-            }
-        });
+		this.add(mainPanel, BorderLayout.CENTER);
+	}
 
-        this.fontButton.addActionListener(ae -> {
-            this.fontAction();
-        });
+	/* ______________________________________________________________________ */
+	private void initEvents() {
 
-        this.okButton.addActionListener(ae -> {
-            this.dispose();
-            this.okAction();
-        });
+		// Components Events ---------------------------------------------------
+		this.toggleSwitch.addToggleSwitchListener(new ToggleSwitchListener() {
+			@Override
+			public void activate() {
+				getSettings().setTheme(Settings.DARK_THEME);
+				dispose();
+				okAction();
+				new BinaryFileManager(Settings.SETTINGS_PATH_FILE).write(getSettings());
+				setDialogResultValue(new SettingsDialog(getSettings()).showDialog());
+			}
 
-        this.cancelButton.addActionListener(ae -> {
-            this.dispose();
-        });
-    }
+			@Override
+			public void deactivate() {
+				getSettings().setTheme(Settings.LIGHT_THEME);
+				dispose();
+				new BinaryFileManager(Settings.SETTINGS_PATH_FILE).write(getSettings());
+				setDialogResultValue(new SettingsDialog(getSettings()).showDialog());
+			}
+		});
 
-    /* ______________________________________________________________________ */
-    private void fontAction() {
-        FontChooser fontChooser;
-        int result;
+		this.fontButton.addActionListener(ae -> {
+			this.fontAction();
+		});
 
-        fontChooser = new FontChooser(new String[]{"10", "11", "12", "13", "14"});
-        fontChooser.setSelectedFont(this.getSettings().getFont());
-        result = fontChooser.showDialog(null);
+		this.okButton.addActionListener(ae -> {
+			this.dispose();
+			this.okAction();
+		});
 
-        if (result == FontChooser.OK_OPTION) {
-            this.getSettings().setFont(fontChooser.getSelectedFont());
-            dispose();
-            okAction();
+		this.cancelButton.addActionListener(ae -> {
+			this.dispose();
+		});
+	}
 
-            new BinaryFileManager(Settings.SETTINGS_PATH_FILE).write(
-                   this.getSettings()
-            );
-            setDialogResultValue(new SettingsDialog(this.getSettings()).showDialog());
-        }
-    }
+	/* ______________________________________________________________________ */
+	private void fontAction() {
+		FontChooser fontChooser;
+		int result;
 
-    /* GETTERS ______________________________________________________________ */
-    public Settings getSettings() {
-        return this.settings;
-    }
+		fontChooser = new FontChooser(new String[] { "10", "11", "12", "13", "14" });
+		fontChooser.setSelectedFont(this.getSettings().getFont());
+		result = fontChooser.showDialog(null);
 
-    /* SETTERS ______________________________________________________________ */
-    public void setSettings(Settings settings) {
-        this.settings = settings;
-    }
+		if (result == FontChooser.OK_OPTION) {
+			this.getSettings().setFont(fontChooser.getSelectedFont());
+			dispose();
+			okAction();
 
-    /* MAIN _________________________________________________________________ */
-    public static void main(String[] args) {
-        Settings settings = Settings.getCurrentSettings();
-        new SettingsDialog(settings).showTestDialog();
-    }
+			new BinaryFileManager(Settings.SETTINGS_PATH_FILE).write(this.getSettings());
+			setDialogResultValue(new SettingsDialog(this.getSettings()).showDialog());
+		}
+	}
+
+	/* GETTERS ______________________________________________________________ */
+	public Settings getSettings() {
+		return this.settings;
+	}
+
+	/* SETTERS ______________________________________________________________ */
+	public void setSettings(Settings settings) {
+		this.settings = settings;
+	}
+
+	/* MAIN _________________________________________________________________ */
+	public static void main(String[] args) {
+		Settings settings = Settings.getCurrentSettings();
+		new SettingsDialog(settings).showTestDialog();
+	}
 }
